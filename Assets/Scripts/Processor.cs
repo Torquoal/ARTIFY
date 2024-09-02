@@ -20,6 +20,12 @@ public class Processor : MonoBehaviour
 	public Material red;
 	public Material green;
 	public Material grey;
+	// edit menu items
+	public GameObject editMenu;
+	public TMP_Text titleLabel;
+	public TMP_Text inputLabel;
+	public TMP_Text outputLabel;
+	public TMP_Text inBlockLabel;
 
 	public SharedLogic sharedLogic;
 
@@ -39,25 +45,26 @@ public class Processor : MonoBehaviour
 		SetAttributes();
 		correct = sharedLogic.CheckInput(gameObject, inputSource, correct, input_required);
 		sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
+		titleLabel.text = title;
+		inputLabel.text = "req: " + input_required;
+		outputLabel.text = "prod: " + output;
+		inBlockLabel.text = "in: " + sharedLogic.GetBlockTitle(inputSource);
 
 	}
 
 	void SetAttributes()
     {
-		//gameObject.name = title;
 		Transform child = transform.Find("TitleCanvas");
 		TMP_Text t = child.GetComponent<TMP_Text>();
 		title = gameObject.name;
 		t.text = "Pro:" + title;
-		// make a UI or something that allows text to be entered and then set to the attributes
-		//gameObject.input_required = 
-		//gameObject.output = 
 	}
 
 	public void SetTitle()
     {
 		sharedLogic.EditObjectText(gameObject, "title");
 	}
+
 
 	public void SetInput()
     {
@@ -69,10 +76,21 @@ public class Processor : MonoBehaviour
 		sharedLogic.EditObjectText(gameObject, "output");
 	}
 
+	public void SetInputBlock()
+    {
+		sharedLogic.EditObjectText(gameObject, "inblock");
+	}
+
 	[ContextMenu("Actuate")]
 	void Actuate()
 	{
 		active = !active;
+	}
+
+	[ContextMenu("ShowEditMenu")]
+	public void ShowEditMenu()
+	{
+		editMenu.SetActive(true);
 	}
 
 }

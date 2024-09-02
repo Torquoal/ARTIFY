@@ -100,6 +100,12 @@ public class Assembler : MonoBehaviour
 		//gameObject.output = 
 	}
 
+	[ContextMenu("GetTitle")]
+	String GetTitle()
+	{
+		return title;
+	}
+
 	[ContextMenu("Actuate")]
 	void Actuate()
 	{

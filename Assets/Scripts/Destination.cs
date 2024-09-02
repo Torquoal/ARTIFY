@@ -46,9 +46,12 @@ public class Destination : MonoBehaviour
 	void SetAttributes()
 	{
 		gameObject.name = title;
-		// make a UI or something that allows text to be entered and then set to the attributes
-		//gameObject.input_required = 
-		//gameObject.output = 
+	}
+
+	[ContextMenu("GetTitle")]
+	String GetTitle()
+	{
+		return title;
 	}
 
 	[ContextMenu("Actuate")]
