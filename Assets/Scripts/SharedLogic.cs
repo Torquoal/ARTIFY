@@ -42,7 +42,7 @@ public class SharedLogic : MonoBehaviour
 	public void SpawnSource()
 	{
 		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation;
+		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
 		SpawnBlock("Source",  position, rotation);
 	}
 
@@ -50,31 +50,31 @@ public class SharedLogic : MonoBehaviour
 	public void SpawnProcessor()
 	{
 		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation;
+		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
 		SpawnBlock("Processor", position, rotation);
 	}
 
 	[ContextMenu("SpawnMultiprocessor")]
 	public void SpawnMultiprocessor()
 	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;	
-		rotation = camera.transform.rotation;
+		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
+		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
 		SpawnBlock("Multiprocessor", position, rotation);
 	}
 
 	[ContextMenu("SpawnAssembler")]
 	public void SpawnAssembler()
 	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;	
-		rotation = camera.transform.rotation;
+		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
+		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
 		SpawnBlock("Assembler", position, rotation);
 	}
 
 	[ContextMenu("SpawnDisassembler")]
 	public void SpawnDisassembler()
 	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;	
-		rotation = camera.transform.rotation;
+		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
+		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
 		SpawnBlock("Disassembler", position, rotation);
 	}
 
@@ -82,7 +82,7 @@ public class SharedLogic : MonoBehaviour
 	public void SpawnDestination()
 	{	
 		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation;
+		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
 		SpawnBlock("Destination", position, rotation);
 	}
 
@@ -255,9 +255,12 @@ public class SharedLogic : MonoBehaviour
 		enterButton.onClick.RemoveAllListeners();
 		String fieldValue = editField.text;
 		GameObject InBlock = GameObject.Find(fieldValue);
-		Debug.Log(InBlock);
 
-		if (editedObject.tag == "Processor"){
+		if (InBlock == null) {
+			Debug.Log("invalid block entered, aborting assignment");
+			editCanvas.SetActive(false);
+
+		} else if (editedObject.tag == "Processor"){
 
 			Processor editedBlock = editedObject.GetComponent<Processor>();
 			editedBlock.inputSource = InBlock;
