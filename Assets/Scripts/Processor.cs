@@ -34,15 +34,16 @@ public class Processor : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
+		sharedLogic = GameObject.FindWithTag("ScriptHost").GetComponent<SharedLogic>();
 		Transform child = transform.Find("TitleCanvas");
 		TMP_Text t = child.GetComponent<TMP_Text>();
-		t.text = "Pro:" + title;
+		t.text =  title;
 	}
 
 	// Update is called once per frame
 	void Update()
     {
-		SetAttributes();
+		SetName();
 		correct = sharedLogic.CheckInput(gameObject, inputSource, correct, input_required);
 		sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
 		titleLabel.text = title;
@@ -52,12 +53,12 @@ public class Processor : MonoBehaviour
 
 	}
 
-	void SetAttributes()
+	void SetName()
     {
 		Transform child = transform.Find("TitleCanvas");
 		TMP_Text t = child.GetComponent<TMP_Text>();
 		title = gameObject.name;
-		t.text = "Pro:" + title;
+		t.text = title;
 	}
 
 	public void SetTitle()
@@ -87,10 +88,9 @@ public class Processor : MonoBehaviour
 		active = !active;
 	}
 
-	[ContextMenu("ShowEditMenu")]
-	public void ShowEditMenu()
-	{
-		editMenu.SetActive(true);
-	}
+	public void ToggleEditMenu()
+    {
+        editMenu.SetActive(!editMenu.activeInHierarchy);
+    }
 
 }

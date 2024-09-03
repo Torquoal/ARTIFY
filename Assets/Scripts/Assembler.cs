@@ -31,9 +31,10 @@ public class Assembler : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
+		sharedLogic = GameObject.FindWithTag("ScriptHost").GetComponent<SharedLogic>();
 		Transform child = transform.Find("TitleCanvas");
 		TMP_Text t = child.GetComponent<TMP_Text>();
-		t.text = "Ass:" + title;
+		t.text = title;
 	}
 
 	// Update is called once per frame

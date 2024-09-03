@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6082705682137727116}
   m_Layer: 0
   m_Name: ScriptHost
-  m_TagString: Untagged
+  m_TagString: ScriptHost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,3 +44,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4829f5a245109a8499bbded993bda067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sourcePrefab: {fileID: 6497549535535082282, guid: df82b58bf52c5124d8c061bca7c8abfc,
+    type: 3}
+  processorPrefab: {fileID: 740145747038687851, guid: 42d5b76a11123b246a72760844ea23a5,
+    type: 3}
+  multiprocessorPrefab: {fileID: 4172517670692485320, guid: 62985392977373c4ab8a159dad4df8ed,
+    type: 3}
+  assemblerPrefab: {fileID: 3845132964508886077, guid: 7aa2b8fa56dfaff438c1b4ddfcde33c0,
+    type: 3}
+  disassemblerPrefab: {fileID: 6683159332350001695, guid: c3376879ba8ad4b49a8f1a4eeb9e0ee2,
+    type: 3}
+  destinationPrefab: {fileID: 3962834378549180271, guid: d8be8140ed54cd84cae2bf43b6f1ffce,
+    type: 3}
+  editCanvas: {fileID: 0}
+  editField: {fileID: 0}
+  enterButton: {fileID: 0}

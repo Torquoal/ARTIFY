@@ -16,39 +16,47 @@ public class Source : MonoBehaviour
 	public Material grey;
 	public Material blue;
 	public SharedLogic sharedLogic;
+	public GameObject editMenu;
+	public TMP_Text titleLabel;
+	public TMP_Text outputLabel;
 
 
 
 	// Start is called before the first frame update
 	void Start()
     {
+		sharedLogic = GameObject.FindWithTag("ScriptHost").GetComponent<SharedLogic>();
 		Transform child = transform.Find("TitleCanvas");
 		TMP_Text t = child.GetComponent<TMP_Text>();
-		t.text = "Sou: "+ title;
+		t.text =  title;
+		
 	}
 
 	// Update is called once per frame
 	void Update()
     {
-		SetAttributes();		
+		SetName();	
+		titleLabel.text = title;
+		outputLabel.text = "prod: " + output;
 
 	}
 
-
-
-	[ContextMenu("SetTitle")]
-	void SetAttributes()
+	void SetName()
     {
-		gameObject.name = title;
-		// make a UI or something that allows text to be entered and then set to the attributes
-		//gameObject.input_required = 
-		//gameObject.output = 
+		Transform child = transform.Find("TitleCanvas");
+		TMP_Text t = child.GetComponent<TMP_Text>();
+		title = gameObject.name;
+		t.text = title;
 	}
 
-	[ContextMenu("GetTitle")]
-	String GetTitle()
-	{
-		return title;
+	public void SetTitle()
+    {
+		sharedLogic.EditObjectText(gameObject, "title");
+	}
+
+	public void SetOutput()
+    {
+		sharedLogic.EditObjectText(gameObject, "output");
 	}
 
 	[ContextMenu("Actuate")]
@@ -56,5 +64,10 @@ public class Source : MonoBehaviour
 	{
 		active = !active;
 	}
+
+	public void ToggleEditMenu()
+    {
+        editMenu.SetActive(!editMenu.activeInHierarchy);
+    }
 
 }

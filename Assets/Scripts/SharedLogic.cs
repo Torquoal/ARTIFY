@@ -10,12 +10,6 @@ using TMPro;
 public class SharedLogic : MonoBehaviour
 {
 
-	public GameObject sourcePrefab;
-	public GameObject processorPrefab;
-	public GameObject multiprocessorPrefab;
-	public GameObject assemblerPrefab;
-	public GameObject disassemblerPrefab;
-	public GameObject destinationPrefab;
 	private GameObject camera;
 	
 
@@ -23,10 +17,9 @@ public class SharedLogic : MonoBehaviour
 
 	private Vector3 position;
 	private int DistanceToCamera = 4;
-	public Transform creation;
-	public GameObject editCanvas;
-	public TMP_InputField editField;
-	public Button enterButton;
+	private GameObject editCanvas;
+	private TMP_InputField editField;
+	private Button enterButton;
 
 
 	// I may want to refactor to remove the repeated block type stuff, can i abstract that out
@@ -35,85 +28,15 @@ public class SharedLogic : MonoBehaviour
 
 	void Start () {
 		camera = (GameObject) GameObject.FindWithTag("MainCamera");
+		editCanvas = camera.transform.Find("TextEntryCanvas").gameObject;
+		editField = editCanvas.transform.Find("EditField").GetComponent<TMP_InputField>();
+		enterButton = editCanvas.transform.Find("EnterButton").GetComponent<Button>();
+		//editCanvas = (GameObject) GameObject.FindWithTag("TextEntryField");
+	    //editField = GameObject.Find("EditField").GetComponent<TMP_InputField>();
+		//enterButton = GameObject.Find("EnterButton").GetComponent<Button>();
 	}
 
 
-	[ContextMenu("SpawnSource")]
-	public void SpawnSource()
-	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
-		SpawnBlock("Source",  position, rotation);
-	}
-
-	[ContextMenu("SpawnProcessor")]
-	public void SpawnProcessor()
-	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
-		SpawnBlock("Processor", position, rotation);
-	}
-
-	[ContextMenu("SpawnMultiprocessor")]
-	public void SpawnMultiprocessor()
-	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
-		SpawnBlock("Multiprocessor", position, rotation);
-	}
-
-	[ContextMenu("SpawnAssembler")]
-	public void SpawnAssembler()
-	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
-		SpawnBlock("Assembler", position, rotation);
-	}
-
-	[ContextMenu("SpawnDisassembler")]
-	public void SpawnDisassembler()
-	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
-		SpawnBlock("Disassembler", position, rotation);
-	}
-
-	[ContextMenu("SpawnDestination")]
-	public void SpawnDestination()
-	{	
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
-		SpawnBlock("Destination", position, rotation);
-	}
-
-	public void SpawnBlock(string blockType, Vector3 position, Quaternion rotation) 
-	{
-
-		switch(blockType) 
-		{
-			case "Source":
-				Instantiate(sourcePrefab, position, rotation);
-				break;
-			case "Processor":
-				Instantiate(processorPrefab, position, rotation);
-				break;
-			case "Multiprocessor":
-				Instantiate(multiprocessorPrefab, position, rotation);
-				break;
-			case "Assembler":
-				Instantiate(assemblerPrefab, position, rotation);
-				break;
-			case "Disassembler":
-				Instantiate(disassemblerPrefab, position, rotation);
-				break;
-			case "Destination":
-				Instantiate(destinationPrefab, position, rotation);
-				break;
-			default:
-				Debug.Log("Block Spawn Type Failed");
-				break;
-		}
-	}
 
 	public String GetBlockTitle(GameObject block) 
 	{
@@ -146,10 +69,11 @@ public class SharedLogic : MonoBehaviour
 
 	 public void EditObjectText(GameObject editedObject, String aspect)
     {
-		Debug.Log(editedObject.name);
+		Debug.Log("Edit Object: " + editedObject +  "Aspect: " + aspect);
 		switch(aspect) 
 		{
 			case "title":
+				Debug.Log("here??");
 				editCanvas.SetActive(true);
 				enterButton.onClick.AddListener(delegate{SetObjectTitle(editedObject);});
 				break;
@@ -161,11 +85,26 @@ public class SharedLogic : MonoBehaviour
 				editCanvas.SetActive(true);
 				enterButton.onClick.AddListener(delegate{SetObjectOutput(editedObject);});
 				break;
+			case "output1":
+				editCanvas.SetActive(true);
+				enterButton.onClick.AddListener(delegate{SetObjectOutput1(editedObject);});
+				break;
+			case "output2":
+				editCanvas.SetActive(true);
+				enterButton.onClick.AddListener(delegate{SetObjectOutput2(editedObject);});
+				break;
 			case "inblock":
 				editCanvas.SetActive(true);
 				enterButton.onClick.AddListener(delegate{SetObjectInBlock(editedObject);});
 				break;
-			// outblock 
+			case "outblock1":
+				editCanvas.SetActive(true);
+				enterButton.onClick.AddListener(delegate{SetObjectOutBlock1(editedObject);});
+				break;
+			case "outblock2":
+				editCanvas.SetActive(true);
+				enterButton.onClick.AddListener(delegate{SetObjectOutBlock2(editedObject);});
+				break;
 
 
 			default:
@@ -181,6 +120,7 @@ public class SharedLogic : MonoBehaviour
 		String fieldValue = editField.text;
 		editedObject.name = fieldValue;
 		editCanvas.SetActive(false);
+		Debug.Log("set input here");
 	}
 
 	public void SetObjectInput(GameObject editedObject)
@@ -238,8 +178,57 @@ public class SharedLogic : MonoBehaviour
 			editedBlock.output = fieldValue;
 			editCanvas.SetActive(false);
 
-			// Multiprocessor - setting inblocks for multiple outputs on current block
-			// Disassembler - setting inblocks for multiple outputs on current block
+		} else{
+
+			Debug.Log("Invalid object");
+			editCanvas.SetActive(false);
+		}
+
+	}
+
+	public void SetObjectOutput1(GameObject editedObject)
+	{
+		enterButton.onClick.RemoveAllListeners();
+		String fieldValue = editField.text;
+
+		if (editedObject.tag == "Disassembler"){
+
+			Disassembler editedBlock = editedObject.GetComponent<Disassembler>();
+			editedBlock.output1 = fieldValue;
+			editCanvas.SetActive(false);
+			
+
+		} else if (editedObject.tag == "Multiprocessor") {
+
+			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
+			editedBlock.output1 = fieldValue;
+			editCanvas.SetActive(false);
+
+		} else{
+
+			Debug.Log("Invalid object");
+			editCanvas.SetActive(false);
+		}
+
+	}
+
+		public void SetObjectOutput2(GameObject editedObject)
+	{
+		enterButton.onClick.RemoveAllListeners();
+		String fieldValue = editField.text;
+
+		if (editedObject.tag == "Disassembler"){
+
+			Disassembler editedBlock = editedObject.GetComponent<Disassembler>();
+			editedBlock.output2 = fieldValue;
+			editCanvas.SetActive(false);
+			
+
+		} else if (editedObject.tag == "Multiprocessor") {
+
+			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
+			editedBlock.output2 = fieldValue;
+			editCanvas.SetActive(false);
 
 		} else{
 
@@ -282,6 +271,69 @@ public class SharedLogic : MonoBehaviour
 		// Multiprocessor - setting inblocks for multiple inputs on current block
 		// Assembler - setting inblocks for multiple inputs on current block
 
+
+		} else{
+
+			Debug.Log("Invalid object");
+			editCanvas.SetActive(false);
+		}
+
+	}
+
+	public void SetObjectOutBlock1(GameObject editedObject)
+	{
+		Debug.Log(editedObject.name);
+		enterButton.onClick.RemoveAllListeners();
+		String fieldValue = editField.text;
+		GameObject OutBlock1 = GameObject.Find(fieldValue);
+
+		if (OutBlock1 == null) {
+			Debug.Log("invalid block entered, aborting assignment");
+			editCanvas.SetActive(false);
+
+		} else if (editedObject.tag == "Disassembler") {
+
+			Disassembler editedBlock = editedObject.GetComponent<Disassembler>();
+			editedBlock.outputBlock1 = OutBlock1;
+			editCanvas.SetActive(false);
+
+		} else if (editedObject.tag == "Multiprocessor") {
+
+			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
+			editedBlock.outputBlock1 = OutBlock1;
+			editCanvas.SetActive(false);
+
+
+		} else{
+
+			Debug.Log("Invalid object");
+			editCanvas.SetActive(false);
+		}
+
+	}
+
+	public void SetObjectOutBlock2(GameObject editedObject)
+	{
+		Debug.Log(editedObject.name);
+		enterButton.onClick.RemoveAllListeners();
+		String fieldValue = editField.text;
+		GameObject OutBlock2 = GameObject.Find(fieldValue);
+
+		if (OutBlock2 == null) {
+			Debug.Log("invalid block entered, aborting assignment");
+			editCanvas.SetActive(false);
+
+		} else if (editedObject.tag == "Disassembler") {
+
+			Disassembler editedBlock = editedObject.GetComponent<Disassembler>();
+			editedBlock.outputBlock2 = OutBlock2;
+			editCanvas.SetActive(false);
+
+		} else if (editedObject.tag == "Multiprocessor") {
+
+			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
+			editedBlock.outputBlock2 = OutBlock2;
+			editCanvas.SetActive(false);
 
 		} else{
 

@@ -10,6 +10,10 @@ TagManager:
   - Disassembler
   - Assembler
   - Multiprocessor
+  - TextEntryField
+  - EditField
+  - EnterButton
+  - ScriptHost
   layers:
   - Default
   - TransparentFX
