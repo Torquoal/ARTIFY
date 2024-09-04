@@ -73,13 +73,20 @@ public class SharedLogic : MonoBehaviour
 		switch(aspect) 
 		{
 			case "title":
-				Debug.Log("here??");
 				editCanvas.SetActive(true);
 				enterButton.onClick.AddListener(delegate{SetObjectTitle(editedObject);});
 				break;
 			case "input":
 				editCanvas.SetActive(true);
 				enterButton.onClick.AddListener(delegate{SetObjectInput(editedObject);});
+				break;
+			case "input1":
+				editCanvas.SetActive(true);
+				enterButton.onClick.AddListener(delegate { SetObjectInput1(editedObject); });
+				break;
+			case "input2":
+				editCanvas.SetActive(true);
+				enterButton.onClick.AddListener(delegate { SetObjectInput2(editedObject); });
 				break;
 			case "output":
 				editCanvas.SetActive(true);
@@ -96,6 +103,14 @@ public class SharedLogic : MonoBehaviour
 			case "inblock":
 				editCanvas.SetActive(true);
 				enterButton.onClick.AddListener(delegate{SetObjectInBlock(editedObject);});
+				break;
+			case "inblock1":
+				editCanvas.SetActive(true);
+				enterButton.onClick.AddListener(delegate { SetObjectInBlock1(editedObject); });
+				break;
+			case "inblock2":
+				editCanvas.SetActive(true);
+				enterButton.onClick.AddListener(delegate { SetObjectInBlock2(editedObject); });
 				break;
 			case "outblock1":
 				editCanvas.SetActive(true);
@@ -120,7 +135,6 @@ public class SharedLogic : MonoBehaviour
 		String fieldValue = editField.text;
 		editedObject.name = fieldValue;
 		editCanvas.SetActive(false);
-		Debug.Log("set input here");
 	}
 
 	public void SetObjectInput(GameObject editedObject)
@@ -153,6 +167,69 @@ public class SharedLogic : MonoBehaviour
 		}
 
 	}
+
+	public void SetObjectInput1(GameObject editedObject)
+	{
+		enterButton.onClick.RemoveAllListeners();
+		String fieldValue = editField.text;
+
+		if (editedObject.tag == "Assembler")
+		{
+
+			Assembler editedBlock = editedObject.GetComponent<Assembler>();
+			editedBlock.input_required1 = fieldValue;
+			editCanvas.SetActive(false);
+
+
+		}
+		else if (editedObject.tag == "Multiprocessor")
+		{
+
+			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
+			editedBlock.input_required1 = fieldValue;
+			editCanvas.SetActive(false);
+
+		}
+		else
+		{
+
+			Debug.Log("Invalid object");
+			editCanvas.SetActive(false);
+		}
+
+	}
+
+	public void SetObjectInput2(GameObject editedObject)
+	{
+		enterButton.onClick.RemoveAllListeners();
+		String fieldValue = editField.text;
+
+		if (editedObject.tag == "Assembler")
+		{
+
+			Assembler editedBlock = editedObject.GetComponent<Assembler>();
+			editedBlock.input_required2 = fieldValue;
+			editCanvas.SetActive(false);
+
+
+		}
+		else if (editedObject.tag == "Multiprocessor")
+		{
+
+			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
+			editedBlock.input_required2 = fieldValue;
+			editCanvas.SetActive(false);
+
+		}
+		else
+		{
+
+			Debug.Log("Invalid object");
+			editCanvas.SetActive(false);
+		}
+
+	}
+
 
 	public void SetObjectOutput(GameObject editedObject)
 	{
@@ -268,11 +345,86 @@ public class SharedLogic : MonoBehaviour
 			editedBlock.inputSource = InBlock;
 			editCanvas.SetActive(false);
 
-		// Multiprocessor - setting inblocks for multiple inputs on current block
-		// Assembler - setting inblocks for multiple inputs on current block
-
 
 		} else{
+
+			Debug.Log("Invalid object");
+			editCanvas.SetActive(false);
+		}
+
+	}
+
+	public void SetObjectInBlock1(GameObject editedObject)
+	{
+		Debug.Log(editedObject.name);
+		enterButton.onClick.RemoveAllListeners();
+		String fieldValue = editField.text;
+		GameObject InBlock = GameObject.Find(fieldValue);
+
+		if (InBlock == null)
+		{
+			Debug.Log("invalid block entered, aborting assignment");
+			editCanvas.SetActive(false);
+
+		}
+		else if (editedObject.tag == "Assembler")
+		{
+
+			Assembler editedBlock = editedObject.GetComponent<Assembler>();
+			editedBlock.inputSource1 = InBlock;
+			editCanvas.SetActive(false);
+
+
+		}
+		else if (editedObject.tag == "Multiprocessor")
+		{
+
+			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
+			editedBlock.inputSource1 = InBlock;
+			editCanvas.SetActive(false);
+
+		}
+		else
+		{
+
+			Debug.Log("Invalid object");
+			editCanvas.SetActive(false);
+		}
+
+	}
+
+	public void SetObjectInBlock2(GameObject editedObject)
+	{
+		Debug.Log(editedObject.name);
+		enterButton.onClick.RemoveAllListeners();
+		String fieldValue = editField.text;
+		GameObject InBlock = GameObject.Find(fieldValue);
+
+		if (InBlock == null)
+		{
+			Debug.Log("invalid block entered, aborting assignment");
+			editCanvas.SetActive(false);
+
+		}
+		else if (editedObject.tag == "Assembler")
+		{
+
+			Assembler editedBlock = editedObject.GetComponent<Assembler>();
+			editedBlock.inputSource2 = InBlock;
+			editCanvas.SetActive(false);
+
+
+		}
+		else if (editedObject.tag == "Multiprocessor")
+		{
+
+			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
+			editedBlock.inputSource2 = InBlock;
+			editCanvas.SetActive(false);
+
+		}
+		else
+		{
 
 			Debug.Log("Invalid object");
 			editCanvas.SetActive(false);
@@ -346,7 +498,11 @@ public class SharedLogic : MonoBehaviour
 
 	public bool CheckInput(GameObject thisObject, GameObject inputSource, bool correct, String input_required)
 	{
-		if (inputSource.tag == "Disassembler")
+		if (inputSource == null)
+        {
+			correct = false;
+        }
+		else if (inputSource.tag == "Disassembler")
 		{
 			Disassembler inputAttributes = inputSource.GetComponent<Disassembler>();
 
@@ -363,7 +519,7 @@ public class SharedLogic : MonoBehaviour
 				else
 				{
 					correct = false;
-					Debug.Log("InBlock Output Block Error");
+					Debug.Log("InBlock `Output Block Error");
 				}
 			}
 			else

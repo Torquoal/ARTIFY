@@ -47,7 +47,7 @@ public class Destination : MonoBehaviour
 		sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
 		titleLabel.text = title;
 		inputLabel.text = "req: " + input_required;
-		inBlockLabel.text = "in: " + sharedLogic.GetBlockTitle(inputSource);
+		if(inputSource!=null) inBlockLabel.text = "in: " + sharedLogic.GetBlockTitle(inputSource);
 	}
 
 	void SetName()

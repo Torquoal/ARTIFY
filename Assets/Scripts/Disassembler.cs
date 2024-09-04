@@ -57,11 +57,11 @@ public class Disassembler : MonoBehaviour
 		sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
 		titleLabel.text = title;
 		inputLabel.text = "req: " + input_required;
-		inBlockLabel.text = "in: " + sharedLogic.GetBlockTitle(inputSource);
 		output1Label.text = "prod1: " + output1;
 		output2Label.text = "prod2: " + output2;
-		outBlock1Label.text = "out1: " + sharedLogic.GetBlockTitle(outputBlock1);
-		outBlock2Label.text = "out2: " + sharedLogic.GetBlockTitle(outputBlock2);
+		if (inputSource != null) inBlockLabel.text = "in: " + sharedLogic.GetBlockTitle(inputSource);
+		if (outputBlock1 != null) outBlock1Label.text = "out1: " + sharedLogic.GetBlockTitle(outputBlock1);
+		if (outputBlock2 != null) outBlock2Label.text = "out2: " + sharedLogic.GetBlockTitle(outputBlock2);
 	}
 
 

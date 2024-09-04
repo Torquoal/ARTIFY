@@ -49,7 +49,7 @@ public class Processor : MonoBehaviour
 		titleLabel.text = title;
 		inputLabel.text = "req: " + input_required;
 		outputLabel.text = "prod: " + output;
-		inBlockLabel.text = "in: " + sharedLogic.GetBlockTitle(inputSource);
+		if (inputSource != null) inBlockLabel.text = "in: " + sharedLogic.GetBlockTitle(inputSource);
 
 	}
 

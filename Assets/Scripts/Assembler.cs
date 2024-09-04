@@ -26,6 +26,14 @@ public class Assembler : MonoBehaviour
 	public Material grey;
 	public SharedLogic sharedLogic;
 
+	public GameObject editMenu;
+	public TMP_Text titleLabel;
+	public TMP_Text inBlock1Label;
+	public TMP_Text inBlock2Label;
+	public TMP_Text input1Label;
+	public TMP_Text input2Label;
+	public TMP_Text outputLabel;
+
 
 
 	// Start is called before the first frame update
@@ -40,13 +48,18 @@ public class Assembler : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-		SetAttributes();
+		SetName();
 		CheckMultiInput();
 		sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
+		titleLabel.text = title;
+		input1Label.text = "req1: " + input_required1;
+		input2Label.text = "req2: " + input_required2;
+		outputLabel.text = "prod: " + output;
+		if (inputSource1 != null) inBlock1Label.text = "in1: " + sharedLogic.GetBlockTitle(inputSource1);
+		if (inputSource2 != null) inBlock2Label.text = "in2: " + sharedLogic.GetBlockTitle(inputSource2);
+		}
 
-	}
-
-	void CheckMultiInput()
+		void CheckMultiInput()
 	{
 
 		if (inputSource1 == inputSource2)
@@ -81,9 +94,10 @@ public class Assembler : MonoBehaviour
 
 				correct = sharedLogic.CheckInput(gameObject, currentInputObject, correct, currentInputRequired);
 
-				if (correct == false) break;
-
-				if (currentInputObject == inputSource1)
+				if (correct == false)
+                {
+					Debug.Log("Assembler input incorrect");
+                } else if (currentInputObject == inputSource1)
 				{
 					currentInputObject = inputSource2;
 					currentInputRequired = input_required2;
@@ -92,25 +106,54 @@ public class Assembler : MonoBehaviour
 		}
 	}
 
-	[ContextMenu("SetTitle")]
-	void SetAttributes()
-    {
-		gameObject.name = title;
-		// make a UI or something that allows text to be entered and then set to the attributes
-		//gameObject.input_required = 
-		//gameObject.output = 
+	void SetName()
+	{
+		Transform child = transform.Find("TitleCanvas");
+		TMP_Text t = child.GetComponent<TMP_Text>();
+		title = gameObject.name;
+		t.text = title;
 	}
 
-	[ContextMenu("GetTitle")]
-	String GetTitle()
+	public void SetTitle()
 	{
-		return title;
+		sharedLogic.EditObjectText(gameObject, "title");
+	}
+
+
+	public void SetInput1()
+	{
+		sharedLogic.EditObjectText(gameObject, "input1");
+	}
+
+	public void SetInput2()
+	{
+		sharedLogic.EditObjectText(gameObject, "input2");
+	}
+
+	public void SetOutput()
+	{
+		sharedLogic.EditObjectText(gameObject, "output");
+	}
+
+	public void SetInputBlock1()
+	{
+		sharedLogic.EditObjectText(gameObject, "inblock1");
+	}
+
+	public void SetInputBlock2()
+	{
+		sharedLogic.EditObjectText(gameObject, "inblock2");
 	}
 
 	[ContextMenu("Actuate")]
 	void Actuate()
 	{
 		active = !active;
+	}
+
+	public void ToggleEditMenu()
+	{
+		editMenu.SetActive(!editMenu.activeInHierarchy);
 	}
 
 }
