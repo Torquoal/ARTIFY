@@ -16,10 +16,11 @@ public class SharedLogic : MonoBehaviour
 	private Quaternion rotation;
 
 	private Vector3 position;
-	private int DistanceToCamera = 4;
 	private GameObject editCanvas;
 	private TMP_InputField editField;
 	private Button enterButton;
+
+	
 
 
 	// I may want to refactor to remove the repeated block type stuff, can i abstract that out
@@ -31,10 +32,23 @@ public class SharedLogic : MonoBehaviour
 		editCanvas = camera.transform.Find("TextEntryCanvas").gameObject;
 		editField = editCanvas.transform.Find("EditField").GetComponent<TMP_InputField>();
 		enterButton = editCanvas.transform.Find("EnterButton").GetComponent<Button>();
-		//editCanvas = (GameObject) GameObject.FindWithTag("TextEntryField");
-	    //editField = GameObject.Find("EditField").GetComponent<TMP_InputField>();
-		//enterButton = GameObject.Find("EnterButton").GetComponent<Button>();
 	}
+
+	public void SetupLineRenderer(LineRenderer lr, float lineWidth, Material lineMaterial)
+    {
+        // Set the material for the LineRenderer
+        if (lineMaterial != null)
+        {
+            lr.material = lineMaterial;
+        }
+
+        // Set the width for the LineRenderer
+        lr.startWidth = lineWidth;
+        lr.endWidth = lineWidth;
+
+        // Set the number of positions (always 2 for a single line segment)
+        lr.positionCount = 2;
+    }
 
 
 

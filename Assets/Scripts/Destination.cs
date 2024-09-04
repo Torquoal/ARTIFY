@@ -28,6 +28,8 @@ public class Destination : MonoBehaviour
 	public TMP_Text inputLabel;
 	public TMP_Text inBlockLabel;
 
+	private LineRenderer lineRenderer;
+
 
 
 	// Start is called before the first frame update
@@ -37,6 +39,13 @@ public class Destination : MonoBehaviour
 		Transform child = transform.Find("TitleCanvas");
 		TMP_Text t = child.GetComponent<TMP_Text>();
 		t.text =  title;
+		// Get the LineRenderer component attached to this GameObject
+        lineRenderer = GetComponent<LineRenderer>();
+        // Set the number of positions to 2 (start and end points)
+        lineRenderer.positionCount = 2;
+
+
+
 	}
 
 	// Update is called once per frame
@@ -47,7 +56,18 @@ public class Destination : MonoBehaviour
 		sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
 		titleLabel.text = title;
 		inputLabel.text = "req: " + input_required;
-		if(inputSource!=null) inBlockLabel.text = "in: " + sharedLogic.GetBlockTitle(inputSource);
+		if(inputSource!=null){
+			inBlockLabel.text = "in: " + sharedLogic.GetBlockTitle(inputSource);
+			// Update the positions of the LineRenderer to connect the blocks
+			lineRenderer.SetPosition(0, transform.position);             // Start at this block's position
+			lineRenderer.SetPosition(1, inputSource.transform.position); // End at the InputSource block's position
+			
+		} else {
+			inBlockLabel.text = "in: None";
+			// If InputSource is null, disable the line by setting both positions to the same point
+			lineRenderer.SetPosition(0, transform.position);
+			lineRenderer.SetPosition(1, transform.position);
+		}
 	}
 
 	void SetName()
