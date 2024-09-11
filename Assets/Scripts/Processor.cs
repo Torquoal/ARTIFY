@@ -9,10 +9,11 @@ using TMPro;
 
 public class Processor : MonoBehaviour
 {
-	public string title;
-	public GameObject inputSource;
-	public string input_required;
-	public string output;
+	[Header("Settings")]
+	[SerializeField] public string title;
+	[SerializeField] public GameObject inputSource;
+	[SerializeField] public string input_required;
+	[SerializeField] public string output;
 
 	public bool active = true; // is the component currently turned on
 	public bool correct = false; // does the component have the correct input
@@ -32,6 +33,17 @@ public class Processor : MonoBehaviour
 	private LineRenderer lineRenderer;
 
 
+	void Awake()
+    {
+		SaveSystem.processors.Add(this);
+    }
+
+	void OnDestroy()
+	{
+		Debug.Log(this.title + "deleted");
+		SaveSystem.processors.Remove(this);
+
+	}
 
 	// Start is called before the first frame update
 	void Start()
