@@ -46,3 +46,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   processorPrefab: {fileID: 2984685291548829369, guid: 42d5b76a11123b246a72760844ea23a5,
     type: 3}
+  sourcePrefab: {fileID: 4637612309904531224, guid: df82b58bf52c5124d8c061bca7c8abfc,
+    type: 3}
+  destinationPrefab: {fileID: 3962834378549180264, guid: d8be8140ed54cd84cae2bf43b6f1ffce,
+    type: 3}
+  assemblerPrefab: {fileID: 935102331025716121, guid: 7aa2b8fa56dfaff438c1b4ddfcde33c0,
+    type: 3}
+  disassemblerPrefab: {fileID: 6173416879639043640, guid: c3376879ba8ad4b49a8f1a4eeb9e0ee2,
+    type: 3}
+  multiprocessorPrefab: {fileID: 5666935496205289542, guid: 62985392977373c4ab8a159dad4df8ed,
+    type: 3}

@@ -10,8 +10,11 @@ using TMPro;
 public class Source : MonoBehaviour
 {
 
-    public string title;
-	public string output;
+	[Header("Settings")]
+	[SerializeField] public string title;
+	[SerializeField] public string output;
+
+
 	public bool active = true; // is the component currently turned on
 	public Material grey;
 	public Material blue;
@@ -21,7 +24,17 @@ public class Source : MonoBehaviour
 	public TMP_Text outputLabel;
 
 
+	void Awake()
+	{
+		SaveSystem.sources.Add(this);
+	}
 
+	void OnDestroy()
+	{
+		Debug.Log(this.title + "deleted");
+		SaveSystem.sources.Remove(this);
+
+	}
 	// Start is called before the first frame update
 	void Start()
     {
