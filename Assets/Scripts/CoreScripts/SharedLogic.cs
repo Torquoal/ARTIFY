@@ -17,7 +17,7 @@ public class SharedLogic : MonoBehaviour
 
 	private Vector3 position;
 	private GameObject editCanvas;
-	private InputField editField;
+	private TMP_InputField editField;
 	private Button enterButton;
 
 	
@@ -30,7 +30,7 @@ public class SharedLogic : MonoBehaviour
 	void Start () {
 		camera = (GameObject) GameObject.FindWithTag("MainCamera");
 		editCanvas = camera.transform.Find("TextEntryCanvas").gameObject;
-		editField = editCanvas.transform.Find("EditField").GetComponent<InputField>();
+		editField = editCanvas.transform.Find("EditField").GetComponent<TMP_InputField>();
 		enterButton = editCanvas.transform.Find("EnterButton").GetComponent<Button>();
 	}
 
