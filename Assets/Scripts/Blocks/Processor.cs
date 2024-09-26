@@ -111,7 +111,7 @@ public class Processor : MonoBehaviour
 	}
 
 	[ContextMenu("Actuate")]
-	void Actuate()
+	public void Actuate()
 	{
 		active = !active;
 	}

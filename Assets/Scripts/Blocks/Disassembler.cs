@@ -159,7 +159,7 @@ public class Disassembler : MonoBehaviour
 
 
 	[ContextMenu("Actuate")]
-	void Actuate()
+	public void Actuate()
 	{
 		active = !active;
 	}

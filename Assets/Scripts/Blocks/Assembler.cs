@@ -188,7 +188,7 @@ public class Assembler : MonoBehaviour
 	}
 
 	[ContextMenu("Actuate")]
-	void Actuate()
+	public void Actuate()
 	{
 		active = !active;
 	}

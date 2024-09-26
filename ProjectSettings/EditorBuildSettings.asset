@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ARTIFY Block Development.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  m_configObjects: {}
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 746cff9aebdecee46b30767d3fda3354,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: eb53e7ffe192216448a59e9444cf377f,
+      type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: b9f023b3f093a404686770ab49211278,
+      type: 2}

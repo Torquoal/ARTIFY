@@ -228,7 +228,7 @@ public class Multiprocessor : MonoBehaviour
 	}
 
 	[ContextMenu("Actuate")]
-	void Actuate()
+	public void Actuate()
 	{
 		active = !active;
 	}

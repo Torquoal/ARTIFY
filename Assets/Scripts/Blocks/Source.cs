@@ -73,7 +73,7 @@ public class Source : MonoBehaviour
 	}
 
 	[ContextMenu("Actuate")]
-	void Actuate()
+	public void Actuate()
 	{
 		active = !active;
 	}
