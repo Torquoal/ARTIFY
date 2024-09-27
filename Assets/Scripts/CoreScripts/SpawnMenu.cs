@@ -12,6 +12,8 @@ public class SpawnMenu : MonoBehaviour
 	public GameObject disassemblerPrefab;
 	public GameObject destinationPrefab;
 	private GameObject camera;
+
+	public SaveSystem saveSystem;
 	
 
 	private Quaternion rotation;
@@ -96,7 +98,29 @@ public class SpawnMenu : MonoBehaviour
 		}
 	}
 
-    void Update()
+	public void SaveAll()
+    {
+		saveSystem.SaveAllBlocks();
+    }
+
+	public void ClearAll()
+	{
+		saveSystem.RemoveAllBlocks();
+	}
+
+	public void LoadAll()
+	{
+		saveSystem.LoadAllBlocks();
+	}
+
+	public void ToggleObjectActive()
+	{
+		gameObject.SetActive(!gameObject.activeInHierarchy);
+	}
+
+
+
+	void Update()
     {
         
     }

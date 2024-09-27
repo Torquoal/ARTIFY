@@ -363,6 +363,7 @@ public class SharedLogic : MonoBehaviour
 		} else{
 
 			Debug.Log("Invalid object");
+			// maybe add an error sound here for feedback
 			editCanvas.SetActive(false);
 		}
 

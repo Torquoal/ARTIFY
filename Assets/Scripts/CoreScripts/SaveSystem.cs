@@ -47,7 +47,7 @@ public class SaveSystem : MonoBehaviour
 
 
     [ContextMenu("SaveAllBlocks")]
-    void SaveAllBlocks()
+    public void SaveAllBlocks()
     {
         SaveProcessors();
         SaveSources();
@@ -192,7 +192,7 @@ public class SaveSystem : MonoBehaviour
 
 
     [ContextMenu("ClearBlocks")]
-    void RemoveAllBlocks()
+    public void RemoveAllBlocks()
     {
 
         string[] allTags = { "Processor", "Source", "Destination", "Assembler", "Disassembler", "Multiprocessor" };
@@ -207,7 +207,7 @@ public class SaveSystem : MonoBehaviour
     }
 
     [ContextMenu("LoadAllBlocks")]
-    void LoadAllBlocks()
+    public void LoadAllBlocks()
     {
         LoadProcessors();
         LoadSources();
