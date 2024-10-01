@@ -525,11 +525,11 @@ public class SharedLogic : MonoBehaviour
 			{
 				if (inputAttributes.outputBlock1 == thisObject)
 				{
-					correct = (inputAttributes.output1 == input_required);
+					correct = string.Equals(inputAttributes.output1, input_required, StringComparison.OrdinalIgnoreCase);
 				}
 				else if (inputAttributes.outputBlock2 == thisObject)
 				{
-					correct = (inputAttributes.output2 == input_required);
+					correct = string.Equals(inputAttributes.output2, input_required, StringComparison.OrdinalIgnoreCase);
 				}
 				else
 				{
@@ -552,11 +552,11 @@ public class SharedLogic : MonoBehaviour
 			{
 				if (inputAttributes.outputBlock1 == thisObject)
 				{
-					correct = (inputAttributes.output1 == input_required);
+					correct = string.Equals(inputAttributes.output1, input_required, StringComparison.OrdinalIgnoreCase);
 				}
 				else if (inputAttributes.outputBlock2 == thisObject)
 				{
-					correct = (inputAttributes.output2 == input_required);
+					correct = string.Equals(inputAttributes.output2, input_required, StringComparison.OrdinalIgnoreCase);
 				}
 				else
 				{
@@ -574,17 +574,18 @@ public class SharedLogic : MonoBehaviour
 		else if (inputSource.tag == "Processor")
 		{
 			Processor inputAttributes = inputSource.GetComponent<Processor>();
-			correct = ((inputAttributes.output == input_required) && (inputAttributes.correct) && (inputAttributes.active));
+			correct = ((string.Equals(inputAttributes.output, input_required, StringComparison.OrdinalIgnoreCase)) && (inputAttributes.correct) && (inputAttributes.active));
+
 		}
 		else if (inputSource.tag == "Assembler")
 		{
 			Assembler inputAttributes = inputSource.GetComponent<Assembler>();
-			correct = ((inputAttributes.output == input_required) && (inputAttributes.correct) && (inputAttributes.active));
+			correct = ((string.Equals(inputAttributes.output, input_required, StringComparison.OrdinalIgnoreCase)) && (inputAttributes.correct) && (inputAttributes.active));
 		}
 		else if (inputSource.tag == "Source")
 		{
 			Source inputAttributes = inputSource.GetComponent<Source>();
-			correct = ((inputAttributes.output == input_required) && (inputAttributes.active));
+			correct = ((string.Equals(inputAttributes.output, input_required, StringComparison.OrdinalIgnoreCase)) && (inputAttributes.active));
 		}
 		else
 		{
