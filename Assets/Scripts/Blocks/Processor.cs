@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,28 +6,19 @@ using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 
-public class Processor : MonoBehaviour
+public class Processor : BaseBlock
 {
 	[Header("Settings")]
-	[SerializeField] public string title;
 	[SerializeField] public GameObject inputSource;
 	[SerializeField] public string input_required;
 	[SerializeField] public string output;
 
-	public bool active = true; // is the component currently turned on
-	public bool correct = false; // does the component have the correct input
 
-	public Material red;
-	public Material green;
-	public Material grey;
 	// edit menu items
-	public GameObject editMenu;
-	public TMP_Text titleLabel;
 	public TMP_Text inputLabel;
 	public TMP_Text outputLabel;
 	public TMP_Text inBlockLabel;
 
-	public SharedLogic sharedLogic;
 
 	private LineRenderer lineRenderer;
 
@@ -59,7 +49,7 @@ public class Processor : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	new void Update()
     {
 		SetName();
 		correct = sharedLogic.CheckInput(gameObject, inputSource, correct, input_required);
@@ -81,19 +71,6 @@ public class Processor : MonoBehaviour
 
 	}
 
-	void SetName()
-    {
-		Transform child = transform.Find("TitleCanvas");
-		TMP_Text t = child.GetComponent<TMP_Text>();
-		title = gameObject.name;
-		t.text = title;
-	}
-
-	public void SetTitle()
-    {
-		sharedLogic.EditObjectText(gameObject, "title");
-	}
-
 
 	public void SetInput()
     {
@@ -109,16 +86,5 @@ public class Processor : MonoBehaviour
     {
 		sharedLogic.EditObjectText(gameObject, "inblock");
 	}
-
-	[ContextMenu("Actuate")]
-	public void Actuate()
-	{
-		active = !active;
-	}
-
-	public void ToggleEditMenu()
-    {
-        editMenu.SetActive(!editMenu.activeInHierarchy);
-    }
 
 }

@@ -19,7 +19,7 @@ public class SpawnMenu : MonoBehaviour
 	private Quaternion rotation;
 
 	private Vector3 position;
-	private int DistanceToCamera = 4;
+	private int DistanceToCamera = 2;
 
 
 	void Start () {

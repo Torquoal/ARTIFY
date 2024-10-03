@@ -15,10 +15,10 @@ public class SharedLogic : MonoBehaviour
 
 	private Quaternion rotation;
 
-	private Vector3 position;
-	private GameObject editCanvas;
-	private TMP_InputField editField;
-	private Button enterButton;
+	protected Vector3 position;
+	protected GameObject editCanvas;
+	protected TMP_InputField editField;
+	protected Button enterButton;
 
 	
 
@@ -615,7 +615,7 @@ public class SharedLogic : MonoBehaviour
 	{
 		var children = thisObject.GetComponentsInChildren<Transform>();
 		foreach (var child in children)
-			if (child.name == "Cube")
+			if (child.name == "Shape")
 				child.GetComponent<MeshRenderer>().material = colour;
 	}
 }

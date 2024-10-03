@@ -3173,6 +3173,7 @@ GameObject:
   - component: {fileID: 5666935496205289542}
   - component: {fileID: 7794074135282887282}
   - component: {fileID: 7315672964403052450}
+  - component: {fileID: 7105815705686445069}
   m_Layer: 0
   m_Name: Multiprocessor
   m_TagString: Multiprocessor
@@ -3216,6 +3217,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: Multiprocessor
+  active: 1
+  correct: 0
+  hovered: 0
+  red: {fileID: 2100000, guid: ae1574a2b9fb8074196ee8829a78e8f8, type: 2}
+  green: {fileID: 2100000, guid: 749aec74c4d41434da8549f1740563bd, type: 2}
+  grey: {fileID: 2100000, guid: 549db56e248502a4396cce08b8df8f62, type: 2}
+  editMenu: {fileID: 8042768831599210078}
+  titleLabel: {fileID: 5248196762869314207}
+  sharedLogic: {fileID: 0}
+  scaleChange: {x: 0.05, y: 0.05, z: 0.05}
   inputSource1: {fileID: 0}
   input_required1: exampleinput1
   inputSource2: {fileID: 0}
@@ -3224,14 +3235,6 @@ MonoBehaviour:
   output1: exampleoutput1
   outputBlock2: {fileID: 0}
   output2: exampleoutput2
-  active: 1
-  correct: 0
-  red: {fileID: 2100000, guid: ae1574a2b9fb8074196ee8829a78e8f8, type: 2}
-  green: {fileID: 2100000, guid: 749aec74c4d41434da8549f1740563bd, type: 2}
-  grey: {fileID: 2100000, guid: 549db56e248502a4396cce08b8df8f62, type: 2}
-  sharedLogic: {fileID: 0}
-  editMenu: {fileID: 8042768831599210078}
-  titleLabel: {fileID: 5248196762869314207}
   inBlock1Label: {fileID: 6189626701597342735}
   inBlock2Label: {fileID: 6544029271618592543}
   input1Label: {fileID: 7658276644984397352}
@@ -3289,6 +3292,55 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9758313, z: 2.4028609}
   m_Center: {x: 0, y: 0.48791564, z: 0.024735928}
+--- !u!114 &7105815705686445069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4172517670692485320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d376240d064f4484e81824d51391caf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonClickActions:
+  - Title: Upscale
+    Button: 16777216
+    ButtonMode: 2
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5666935496205289542}
+          m_TargetAssemblyTypeName: BaseBlock, Assembly-CSharp
+          m_MethodName: Upscale
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - Title: Downscale
+    Button: 33554432
+    ButtonMode: 2
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5666935496205289542}
+          m_TargetAssemblyTypeName: BaseBlock, Assembly-CSharp
+          m_MethodName: Downscale
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &4404763565569758002
 GameObject:
   m_ObjectHideFlags: 0
@@ -4037,7 +4089,7 @@ GameObject:
   - component: {fileID: 2346349146340904143}
   - component: {fileID: 8514233429859566351}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Shape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

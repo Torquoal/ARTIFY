@@ -1989,6 +1989,7 @@ GameObject:
   - component: {fileID: 2376653009760233576}
   - component: {fileID: 8669967277721336437}
   - component: {fileID: 8506742800104322827}
+  - component: {fileID: 6886054927828026299}
   m_Layer: 0
   m_Name: Assembler
   m_TagString: Assembler
@@ -2028,20 +2029,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: Assembler
+  active: 1
+  correct: 0
+  hovered: 0
+  red: {fileID: 2100000, guid: ae1574a2b9fb8074196ee8829a78e8f8, type: 2}
+  green: {fileID: 2100000, guid: 749aec74c4d41434da8549f1740563bd, type: 2}
+  grey: {fileID: 2100000, guid: 549db56e248502a4396cce08b8df8f62, type: 2}
+  editMenu: {fileID: 877764254222015247}
+  titleLabel: {fileID: 6801192325828153196}
+  sharedLogic: {fileID: 6082705682137727116, guid: 421ab855434c03849bc8b407ce74372c,
+    type: 3}
+  scaleChange: {x: 0.1, y: 0.1, z: 0.1}
   inputSource1: {fileID: 0}
   input_required1: exampleinput1
   inputSource2: {fileID: 0}
   input_required2: exampleinput2
   output: exampleoutput
-  active: 1
-  correct: 0
-  red: {fileID: 2100000, guid: ae1574a2b9fb8074196ee8829a78e8f8, type: 2}
-  green: {fileID: 2100000, guid: 749aec74c4d41434da8549f1740563bd, type: 2}
-  grey: {fileID: 2100000, guid: 549db56e248502a4396cce08b8df8f62, type: 2}
-  sharedLogic: {fileID: 6082705682137727116, guid: 421ab855434c03849bc8b407ce74372c,
-    type: 3}
-  editMenu: {fileID: 877764254222015247}
-  titleLabel: {fileID: 6801192325828153196}
   inBlock1Label: {fileID: 1102828444599392926}
   inBlock2Label: {fileID: 3110767244029885096}
   input1Label: {fileID: 7380737219320084944}
@@ -2095,7 +2098,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 0.02
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -2200,6 +2203,55 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9758313, z: 1.7756515}
   m_Center: {x: 0, y: 0.48791564, z: 0.037712872}
+--- !u!114 &6886054927828026299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3845132964508886077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d376240d064f4484e81824d51391caf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonClickActions:
+  - Title: Upscale
+    Button: 16777216
+    ButtonMode: 2
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 935102331025716121}
+          m_TargetAssemblyTypeName: BaseBlock, Assembly-CSharp
+          m_MethodName: Upscale
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - Title: Downscale
+    Button: 33554432
+    ButtonMode: 2
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 935102331025716121}
+          m_TargetAssemblyTypeName: BaseBlock, Assembly-CSharp
+          m_MethodName: Downscale
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &3848817695453643878
 GameObject:
   m_ObjectHideFlags: 0
@@ -2801,7 +2853,7 @@ GameObject:
   - component: {fileID: 3185314477774524474}
   - component: {fileID: 8832623782030024698}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Shape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

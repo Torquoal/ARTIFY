@@ -7,11 +7,10 @@ using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 
-public class Multiprocessor : MonoBehaviour
+public class Multiprocessor : BaseBlock
 {
 
 	[Header("Settings")]
-	[SerializeField] public string title;
 	[SerializeField] public GameObject inputSource1;
 	[SerializeField] public string input_required1;
 	[SerializeField] public GameObject inputSource2;
@@ -21,17 +20,6 @@ public class Multiprocessor : MonoBehaviour
 	[SerializeField] public GameObject outputBlock2;
 	[SerializeField] public string output2;
 
-	public bool active = true; // is the component currently turned on
-	public bool correct = false; // does the component have the correct input
-
-	public Material red;
-	public Material green;
-	public Material grey;
-
-	public SharedLogic sharedLogic;
-
-	public GameObject editMenu;
-	public TMP_Text titleLabel;
 	public TMP_Text inBlock1Label;
 	public TMP_Text inBlock2Label;
 	public TMP_Text input1Label;
@@ -43,8 +31,6 @@ public class Multiprocessor : MonoBehaviour
 
 	private LineRenderer lineRenderer1; 
     private LineRenderer lineRenderer2; 
-	private float lineWidth = 0.1f;
-	public Material lineMaterial;
 
 
 	void Awake()
@@ -80,7 +66,7 @@ public class Multiprocessor : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	new void Update()
     {
 		SetName();
 		CheckMultiInput();
@@ -173,20 +159,6 @@ public class Multiprocessor : MonoBehaviour
 		}
 	}
 
-	void SetName()
-	{
-		Transform child = transform.Find("TitleCanvas");
-		TMP_Text t = child.GetComponent<TMP_Text>();
-		title = gameObject.name;
-		t.text = title;
-	}
-
-	public void SetTitle()
-	{
-		sharedLogic.EditObjectText(gameObject, "title");
-	}
-
-
 	public void SetInput1()
 	{
 		sharedLogic.EditObjectText(gameObject, "input1");
@@ -225,17 +197,6 @@ public class Multiprocessor : MonoBehaviour
 	public void SetOutputBlock2()
 	{
 		sharedLogic.EditObjectText(gameObject, "outblock2");
-	}
-
-	[ContextMenu("Actuate")]
-	public void Actuate()
-	{
-		active = !active;
-	}
-
-	public void ToggleEditMenu()
-	{
-		editMenu.SetActive(!editMenu.activeInHierarchy);
 	}
 
 }

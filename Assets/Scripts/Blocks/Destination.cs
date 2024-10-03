@@ -7,23 +7,12 @@ using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 
-public class Destination : MonoBehaviour
+public class Destination : BaseBlock
 {
 	[Header("Settings")]
-	[SerializeField] public string title;
 	[SerializeField] public GameObject inputSource;
 	[SerializeField] public string input_required;
 
-	public bool active = true; // is the component currently turned on
-	public bool correct = false; // does the component have the correct input
-
-	public Material red;
-	public Material green;
-	public Material grey;
-
-	public SharedLogic sharedLogic;
-	public GameObject editMenu;
-	public TMP_Text titleLabel;
 	public TMP_Text inputLabel;
 	public TMP_Text inBlockLabel;
 
@@ -58,7 +47,7 @@ public class Destination : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	new void Update()
 	{
 		SetName();
 		correct = sharedLogic.CheckInput(gameObject, inputSource, correct, input_required);
@@ -79,19 +68,6 @@ public class Destination : MonoBehaviour
 		}
 	}
 
-	void SetName()
-    {
-		Transform child = transform.Find("TitleCanvas");
-		TMP_Text t = child.GetComponent<TMP_Text>();
-		title = gameObject.name;
-		t.text = title;
-	}
-
-	public void SetTitle()
-    {
-		sharedLogic.EditObjectText(gameObject, "title");
-	}
-
 	public void SetInput()
     {
 		sharedLogic.EditObjectText(gameObject, "input");
@@ -102,14 +78,4 @@ public class Destination : MonoBehaviour
 		sharedLogic.EditObjectText(gameObject, "inblock");
 	}
 
-	[ContextMenu("Actuate")]
-	public void Actuate()
-	{
-		active = !active;
-	}
-
-	public void ToggleEditMenu()
-    {
-        editMenu.SetActive(!editMenu.activeInHierarchy);
-    }
 }

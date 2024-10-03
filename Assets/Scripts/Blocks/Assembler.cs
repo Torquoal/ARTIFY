@@ -7,26 +7,15 @@ using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 
-public class Assembler : MonoBehaviour
+public class Assembler : BaseBlock
 {
 	[Header("Settings")]
-	[SerializeField] public string title;
 	[SerializeField] public GameObject inputSource1;
 	[SerializeField] public string input_required1;
 	[SerializeField] public GameObject inputSource2;
 	[SerializeField] public string input_required2;
 	[SerializeField] public string output;
 
-	public bool active = true; // is the component currently turned on
-	public bool correct = false; // does the component have the correct input
-
-	public Material red;
-	public Material green;
-	public Material grey;
-	public SharedLogic sharedLogic;
-
-	public GameObject editMenu;
-	public TMP_Text titleLabel;
 	public TMP_Text inBlock1Label;
 	public TMP_Text inBlock2Label;
 	public TMP_Text input1Label;
@@ -35,8 +24,6 @@ public class Assembler : MonoBehaviour
 
 	private LineRenderer lineRenderer1; 
     private LineRenderer lineRenderer2; 
-	private float lineWidth = 0.1f;
-	public Material lineMaterial;
 
 	void Awake()
 	{
@@ -71,7 +58,7 @@ public class Assembler : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	new void Update()
     {
 		SetName();
 		CheckMultiInput();
@@ -148,19 +135,6 @@ public class Assembler : MonoBehaviour
 		}
 	}
 
-	void SetName()
-	{
-		Transform child = transform.Find("TitleCanvas");
-		TMP_Text t = child.GetComponent<TMP_Text>();
-		title = gameObject.name;
-		t.text = title;
-	}
-
-	public void SetTitle()
-	{
-		sharedLogic.EditObjectText(gameObject, "title");
-	}
-
 
 	public void SetInput1()
 	{
@@ -185,17 +159,6 @@ public class Assembler : MonoBehaviour
 	public void SetInputBlock2()
 	{
 		sharedLogic.EditObjectText(gameObject, "inblock2");
-	}
-
-	[ContextMenu("Actuate")]
-	public void Actuate()
-	{
-		active = !active;
-	}
-
-	public void ToggleEditMenu()
-	{
-		editMenu.SetActive(!editMenu.activeInHierarchy);
 	}
 
 }

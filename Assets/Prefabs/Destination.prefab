@@ -1514,6 +1514,7 @@ GameObject:
   - component: {fileID: 6096554628708628941}
   - component: {fileID: 7523734714403027846}
   - component: {fileID: 7135500581257271742}
+  - component: {fileID: 2302257289123989127}
   m_Layer: 0
   m_Name: Destination
   m_TagString: Destination
@@ -1554,17 +1555,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: Destination
-  inputSource: {fileID: 0}
-  input_required: exampleinput
   active: 1
   correct: 0
+  hovered: 0
   red: {fileID: 2100000, guid: ae1574a2b9fb8074196ee8829a78e8f8, type: 2}
   green: {fileID: 2100000, guid: 749aec74c4d41434da8549f1740563bd, type: 2}
   grey: {fileID: 2100000, guid: 549db56e248502a4396cce08b8df8f62, type: 2}
-  sharedLogic: {fileID: 6082705682137727116, guid: 421ab855434c03849bc8b407ce74372c,
-    type: 3}
   editMenu: {fileID: 3320367287033971416}
   titleLabel: {fileID: 5108034955489610408}
+  sharedLogic: {fileID: 6082705682137727116, guid: 421ab855434c03849bc8b407ce74372c,
+    type: 3}
+  scaleChange: {x: 0.05, y: 0.05, z: 0.05}
+  inputSource: {fileID: 0}
+  input_required: exampleinput
   inputLabel: {fileID: 1529753491296828940}
   inBlockLabel: {fileID: 8312528092339088002}
 --- !u!120 &6096554628708628941
@@ -1614,7 +1617,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 0.02
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1719,6 +1722,55 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.8457813, z: 1.8232329}
   m_Center: {x: 0, y: 0.42289066, z: 0.09762442}
+--- !u!114 &2302257289123989127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962834378549180271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d376240d064f4484e81824d51391caf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonClickActions:
+  - Title: Upscale
+    Button: 16777216
+    ButtonMode: 2
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3962834378549180264}
+          m_TargetAssemblyTypeName: BaseBlock, Assembly-CSharp
+          m_MethodName: Upscale
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - Title: Downscale
+    Button: 33554432
+    ButtonMode: 2
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3962834378549180264}
+          m_TargetAssemblyTypeName: BaseBlock, Assembly-CSharp
+          m_MethodName: Downscale
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &3962834379283068984
 GameObject:
   m_ObjectHideFlags: 0
@@ -1972,7 +2024,7 @@ GameObject:
   - component: {fileID: 3962834379766356553}
   - component: {fileID: 3962834379766356552}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Shape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

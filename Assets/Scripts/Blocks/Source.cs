@@ -7,20 +7,14 @@ using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 
-public class Source : MonoBehaviour
+public class Source : BaseBlock
 {
 
 	[Header("Settings")]
-	[SerializeField] public string title;
 	[SerializeField] public string output;
 
 
-	public bool active = true; // is the component currently turned on
-	public Material grey;
 	public Material blue;
-	public SharedLogic sharedLogic;
-	public GameObject editMenu;
-	public TMP_Text titleLabel;
 	public TMP_Text outputLabel;
 
 
@@ -46,7 +40,7 @@ public class Source : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	new void Update()
     {
 		SetName();	
 		titleLabel.text = title;
@@ -54,33 +48,30 @@ public class Source : MonoBehaviour
 
 	}
 
-	void SetName()
-    {
-		Transform child = transform.Find("TitleCanvas");
-		TMP_Text t = child.GetComponent<TMP_Text>();
-		title = gameObject.name;
-		t.text = title;
-	}
-
-	public void SetTitle()
-    {
-		sharedLogic.EditObjectText(gameObject, "title");
-	}
 
 	public void SetOutput()
     {
 		sharedLogic.EditObjectText(gameObject, "output");
 	}
 
-	[ContextMenu("Actuate")]
-	public void Actuate()
+	override public void Actuate()
 	{
 		active = !active;
+
+		var children = this.GetComponentsInChildren<Transform>();
+		foreach (var child in children)
+		{
+			if (child.name == "Shape")
+			{
+				if (!active)
+				{
+					child.GetComponent<MeshRenderer>().material = grey;
+				} 
+				else if (active)
+				{
+					child.GetComponent<MeshRenderer>().material = blue;
+				}
+			}
+		}
 	}
-
-	public void ToggleEditMenu()
-    {
-        editMenu.SetActive(!editMenu.activeInHierarchy);
-    }
-
 }
