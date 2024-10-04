@@ -8,4 +8,7 @@ public interface IBlock
     void ToggleEditMenu();
     void Upscale();
     void Downscale();
+    void Closer();
+    void Farther();
+    void Setup();
 }

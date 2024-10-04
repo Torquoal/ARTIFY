@@ -25,7 +25,7 @@ public class Assembler : BaseBlock
 	private LineRenderer lineRenderer1; 
     private LineRenderer lineRenderer2; 
 
-	void Awake()
+	new void Awake()
 	{
 		SaveSystem.assemblers.Add(this);
 	}
@@ -40,10 +40,7 @@ public class Assembler : BaseBlock
 	// Start is called before the first frame update
 	void Start()
     {
-		sharedLogic = GameObject.FindWithTag("ScriptHost").GetComponent<SharedLogic>();
-		Transform child = transform.Find("TitleCanvas");
-		TMP_Text t = child.GetComponent<TMP_Text>();
-		t.text = title;
+		Setup();
 		// Create and setup the first LineRenderer
         GameObject lineObj1 = new GameObject("LineRenderer1");
         lineObj1.transform.parent = this.transform;  // Make it a child of the current block

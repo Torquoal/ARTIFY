@@ -13,6 +13,7 @@ public class DisassemblerData
 	public string outputBlockName2;
 	public string output2;
 	public float[] position = new float[3];
+	public float[] scale = new float[3]; 
 
 	public DisassemblerData(Disassembler disassembler)
 	{
@@ -39,6 +40,11 @@ public class DisassemblerData
 		position[0] = disassemblerPos.x;
 		position[1] = disassemblerPos.y;
 		position[2] = disassemblerPos.z;
+
+		Vector3 blockScale = disassembler.transform.localScale;
+		scale[0] = blockScale.x;
+		scale[1] = blockScale.y;
+		scale[2] = blockScale.z;
 
 	}
 }

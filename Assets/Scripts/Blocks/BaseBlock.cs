@@ -24,11 +24,12 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     public float lineWidth = 0.02f;
     public Material lineMaterial;
     private Vector3 scaleChange = new Vector3(0.01f,0.01f,0.01f);
+    private float moveSpeed = 0.02f;
+    public Vector3 cameraPos;
 
     public virtual void Awake()
     {
-        // Any shared Awake logic
-        sharedLogic = GameObject.FindWithTag("ScriptHost").GetComponent<SharedLogic>();
+        
 
     }
 
@@ -56,6 +57,15 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
         sharedLogic.EditObjectText(gameObject, "title");
     }
 
+    public virtual void Setup()
+    {
+        cameraPos = GameObject.FindWithTag("MainCamera").transform.position;
+		sharedLogic = GameObject.FindWithTag("ScriptHost").GetComponent<SharedLogic>();
+		Transform child = transform.Find("TitleCanvas");
+		TMP_Text t = child.GetComponent<TMP_Text>();
+		t.text = title;
+    }
+
     [ContextMenu("Actuate")]
     public virtual void Actuate()
     {
@@ -75,7 +85,6 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
             transform.localScale += scaleChange;
             //add upper and lower limits
         }
-
     }
 
     [ContextMenu("Downscale")]
@@ -83,6 +92,36 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     {
         if (editMenu.activeInHierarchy){
             transform.localScale -= scaleChange;
+        }
+    }
+
+    // Move the block closer to the player
+    public void Closer()
+    {
+        if (editMenu.activeInHierarchy)
+        {
+            // Calculate direction to the player
+            Vector3 directionToPlayer = (cameraPos - transform.position).normalized;
+
+            // Move the block closer to the player
+            transform.position += directionToPlayer * moveSpeed;
+
+            Debug.Log("Moving block closer to the player.");
+        }
+    }
+
+    // Move the block farther away from the player
+    public void Farther()
+    {
+        if (editMenu.activeInHierarchy)
+        {
+            // Calculate direction to the player
+            Vector3 directionToPlayer = (cameraPos - transform.position).normalized;
+
+            // Move the block farther away from the player (opposite direction)
+            transform.position -= directionToPlayer * moveSpeed;
+
+            Debug.Log("Moving block farther from the player.");
         }
     }
 

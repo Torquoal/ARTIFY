@@ -11,6 +11,7 @@ public class ProcessorData
 	public string input_required;
 	public string output;
 	public float[] position = new float[3];
+	public float[] scale = new float[3];
 
 	public ProcessorData(Processor processor)
     {
@@ -27,6 +28,11 @@ public class ProcessorData
 		position[0] = processorPos.x;
 		position[1] = processorPos.y;
 		position[2] = processorPos.z;
+
+		Vector3 blockScale = processor.transform.localScale;
+		scale[0] = blockScale.x;
+		scale[1] = blockScale.y;
+		scale[2] = blockScale.z;
 
 	}
 }

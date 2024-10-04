@@ -22,7 +22,7 @@ public class SpawnMenu : MonoBehaviour
 	private int DistanceToCamera = 2;
 
 
-	void Start () {
+	void Start() {
 	camera = (GameObject) GameObject.FindWithTag("MainCamera");
 	}
 

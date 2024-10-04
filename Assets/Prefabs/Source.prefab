@@ -156,6 +156,7 @@ GameObject:
   - component: {fileID: 4032293452226472784}
   - component: {fileID: 623946076211939350}
   - component: {fileID: 2044190918315870527}
+  - component: {fileID: 6534653530789484606}
   m_Layer: 0
   m_Name: ISDK_RayGrabInteraction
   m_TagString: Untagged
@@ -193,7 +194,7 @@ MonoBehaviour:
   _transferOnSecondSelection: 1
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 0}
-  _oneGrabTransformer: {fileID: 0}
+  _oneGrabTransformer: {fileID: 6534653530789484606}
   _twoGrabTransformer: {fileID: 0}
   _targetTransform: {fileID: 1189889690965974996}
   _maxGrabPoints: -1
@@ -246,6 +247,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 3456639814457835007}
+--- !u!114 &6534653530789484606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609731842906186918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3236b8f205019504589358e7e0412a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _positionConstraints:
+    ConstraintsAreRelative: 0
+    XAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    YAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    ZAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+  _rotationConstraints:
+    XAxis:
+      ConstrainAxis: 1
+      AxisRange:
+        Min: 0
+        Max: 0
+    YAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    ZAxis:
+      ConstrainAxis: 1
+      AxisRange:
+        Min: 0
+        Max: 0
 --- !u!1 &939459945493561612
 GameObject:
   m_ObjectHideFlags: 0
@@ -2170,7 +2216,9 @@ MonoBehaviour:
   titleLabel: {fileID: 7375861858171471964}
   sharedLogic: {fileID: 6082705682137727116, guid: 421ab855434c03849bc8b407ce74372c,
     type: 3}
-  scaleChange: {x: 0.01, y: 0.01, z: 0.01}
+  lineWidth: 0.02
+  lineMaterial: {fileID: 0}
+  cameraPos: {x: 0, y: 0, z: 0}
   output: exampleoutput
   blue: {fileID: 2100000, guid: 04d3e7395e8f2b5498a5418ac4015f04, type: 2}
   outputLabel: {fileID: 3006846557583438751}
@@ -2262,6 +2310,42 @@ MonoBehaviour:
         - m_Target: {fileID: 4637612309904531224}
           m_TargetAssemblyTypeName: BaseBlock, Assembly-CSharp
           m_MethodName: Downscale
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - Title: Closer
+    Button: 67108864
+    ButtonMode: 2
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4637612309904531224}
+          m_TargetAssemblyTypeName: BaseBlock, Assembly-CSharp
+          m_MethodName: Closer
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - Title: Farther
+    Button: 134217728
+    ButtonMode: 2
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4637612309904531224}
+          m_TargetAssemblyTypeName: BaseBlock, Assembly-CSharp
+          m_MethodName: Farther
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

@@ -32,10 +32,7 @@ public class Source : BaseBlock
 	// Start is called before the first frame update
 	void Start()
     {
-		sharedLogic = GameObject.FindWithTag("ScriptHost").GetComponent<SharedLogic>();
-		Transform child = transform.Find("TitleCanvas");
-		TMP_Text t = child.GetComponent<TMP_Text>();
-		t.text =  title;
+		Setup();
 		
 	}
 

@@ -55,6 +55,7 @@ public class SaveSystem : MonoBehaviour
         SaveAssemblers();
         SaveDisassemblers();
         SaveMultiprocessors();
+        Debug.Log("Save all");
     }
 
     [ContextMenu("SaveProcessors")]
@@ -66,7 +67,7 @@ public class SaveSystem : MonoBehaviour
         FileStream countStream = new FileStream(countpath, FileMode.Create);
         formatter.Serialize(countStream, processors.Count);
         countStream.Close();
-        //Debug.Log(path);
+        Debug.Log(path);
         //Debug.Log(countpath);
 
         for (int i = 0; i < processors.Count; i++)
@@ -88,7 +89,7 @@ public class SaveSystem : MonoBehaviour
         FileStream countStream = new FileStream(countpath, FileMode.Create);
         formatter.Serialize(countStream, sources.Count);
         countStream.Close();
-        //Debug.Log(path);
+        Debug.Log(path);
         //Debug.Log(countpath);
 
         for (int i = 0; i < sources.Count; i++)
@@ -110,7 +111,7 @@ public class SaveSystem : MonoBehaviour
         FileStream countStream = new FileStream(countpath, FileMode.Create);
         formatter.Serialize(countStream, destinations.Count);
         countStream.Close();
-        //Debug.Log(path);
+        Debug.Log(path);
         //Debug.Log(countpath);
 
         for (int i = 0; i < destinations.Count; i++)
@@ -132,7 +133,7 @@ public class SaveSystem : MonoBehaviour
         FileStream countStream = new FileStream(countpath, FileMode.Create);
         formatter.Serialize(countStream, assemblers.Count);
         countStream.Close();
-        //Debug.Log(path);
+        Debug.Log(path);
         //Debug.Log(countpath);
 
         for (int i = 0; i < assemblers.Count; i++)
@@ -154,7 +155,7 @@ public class SaveSystem : MonoBehaviour
         FileStream countStream = new FileStream(countpath, FileMode.Create);
         formatter.Serialize(countStream, disassemblers.Count);
         countStream.Close();
-        //Debug.Log(path);
+        Debug.Log(path);
         //Debug.Log(countpath);
 
         for (int i = 0; i < disassemblers.Count; i++)
@@ -176,7 +177,7 @@ public class SaveSystem : MonoBehaviour
         FileStream countStream = new FileStream(countpath, FileMode.Create);
         formatter.Serialize(countStream, disassemblers.Count);
         countStream.Close();
-        //Debug.Log(path);
+        Debug.Log(path);
         //Debug.Log(countpath);
 
         for (int i = 0; i < multiprocessors.Count; i++)
@@ -212,9 +213,9 @@ public class SaveSystem : MonoBehaviour
         LoadProcessors();
         LoadSources();
         LoadDestinations();
-        LoadAssemblers();
         LoadDisassemblers();
         LoadMultiprocessors();
+        LoadAssemblers();
     }
 
     [ContextMenu("LoadProcessors")]
@@ -248,9 +249,11 @@ public class SaveSystem : MonoBehaviour
                 stream.Close();
 
                 Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+                Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
                 string objectname = data.name;
 
                 Processor processor = Instantiate(processorPrefab, position, Quaternion.identity);
+                processor.transform.localScale = blockScale;
 
                 processor.name = objectname;
                 processor.title = data.title;
@@ -300,9 +303,11 @@ public class SaveSystem : MonoBehaviour
                 stream.Close();
 
                 Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+                Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
                 string objectname = data.name;
 
                 Source source = Instantiate(sourcePrefab, position, Quaternion.identity);
+                source.transform.localScale = blockScale;
 
                 source.name = objectname;
                 source.title = data.title;
@@ -346,9 +351,11 @@ public class SaveSystem : MonoBehaviour
                 stream.Close();
 
                 Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+                Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
                 string objectname = data.name;
 
                 Destination destination = Instantiate(destinationPrefab, position, Quaternion.identity);
+                destination.transform.localScale = blockScale;
 
                 destination.name = objectname;
                 destination.title = data.title;
@@ -397,9 +404,11 @@ public class SaveSystem : MonoBehaviour
                 stream.Close();
 
                 Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+                Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
                 string objectname = data.name;
 
                 Assembler assembler = Instantiate(assemblerPrefab, position, Quaternion.identity);
+                assembler.transform.localScale = blockScale;
 
                 assembler.name = objectname;
                 assembler.title = data.title;
@@ -455,9 +464,11 @@ public class SaveSystem : MonoBehaviour
                 stream.Close();
 
                 Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+                Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
                 string objectname = data.name;
 
                 Disassembler disassembler = Instantiate(disassemblerPrefab, position, Quaternion.identity);
+                disassembler.transform.localScale = blockScale;
 
                 disassembler.name = objectname;
                 disassembler.title = data.title;
@@ -519,9 +530,11 @@ public class SaveSystem : MonoBehaviour
                 stream.Close();
 
                 Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+                Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
                 string objectname = data.name;
 
                 Multiprocessor multiprocessor = Instantiate(multiprocessorPrefab, position, Quaternion.identity);
+                multiprocessor.transform.localScale = blockScale;
 
                 multiprocessor.name = objectname;
                 multiprocessor.title = data.title;

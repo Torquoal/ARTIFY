@@ -15,6 +15,7 @@ public class MultiprocessorData
 	public string outputBlockName2;
 	public string output2;
 	public float[] position = new float[3];
+	public float[] scale = new float[3];
 
 	public MultiprocessorData(Multiprocessor multiprocessor)
 	{
@@ -46,6 +47,11 @@ public class MultiprocessorData
 		position[0] = multiprocessorPos.x;
 		position[1] = multiprocessorPos.y;
 		position[2] = multiprocessorPos.z;
+
+		Vector3 blockScale = multiprocessor.transform.localScale;
+		scale[0] = blockScale.x;
+		scale[1] = blockScale.y;
+		scale[2] = blockScale.z;
 
 	}
 }

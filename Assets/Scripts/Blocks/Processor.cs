@@ -38,10 +38,7 @@ public class Processor : BaseBlock
 	// Start is called before the first frame update
 	void Start()
     {
-		sharedLogic = GameObject.FindWithTag("ScriptHost").GetComponent<SharedLogic>();
-		Transform child = transform.Find("TitleCanvas");
-		TMP_Text t = child.GetComponent<TMP_Text>();
-		t.text =  title;
+		Setup();
 		// Get the LineRenderer component attached to this GameObject
         lineRenderer = GetComponent<LineRenderer>();
         // Set the number of positions to 2 (start and end points)
