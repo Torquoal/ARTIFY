@@ -20,6 +20,10 @@ TagManager:
   - LocoButton
   - LocoText
   - Keyboard
+  - Cube
+  - Cylinder
+  - Sphere
+  - Table
   layers:
   - Default
   - TransparentFX

@@ -11,4 +11,5 @@ public interface IBlock
     void Closer();
     void Farther();
     void Setup();
+    void ToSphere();
 }
