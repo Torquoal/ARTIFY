@@ -142,7 +142,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
             // Store the current position and rotation of the old Shape object
             Vector3 oldPosition = shape.transform.position;
             Quaternion oldRotation = shape.transform.rotation;
-            Vector3 shapeScale = shape.transform.localScale;
+            //Vector3 shapeScale = shape.transform.localScale;
             Material shapeMaterial = shape.GetComponent<MeshRenderer>().material;
 
             // Destroy the current Shape object
@@ -150,8 +150,10 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
 
             // Instantiate the new Shape prefab at the same position and rotation
             GameObject newShape = Instantiate(spherePrefab, oldPosition, oldRotation);
-            newShape.transform.localScale = shapeScale;
-            newShape.transform.localScale = new Vector3(shapeScale.x * 0.5f, shapeScale.y * 0.5f, shapeScale.z * 0.5f);
+            //newShape.transform.localScale = shapeScale;
+            //newShape.transform.localScale = new Vector3(shapeScale.x * 0.5f, shapeScale.y * 0.5f, shapeScale.z * 0.5f);
+            transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            newShape.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
             // Optional: Set the new shape as a child of the current block to maintain hierarchy
             newShape.transform.SetParent(transform);
@@ -178,7 +180,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
             // Store the current position and rotation of the old Shape object
             Vector3 oldPosition = shape.transform.position;
             Quaternion oldRotation = shape.transform.rotation;
-            Vector3 shapeScale = shape.transform.localScale;
+            //Vector3 shapeScale = shape.transform.localScale;
             Material shapeMaterial = shape.GetComponent<MeshRenderer>().material;
 
             // Destroy the current Shape object
@@ -186,8 +188,10 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
 
             // Instantiate the new Shape prefab at the same position and rotation
             GameObject newShape = Instantiate(cubePrefab, oldPosition, oldRotation);
-            newShape.transform.localScale = shapeScale;
-            newShape.transform.localScale = new Vector3(shapeScale.x * 0.5f, shapeScale.y * 0.5f, shapeScale.z * 0.5f);
+            //newShape.transform.localScale = shapeScale;
+            //newShape.transform.localScale = new Vector3(shapeScale.x * 0.5f, shapeScale.y * 0.5f, shapeScale.z * 0.5f);
+            transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            newShape.transform.localScale = new Vector3(0.5f,  0.5f, 0.5f);
 
             // Optional: Set the new shape as a child of the current block to maintain hierarchy
             newShape.transform.SetParent(transform);
@@ -214,16 +218,19 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
             // Store the current position and rotation of the old Shape object
             Vector3 oldPosition = shape.transform.position;
             Quaternion oldRotation = shape.transform.rotation;
-            Vector3 shapeScale = shape.transform.localScale;
+            //Vector3 shapeScale = shape.transform.localScale;
             Material shapeMaterial = shape.GetComponent<MeshRenderer>().material;
 
             // Destroy the current Shape object
             Destroy(shape);
 
             // Instantiate the new Shape prefab at the same position and rotation
+            Quaternion newRotation = oldRotation * Quaternion.Euler(-90, 90, 0);
             GameObject newShape = Instantiate(cylinderPrefab, oldPosition, oldRotation);
-            newShape.transform.localScale = shapeScale;
-            newShape.transform.localScale = new Vector3(shapeScale.x*0.5f, shapeScale.y*0.25f, shapeScale.z*0.5f);
+            //newShape.transform.localScale = shapeScale;
+            //newShape.transform.localScale = new Vector3(shapeScale.x*0.5f, shapeScale.y*0.25f, shapeScale.z*0.5f);
+            transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            newShape.transform.localScale = new Vector3(0.5f, 0.25f, 0.5f);
 
             // Optional: Set the new shape as a child of the current block to maintain hierarchy
             newShape.transform.SetParent(transform);
@@ -250,7 +257,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
             // Store the current position and rotation of the old Shape object
             Vector3 oldPosition = shape.transform.position;
             Quaternion oldRotation = shape.transform.rotation;
-            Vector3 shapeScale = shape.transform.localScale;
+            //Vector3 shapeScale = shape.transform.localScale;
             Material shapeMaterial = shape.GetComponent<MeshRenderer>().material;
 
             // Destroy the current Shape object
@@ -259,8 +266,10 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
             // Instantiate the new Shape prefab at the same position and rotation
             Quaternion fixedRotation = oldRotation * Quaternion.Euler(-90, 90, 0);
             GameObject newShape = Instantiate(tablePrefab, oldPosition, fixedRotation);
-            newShape.transform.localScale = shapeScale;
-            newShape.transform.localScale = new Vector3(shapeScale.x * 10f, shapeScale.y * 10f, shapeScale.z * 10f);
+            //newShape.transform.localScale = shapeScale;
+            //newShape.transform.localScale = new Vector3(shapeScale.x * 10f, shapeScale.y * 10f, shapeScale.z * 10f);
+            transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            newShape.transform.localScale = new Vector3(10f, 10f, 10f);
 
             // Optional: Set the new shape as a child of the current block to maintain hierarchy
             newShape.transform.SetParent(transform);

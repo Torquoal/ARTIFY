@@ -40159,7 +40159,7 @@ GameObject:
   - component: {fileID: 2054522862}
   - component: {fileID: 2054522861}
   m_Layer: 0
-  m_Name: '[BuildingBlock] Passthrough'
+  m_Name: Passthrough
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42894,8 +42894,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1148656945}
-  - {fileID: 2054522863}
   - {fileID: 2132193411}
+  - {fileID: 2054522863}
   - {fileID: 7472279227170440918}
   - {fileID: 410087041}
   - {fileID: 832575519}
