@@ -136,7 +136,6 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
         }
     }
 
-    [ContextMenu("RotateLeft")]
     public void RotateLeft()
     {
         if (editMenu.activeInHierarchy)
@@ -146,7 +145,15 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
         } 
     }
 
-    [ContextMenu("RotateRight")]
+    public void RotateAllLeft()
+    {
+        if (editMenu.activeInHierarchy)
+        {
+            transform.Rotate(rotationChangeLeft);
+
+        }
+    }
+
     public void RotateRight()
     {
         if (editMenu.activeInHierarchy)
@@ -155,6 +162,16 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
 
         }
         
+    }
+
+    public void RotateAllRight()
+    {
+        if (editMenu.activeInHierarchy)
+        {
+            transform.Rotate(rotationChangeRight);
+
+        }
+
     }
 
     [ContextMenu("ToSphere")]

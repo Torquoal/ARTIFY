@@ -12,6 +12,8 @@ public interface IBlock
     void Farther();
     void RotateLeft();
     void RotateRight();
+    void RotateAllLeft();
+    void RotateAllRight();
     void Setup();
     void ToSphere();
     void ToCube();
