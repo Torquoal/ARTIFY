@@ -24,8 +24,8 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     public float lineWidth = 0.02f;
     public Material lineMaterial;
     private Vector3 scaleChange = new Vector3(0.01f,0.01f,0.01f);
-    private Vector3 rotationChangeLeft = new Vector3(0f, 0.03f, 0f);
-    private Vector3 rotationChangeRight = new Vector3(0f, -0.03f, 0f);
+    private Vector3 rotationChangeLeft = new Vector3(0f, 1f, 0f);
+    private Vector3 rotationChangeRight = new Vector3(0f, -1f, 0f);
     private float moveSpeed = 0.02f;
     public Vector3 cameraPos;
 
@@ -143,7 +143,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
         {
             shape.transform.Rotate(rotationChangeLeft);
 
-        }
+        } 
     }
 
     [ContextMenu("RotateRight")]
@@ -154,6 +154,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
             shape.transform.Rotate(rotationChangeRight);
 
         }
+        
     }
 
     [ContextMenu("ToSphere")]
@@ -278,6 +279,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
         {
             // Store the current position and rotation of the old Shape object
             Vector3 oldPosition = shape.transform.position;
+            Vector3 adjustedPosition = new Vector3(oldPosition.x, oldPosition.y - 0.3f, oldPosition.z);
             Quaternion oldRotation = shape.transform.rotation;
             //Vector3 shapeScale = shape.transform.localScale;
             Material shapeMaterial = shape.GetComponent<MeshRenderer>().material;
@@ -287,7 +289,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
 
             // Instantiate the new Shape prefab at the same position and rotation
             Quaternion fixedRotation = oldRotation * Quaternion.Euler(-90, 90, 0);
-            GameObject newShape = Instantiate(tablePrefab, oldPosition, fixedRotation);
+            GameObject newShape = Instantiate(tablePrefab, adjustedPosition, fixedRotation);
             //newShape.transform.localScale = shapeScale;
             //newShape.transform.localScale = new Vector3(shapeScale.x * 10f, shapeScale.y * 10f, shapeScale.z * 10f);
             transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
