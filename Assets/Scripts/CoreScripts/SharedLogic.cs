@@ -146,7 +146,7 @@ public class SharedLogic : MonoBehaviour
 	public void SetObjectTitle(GameObject editedObject)
 	{
 		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text;
+		String fieldValue = editField.text.ToLower();
 		editedObject.name = fieldValue;
 		editCanvas.SetActive(false);
 	}
@@ -333,7 +333,7 @@ public class SharedLogic : MonoBehaviour
 	{
 		Debug.Log(editedObject.name);
 		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text;
+		String fieldValue = editField.text.ToLower();
 		GameObject InBlock = GameObject.Find(fieldValue);
 
 		if (InBlock == null) {
@@ -373,7 +373,7 @@ public class SharedLogic : MonoBehaviour
 	{
 		Debug.Log(editedObject.name);
 		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text;
+		String fieldValue = editField.text.ToLower();
 		GameObject InBlock = GameObject.Find(fieldValue);
 
 		if (InBlock == null)
@@ -412,7 +412,7 @@ public class SharedLogic : MonoBehaviour
 	{
 		Debug.Log(editedObject.name);
 		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text;
+		String fieldValue = editField.text.ToLower();
 		GameObject InBlock = GameObject.Find(fieldValue);
 
 		if (InBlock == null)
@@ -451,7 +451,7 @@ public class SharedLogic : MonoBehaviour
 	{
 		Debug.Log(editedObject.name);
 		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text;
+		String fieldValue = editField.text.ToLower();
 		GameObject OutBlock1 = GameObject.Find(fieldValue);
 
 		if (OutBlock1 == null) {
@@ -483,7 +483,7 @@ public class SharedLogic : MonoBehaviour
 	{
 		Debug.Log(editedObject.name);
 		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text;
+		String fieldValue = editField.text.ToLower();
 		GameObject OutBlock2 = GameObject.Find(fieldValue);
 
 		if (OutBlock2 == null) {

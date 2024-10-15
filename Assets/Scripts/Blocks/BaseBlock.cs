@@ -24,6 +24,8 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     public float lineWidth = 0.02f;
     public Material lineMaterial;
     private Vector3 scaleChange = new Vector3(0.01f,0.01f,0.01f);
+    private Vector3 rotationChangeLeft = new Vector3(0f, 0.03f, 0f);
+    private Vector3 rotationChangeRight = new Vector3(0f, -0.03f, 0f);
     private float moveSpeed = 0.02f;
     public Vector3 cameraPos;
 
@@ -131,6 +133,26 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
             transform.position -= directionToPlayer * moveSpeed;
 
             Debug.Log("Moving block farther from the player.");
+        }
+    }
+
+    [ContextMenu("RotateLeft")]
+    public void RotateLeft()
+    {
+        if (editMenu.activeInHierarchy)
+        {
+            shape.transform.Rotate(rotationChangeLeft);
+
+        }
+    }
+
+    [ContextMenu("RotateRight")]
+    public void RotateRight()
+    {
+        if (editMenu.activeInHierarchy)
+        {
+            shape.transform.Rotate(rotationChangeRight);
+
         }
     }
 

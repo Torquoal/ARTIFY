@@ -4253,14 +4253,14 @@ MonoBehaviour:
   output1: exampleoutput1
   outputBlock2: {fileID: 0}
   output2: exampleoutput2
-  inBlock1Label: {fileID: 0}
-  inBlock2Label: {fileID: 0}
-  input1Label: {fileID: 0}
-  input2Label: {fileID: 0}
-  output1Label: {fileID: 0}
-  output2Label: {fileID: 0}
-  outBlock1Label: {fileID: 0}
-  outBlock2Label: {fileID: 0}
+  inBlock1Label: {fileID: 2240857757023993709}
+  inBlock2Label: {fileID: 6728853844924908845}
+  input1Label: {fileID: 8971835755119070795}
+  input2Label: {fileID: 3647002721599588339}
+  output1Label: {fileID: 7333749290773334024}
+  output2Label: {fileID: 2102629397825181726}
+  outBlock1Label: {fileID: 8959804624637466906}
+  outBlock2Label: {fileID: 932065972601808102}
 --- !u!54 &7794074135282887282
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4385,6 +4385,42 @@ MonoBehaviour:
         - m_Target: {fileID: 5666935496205289542}
           m_TargetAssemblyTypeName: BaseBlock, Assembly-CSharp
           m_MethodName: Farther
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - Title: RotateLeft
+    Button: 262144
+    ButtonMode: 2
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5666935496205289542}
+          m_TargetAssemblyTypeName: BaseBlock, Assembly-CSharp
+          m_MethodName: RotateLeft
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - Title: RotateRight
+    Button: 524288
+    ButtonMode: 2
+    Callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5666935496205289542}
+          m_TargetAssemblyTypeName: BaseBlock, Assembly-CSharp
+          m_MethodName: RotateRight
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

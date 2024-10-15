@@ -15646,7 +15646,7 @@ PrefabInstance:
     - target: {fileID: 740145747038687851, guid: 42d5b76a11123b246a72760844ea23a5,
         type: 3}
       propertyPath: m_Name
-      value: Fish Cannery
+      value: fish cannery
       objectReference: {fileID: 0}
     - target: {fileID: 2984685291548829369, guid: 42d5b76a11123b246a72760844ea23a5,
         type: 3}
@@ -19617,7 +19617,7 @@ PrefabInstance:
     - target: {fileID: 6683159332350001695, guid: c3376879ba8ad4b49a8f1a4eeb9e0ee2,
         type: 3}
       propertyPath: m_Name
-      value: Fish Cleaner
+      value: fish cleaner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -38513,7 +38513,7 @@ PrefabInstance:
     - target: {fileID: 740145747038687851, guid: 42d5b76a11123b246a72760844ea23a5,
         type: 3}
       propertyPath: m_Name
-      value: Stock Vat
+      value: stock vat
       objectReference: {fileID: 0}
     - target: {fileID: 2984685291548829369, guid: 42d5b76a11123b246a72760844ea23a5,
         type: 3}
@@ -38568,7 +38568,7 @@ PrefabInstance:
     - target: {fileID: 4694770082260016294, guid: 42d5b76a11123b246a72760844ea23a5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9997649
       objectReference: {fileID: 0}
     - target: {fileID: 4694770082260016294, guid: 42d5b76a11123b246a72760844ea23a5,
         type: 3}
@@ -38578,7 +38578,7 @@ PrefabInstance:
     - target: {fileID: 4694770082260016294, guid: 42d5b76a11123b246a72760844ea23a5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.021682393
       objectReference: {fileID: 0}
     - target: {fileID: 4694770082260016294, guid: 42d5b76a11123b246a72760844ea23a5,
         type: 3}
@@ -38593,11 +38593,16 @@ PrefabInstance:
     - target: {fileID: 4694770082260016294, guid: 42d5b76a11123b246a72760844ea23a5,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 2.415
       objectReference: {fileID: 0}
     - target: {fileID: 4694770082260016294, guid: 42d5b76a11123b246a72760844ea23a5,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767208022505216129, guid: 42d5b76a11123b246a72760844ea23a5,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -42283,7 +42288,7 @@ PrefabInstance:
     - target: {fileID: 3962834378549180271, guid: d8be8140ed54cd84cae2bf43b6f1ffce,
         type: 3}
       propertyPath: m_Name
-      value: Shipping
+      value: shipping
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -42448,11 +42453,7 @@ PrefabInstance:
     - {fileID: 8426097562593085048, guid: 7b0d5640a75abbb408fd69828aac7ead, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3016788434448376629, guid: 7b0d5640a75abbb408fd69828aac7ead,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b0d5640a75abbb408fd69828aac7ead, type: 3}
 --- !u!1 &6338518970351608897 stripped
 GameObject:
@@ -42681,7 +42682,7 @@ PrefabInstance:
     - target: {fileID: 3845132964508886077, guid: 7aa2b8fa56dfaff438c1b4ddfcde33c0,
         type: 3}
       propertyPath: m_Name
-      value: Soup Factory
+      value: soup factory
       objectReference: {fileID: 0}
     - target: {fileID: 9096710675384691440, guid: 7aa2b8fa56dfaff438c1b4ddfcde33c0,
         type: 3}
@@ -42912,7 +42913,7 @@ PrefabInstance:
     - target: {fileID: 6497549535535082282, guid: df82b58bf52c5124d8c061bca7c8abfc,
         type: 3}
       propertyPath: m_Name
-      value: Fish Barrel
+      value: fish barrel
       objectReference: {fileID: 0}
     - target: {fileID: 6497549535535082282, guid: df82b58bf52c5124d8c061bca7c8abfc,
         type: 3}
@@ -42939,7 +42940,7 @@ PrefabInstance:
     - target: {fileID: 4172517670692485320, guid: 62985392977373c4ab8a159dad4df8ed,
         type: 3}
       propertyPath: m_Name
-      value: Fish Slicer
+      value: fish slicer
       objectReference: {fileID: 0}
     - target: {fileID: 5666935496205289542, guid: 62985392977373c4ab8a159dad4df8ed,
         type: 3}
@@ -43066,6 +43067,7 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 2733786066163996430}
+  - {fileID: 6338518970351608896}
   - {fileID: 679042828}
   - {fileID: 612247171}
   - {fileID: 2609438777620023654}
@@ -43079,4 +43081,3 @@ SceneRoots:
   - {fileID: 1973086221}
   - {fileID: 8423487221869048794}
   - {fileID: 3962834378944558692}
-  - {fileID: 6338518970351608896}

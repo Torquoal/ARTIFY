@@ -10,6 +10,11 @@ public interface IBlock
     void Downscale();
     void Closer();
     void Farther();
+    void RotateLeft();
+    void RotateRight();
     void Setup();
     void ToSphere();
+    void ToCube();
+    void ToCylinder();
+    void ToTable();
 }
