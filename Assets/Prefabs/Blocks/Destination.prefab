@@ -2741,7 +2741,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - Title: Closer
-    Button: 67108864
+    Button: 131072
     ButtonMode: 2
     Callback:
       m_PersistentCalls:
@@ -2759,7 +2759,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - Title: Farther
-    Button: 134217728
+    Button: 65536
     ButtonMode: 2
     Callback:
       m_PersistentCalls:
