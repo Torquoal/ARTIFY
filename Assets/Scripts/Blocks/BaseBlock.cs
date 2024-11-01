@@ -61,6 +61,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
         t.text = title;
     }
 
+    [ContextMenu("Set Title")]
     public virtual void SetTitle()
     {
         sharedLogic.EditObjectText(gameObject, "title");
@@ -183,7 +184,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
             Vector3 oldPosition = shape.transform.position;
             Quaternion oldRotation = shape.transform.rotation;
             //Vector3 shapeScale = shape.transform.localScale;
-            Material shapeMaterial = shape.GetComponent<MeshRenderer>().material;
+            Material shapeMaterial = GetBlockMaterial();
 
             // Destroy the current Shape object
             Destroy(shape);
@@ -221,7 +222,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
             Vector3 oldPosition = shape.transform.position;
             Quaternion oldRotation = shape.transform.rotation;
             //Vector3 shapeScale = shape.transform.localScale;
-            Material shapeMaterial = shape.GetComponent<MeshRenderer>().material;
+            Material shapeMaterial = GetBlockMaterial();
 
             // Destroy the current Shape object
             Destroy(shape);
@@ -259,7 +260,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
             Vector3 oldPosition = shape.transform.position;
             Quaternion oldRotation = shape.transform.rotation;
             //Vector3 shapeScale = shape.transform.localScale;
-            Material shapeMaterial = shape.GetComponent<MeshRenderer>().material;
+            Material shapeMaterial = GetBlockMaterial();
 
             // Destroy the current Shape object
             Destroy(shape);
@@ -296,21 +297,19 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
         {
             // Store the current position and rotation of the old Shape object
             Vector3 oldPosition = shape.transform.position;
-            Vector3 adjustedPosition = new Vector3(oldPosition.x, oldPosition.y - 0.3f, oldPosition.z);
             Quaternion oldRotation = shape.transform.rotation;
             //Vector3 shapeScale = shape.transform.localScale;
-            Material shapeMaterial = shape.GetComponent<MeshRenderer>().material;
+            Material shapeMaterial = GetBlockMaterial();
 
             // Destroy the current Shape object
             Destroy(shape);
 
             // Instantiate the new Shape prefab at the same position and rotation
-            Quaternion fixedRotation = oldRotation * Quaternion.Euler(-90, 90, 0);
-            GameObject newShape = Instantiate(tablePrefab, adjustedPosition, fixedRotation);
+            GameObject newShape = Instantiate(tablePrefab, oldPosition, oldRotation);
             //newShape.transform.localScale = shapeScale;
-            //newShape.transform.localScale = new Vector3(shapeScale.x * 10f, shapeScale.y * 10f, shapeScale.z * 10f);
+            //newShape.transform.localScale = new Vector3(shapeScale.x * 0.5f, shapeScale.y * 0.5f, shapeScale.z * 0.5f);
             transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            newShape.transform.localScale = new Vector3(10f, 10f, 10f);
+            newShape.transform.localScale = new Vector3(0.5f,  0.5f, 0.5f);
 
             // Optional: Set the new shape as a child of the current block to maintain hierarchy
             newShape.transform.SetParent(transform);
@@ -330,7 +329,20 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     }
 
 
-
+    private Material GetBlockMaterial()
+    {
+        Material shapeMaterial = null;
+        if ((shape.tag != "Table")){	
+	        shapeMaterial = shape.GetComponent<MeshRenderer>().material;
+            
+	    }
+	    else 
+        {
+			GameObject table = shape.transform.Find("lod1").gameObject;
+			shapeMaterial = table.GetComponent<MeshRenderer>().material;
+        }
+        return shapeMaterial;
+	}
 
 
     // Recursively find a child GameObject by name

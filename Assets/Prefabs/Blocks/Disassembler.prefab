@@ -6007,7 +6007,7 @@ MonoBehaviour:
     type: 3}
   cylinderPrefab: {fileID: 3388636419170026812, guid: 0808f29cdbd040541ba363e230e6fd08,
     type: 3}
-  tablePrefab: {fileID: 1950516498552850, guid: 5e93b18aeba68324cb0c6196b3791c1d,
+  tablePrefab: {fileID: 4708055276221306536, guid: 1caa74bb06fe02041a74853f03edba6b,
     type: 3}
   inputSource: {fileID: 0}
   input_required: exampleinput

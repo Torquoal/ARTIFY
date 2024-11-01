@@ -615,7 +615,12 @@ public class SharedLogic : MonoBehaviour
 	{
 		var children = thisObject.GetComponentsInChildren<Transform>();
 		foreach (var child in children)
-			if (child.name == "Shape")
+			if ((child.name == "Shape") && (child.tag != "Table")){	
 				child.GetComponent<MeshRenderer>().material = colour;
+			}
+			else if ((child.name == "Shape") && (child.tag == "Table")){
+					GameObject table = child.transform.Find("lod1").gameObject;
+					table.GetComponent<MeshRenderer>().material = colour;
+			}
 	}
 }
