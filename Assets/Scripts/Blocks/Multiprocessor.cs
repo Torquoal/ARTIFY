@@ -33,14 +33,13 @@ public class Multiprocessor : BaseBlock
     private LineRenderer lineRenderer2; 
 
 
-	void Awake()
+	protected override void Awake()
 	{
 		SaveSystem.multiprocessors.Add(this);
 	}
 
-	void OnDestroy()
+	private void OnDestroy()
 	{
-		Debug.Log(this.title + "deleted");
 		SaveSystem.multiprocessors.Remove(this);
 
 	}

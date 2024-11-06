@@ -9,66 +9,66 @@ using TMPro;
 
 public class Source : BaseBlock
 {
-
-	[Header("Settings")]
-	[SerializeField] public string output;
-
-
-	public Material blue;
-	public TMP_Text outputLabel;
+    [Header("Settings")]
+    [SerializeField] public string output;
+    
+    public Material blue;
+    public TMP_Text outputLabel;
 
 
-	void Awake()
-	{
-		SaveSystem.sources.Add(this);
-	}
-
-	void OnDestroy()
-	{
-		Debug.Log(this.title + "deleted");
-		SaveSystem.sources.Remove(this);
-
-	}
-	// Start is called before the first frame update
-	void Start()
+    protected override void Awake()
     {
-		Setup();
-		
-	}
+        SaveSystem.sources.Add(this);
+    }
 
-	// Update is called once per frame
-	new void Update()
+    private void OnDestroy()
     {
-		SetName();	
-		titleLabel.text = title;
-		outputLabel.text = "prod: " + output;
+        SaveSystem.sources.Remove(this);
+    }
 
-	}
-
-
-	public void SetOutput()
+    private void Start()
     {
-		sharedLogic.EditObjectText(gameObject, "output");
+        Setup();
+    }
+
+	public void FindShape(){
+        shape = FindChildByName("Shape", transform);
+    }
+
+    public override void Update()
+    {
+        SetName();
+        UpdateLabels();
 	}
 
-	override public void Actuate()
+    public override void UpdateLabels()
+    {
+        base.UpdateLabels();
+        outputLabel.text = "prod: " + output;
+    }
+
+    public void SetOutput()
+    {
+        sharedLogic.EditObjectText(gameObject, "output");
+    }
+
+	[ContextMenu("Actuate")]
+	public override void Actuate()
 	{
-		active = !active;
-
-		var children = this.GetComponentsInChildren<Transform>();
-		foreach (var child in children)
-		{
-			if (child.name == "Shape")
-			{
-				if (!active)
-				{
-					child.GetComponent<MeshRenderer>().material = grey;
-				} 
-				else if (active)
-				{
-					child.GetComponent<MeshRenderer>().material = blue;
-				}
-			}
-		}
-	}
+    	active = !active;
+    	var material = active ? blue : grey;
+    	
+    	if (shape != null)
+    	{
+        	if (shape.CompareTag("Table"))
+        	{
+            	GameObject table = shape.transform.Find("lod1").gameObject;
+            	table.GetComponent<MeshRenderer>().material = material;
+        	}
+        	else
+        	{
+            	shape.GetComponent<MeshRenderer>().material = material;
+        	}
+    	}
+    }
 }

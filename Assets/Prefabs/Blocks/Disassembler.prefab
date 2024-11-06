@@ -5965,7 +5965,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3951987951113564342}
@@ -5991,9 +5991,6 @@ MonoBehaviour:
   active: 1
   correct: 0
   hovered: 0
-  red: {fileID: 2100000, guid: ae1574a2b9fb8074196ee8829a78e8f8, type: 2}
-  green: {fileID: 2100000, guid: 749aec74c4d41434da8549f1740563bd, type: 2}
-  grey: {fileID: 2100000, guid: 549db56e248502a4396cce08b8df8f62, type: 2}
   editMenu: {fileID: 5583986366456945809}
   titleLabel: {fileID: 3979405052475793914}
   sharedLogic: {fileID: 0}
@@ -6001,22 +5998,14 @@ MonoBehaviour:
   lineMaterial: {fileID: 0}
   cameraPos: {x: 0, y: 0, z: 0}
   shape: {fileID: 0}
-  cubePrefab: {fileID: 7026703576422682882, guid: 2a981f7f8ba543d4f9923b4cf2ac8ff7,
-    type: 3}
-  spherePrefab: {fileID: 8586443346047600876, guid: ad34b5a9c3b7c8d4bba3c810e60913cf,
-    type: 3}
-  cylinderPrefab: {fileID: 3388636419170026812, guid: 0808f29cdbd040541ba363e230e6fd08,
-    type: 3}
-  tablePrefab: {fileID: 4708055276221306536, guid: 1caa74bb06fe02041a74853f03edba6b,
-    type: 3}
   inputSource: {fileID: 0}
   input_required: exampleinput
   outputBlock1: {fileID: 0}
   output1: exampleoutput1
   outputBlock2: {fileID: 0}
   output2: exampleoutput1
-  inputLabel: {fileID: 7138047679556612199}
   inBlockLabel: {fileID: 3419391785972139668}
+  inputLabel: {fileID: 7138047679556612199}
   output1Label: {fileID: 4049970995441578366}
   output2Label: {fileID: 2394370708479174189}
   outBlock1Label: {fileID: 2832391972261601879}

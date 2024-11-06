@@ -1,626 +1,472 @@
 using System;
-using System.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Rendering.Universal;
 using TMPro;
+
+// Handles shared functionality between different types of blocks in the system
 
 public class SharedLogic : MonoBehaviour
 {
+	// UI and camera references
+    private GameObject camera;
+    private GameObject editCanvas;
+    private TMP_InputField editField;
+    private Button enterButton;
 
-	private GameObject camera;
-	
+	[Header("Shape Prefabs")]
+    [SerializeField] private GameObject cubePrefab;
+    [SerializeField] private GameObject spherePrefab;
+    [SerializeField] private GameObject cylinderPrefab;
+    [SerializeField] private GameObject tablePrefab;
 
-	private Quaternion rotation;
-
-	protected Vector3 position;
-	protected GameObject editCanvas;
-	protected TMP_InputField editField;
-	protected Button enterButton;
-
-	
-
-
-	// I may want to refactor to remove the repeated block type stuff, can i abstract that out
-	// Also, can I remove the need th care about outblocks at all, and just check output1/output2 for dissassembler and multiprocessor, it would remove a lot of work
+    [Header("Materials")]
+    [SerializeField] private Material greyMaterial;
+    [SerializeField] private Material greenMaterial;
+    [SerializeField] private Material redMaterial;
 
 
-	void Start () {
-		camera = (GameObject) GameObject.FindWithTag("MainCamera");
-		editCanvas = camera.transform.Find("TextEntryCanvas").gameObject;
-		editField = editCanvas.transform.Find("EditField").GetComponent<TMP_InputField>();
-		enterButton = editCanvas.transform.Find("EnterButton").GetComponent<Button>();
-	}
 
-	public void SetupLineRenderer(LineRenderer lr, float lineWidth, Material lineMaterial)
+	private void Awake()
     {
-        // Set the material for the LineRenderer
+        // Debug check before initialization
+        Debug.Log($"SharedLogic prefab check: Cube={cubePrefab != null}, Sphere={spherePrefab != null}, " +
+                 $"Cylinder={cylinderPrefab != null}, Table={tablePrefab != null}");
+
+        Debug.Log("Initializing shape prefabs and materials in SharedLogic.");
+        
+        BaseBlock.InitializeShapePrefabs(
+            cubePrefab, 
+            spherePrefab,
+            cylinderPrefab,
+            tablePrefab,
+            greyMaterial,
+            greenMaterial,
+            redMaterial
+        );
+    }
+    void Start()
+    {
+    
+		camera = GameObject.FindWithTag("MainCamera");
+        editCanvas = camera.transform.Find("TextEntryCanvas").gameObject;
+        editField = editCanvas.transform.Find("EditField").GetComponent<TMP_InputField>();
+        enterButton = editCanvas.transform.Find("EnterButton").GetComponent<Button>();
+    }
+
+	
+
+	// Configures a LineRenderer component with standard settings
+    public void SetupLineRenderer(LineRenderer lr, float lineWidth, Material lineMaterial)
+    {
         if (lineMaterial != null)
         {
             lr.material = lineMaterial;
         }
-
-        // Set the width for the LineRenderer
         lr.startWidth = lineWidth;
         lr.endWidth = lineWidth;
-
-        // Set the number of positions (always 2 for a single line segment)
         lr.positionCount = 2;
     }
 
-
-
-	public String GetBlockTitle(GameObject block) 
-	{
-		String blocktype = block.tag;
-		switch(blocktype) 
-		{
-			case "Source":
-				Source SourceBlock = block.GetComponent<Source>();
-				return SourceBlock.title;
-			case "Processor":
-				Processor ProcessorBlock = block.GetComponent<Processor>();
-				return ProcessorBlock.title;
-			case "Multiprocessor":
-				Multiprocessor MultiprocessorBlock = block.GetComponent<Multiprocessor>();
-				return MultiprocessorBlock.title;
-			case "Assembler":
-				Assembler AssemblerBlock = block.GetComponent<Assembler>();
-				return AssemblerBlock.title;
-			case "Disassembler":
-				Disassembler DisassemblerBlock = block.GetComponent<Disassembler>();
-				return DisassemblerBlock.title;
-			case "Destination":
-				Destination DestinationBlock = block.GetComponent<Destination>();
-				return DestinationBlock.title;
-			default:
-				return ("Error");
-		}
-	}
-
-
-	 public void EditObjectText(GameObject editedObject, String aspect)
+	// Retrieves the title of a block
+    public string GetBlockTitle(GameObject block)
     {
-		Debug.Log("Edit Object: " + editedObject +  "Aspect: " + aspect);
-		switch(aspect) 
-		{
-			case "title":
-				editCanvas.SetActive(true);
-				enterButton.onClick.AddListener(delegate{SetObjectTitle(editedObject);});
-				break;
-			case "input":
-				editCanvas.SetActive(true);
-				enterButton.onClick.AddListener(delegate{SetObjectInput(editedObject);});
-				break;
-			case "input1":
-				editCanvas.SetActive(true);
-				enterButton.onClick.AddListener(delegate { SetObjectInput1(editedObject); });
-				break;
-			case "input2":
-				editCanvas.SetActive(true);
-				enterButton.onClick.AddListener(delegate { SetObjectInput2(editedObject); });
-				break;
-			case "output":
-				editCanvas.SetActive(true);
-				enterButton.onClick.AddListener(delegate{SetObjectOutput(editedObject);});
-				break;
-			case "output1":
-				editCanvas.SetActive(true);
-				enterButton.onClick.AddListener(delegate{SetObjectOutput1(editedObject);});
-				break;
-			case "output2":
-				editCanvas.SetActive(true);
-				enterButton.onClick.AddListener(delegate{SetObjectOutput2(editedObject);});
-				break;
-			case "inblock":
-				editCanvas.SetActive(true);
-				enterButton.onClick.AddListener(delegate{SetObjectInBlock(editedObject);});
-				break;
-			case "inblock1":
-				editCanvas.SetActive(true);
-				enterButton.onClick.AddListener(delegate { SetObjectInBlock1(editedObject); });
-				break;
-			case "inblock2":
-				editCanvas.SetActive(true);
-				enterButton.onClick.AddListener(delegate { SetObjectInBlock2(editedObject); });
-				break;
-			case "outblock1":
-				editCanvas.SetActive(true);
-				enterButton.onClick.AddListener(delegate{SetObjectOutBlock1(editedObject);});
-				break;
-			case "outblock2":
-				editCanvas.SetActive(true);
-				enterButton.onClick.AddListener(delegate{SetObjectOutBlock2(editedObject);});
-				break;
-
-
-			default:
-				Debug.Log("String Edit Failed");
-				break;   
-		}
+        var baseBlock = block.GetComponent<BaseBlock>();
+        return baseBlock != null ? baseBlock.title : "Error";
     }
 
-
-	public void SetObjectTitle(GameObject editedObject)
-	{
-		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text.ToLower();
-		editedObject.name = fieldValue;
-		editCanvas.SetActive(false);
-	}
-
-	public void SetObjectInput(GameObject editedObject)
-	{
-		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text;
-
-		if (editedObject.tag == "Processor"){
-
-			Processor editedBlock = editedObject.GetComponent<Processor>();
-			editedBlock.input_required = fieldValue;
-			editCanvas.SetActive(false);
-
-		} else if (editedObject.tag == "Disassembler") {
-
-			Disassembler editedBlock = editedObject.GetComponent<Disassembler>();
-			editedBlock.input_required = fieldValue;
-			editCanvas.SetActive(false);
-
-		} else if (editedObject.tag == "Destination") {
-
-			Destination editedBlock = editedObject.GetComponent<Destination>();
-			editedBlock.input_required = fieldValue;
-			editCanvas.SetActive(false);
-
-		} else{
-
-			Debug.Log("Invalid object");
-			editCanvas.SetActive(false);
-		}
-
-	}
-
-	public void SetObjectInput1(GameObject editedObject)
-	{
-		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text;
-
-		if (editedObject.tag == "Assembler")
-		{
-
-			Assembler editedBlock = editedObject.GetComponent<Assembler>();
-			editedBlock.input_required1 = fieldValue;
-			editCanvas.SetActive(false);
-
-
-		}
-		else if (editedObject.tag == "Multiprocessor")
-		{
-
-			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
-			editedBlock.input_required1 = fieldValue;
-			editCanvas.SetActive(false);
-
-		}
-		else
-		{
-
-			Debug.Log("Invalid object");
-			editCanvas.SetActive(false);
-		}
-
-	}
-
-	public void SetObjectInput2(GameObject editedObject)
-	{
-		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text;
-
-		if (editedObject.tag == "Assembler")
-		{
-
-			Assembler editedBlock = editedObject.GetComponent<Assembler>();
-			editedBlock.input_required2 = fieldValue;
-			editCanvas.SetActive(false);
-
-
-		}
-		else if (editedObject.tag == "Multiprocessor")
-		{
-
-			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
-			editedBlock.input_required2 = fieldValue;
-			editCanvas.SetActive(false);
-
-		}
-		else
-		{
-
-			Debug.Log("Invalid object");
-			editCanvas.SetActive(false);
-		}
-
-	}
-
-
-	public void SetObjectOutput(GameObject editedObject)
-	{
-		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text;
-
-		if (editedObject.tag == "Processor"){
-
-			Processor editedBlock = editedObject.GetComponent<Processor>();
-			editedBlock.output = fieldValue;
-			editCanvas.SetActive(false);
-			
-
-		} else if (editedObject.tag == "Assembler") {
-
-			Assembler editedBlock = editedObject.GetComponent<Assembler>();
-			editedBlock.output = fieldValue;
-			editCanvas.SetActive(false);
-
-		} else if (editedObject.tag == "Source") {
-
-			Source editedBlock = editedObject.GetComponent<Source>();
-			editedBlock.output = fieldValue;
-			editCanvas.SetActive(false);
-
-		} else{
-
-			Debug.Log("Invalid object");
-			editCanvas.SetActive(false);
-		}
-
-	}
-
-	public void SetObjectOutput1(GameObject editedObject)
-	{
-		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text;
-
-		if (editedObject.tag == "Disassembler"){
-
-			Disassembler editedBlock = editedObject.GetComponent<Disassembler>();
-			editedBlock.output1 = fieldValue;
-			editCanvas.SetActive(false);
-			
-
-		} else if (editedObject.tag == "Multiprocessor") {
-
-			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
-			editedBlock.output1 = fieldValue;
-			editCanvas.SetActive(false);
-
-		} else{
-
-			Debug.Log("Invalid object");
-			editCanvas.SetActive(false);
-		}
-
-	}
-
-		public void SetObjectOutput2(GameObject editedObject)
-	{
-		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text;
-
-		if (editedObject.tag == "Disassembler"){
-
-			Disassembler editedBlock = editedObject.GetComponent<Disassembler>();
-			editedBlock.output2 = fieldValue;
-			editCanvas.SetActive(false);
-			
-
-		} else if (editedObject.tag == "Multiprocessor") {
-
-			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
-			editedBlock.output2 = fieldValue;
-			editCanvas.SetActive(false);
-
-		} else{
-
-			Debug.Log("Invalid object");
-			editCanvas.SetActive(false);
-		}
-
-	}
-
-	public void SetObjectInBlock(GameObject editedObject)
-	{
-		Debug.Log(editedObject.name);
-		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text.ToLower();
-		GameObject InBlock = GameObject.Find(fieldValue);
-
-		if (InBlock == null) {
-			Debug.Log("invalid block entered, aborting assignment");
-			editCanvas.SetActive(false);
-
-		} else if (editedObject.tag == "Processor"){
-
-			Processor editedBlock = editedObject.GetComponent<Processor>();
-			editedBlock.inputSource = InBlock;
-			editCanvas.SetActive(false);
-			
-
-		} else if (editedObject.tag == "Destination") {
-
-			Destination editedBlock = editedObject.GetComponent<Destination>();
-			editedBlock.inputSource = InBlock;
-			editCanvas.SetActive(false);
-
-		} else if (editedObject.tag == "Disassembler") {
-
-			Disassembler editedBlock = editedObject.GetComponent<Disassembler>();
-			editedBlock.inputSource = InBlock;
-			editCanvas.SetActive(false);
-
-
-		} else{
-
-			Debug.Log("Invalid object");
-			// maybe add an error sound here for feedback
-			editCanvas.SetActive(false);
-		}
-
-	}
-
-	public void SetObjectInBlock1(GameObject editedObject)
-	{
-		Debug.Log(editedObject.name);
-		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text.ToLower();
-		GameObject InBlock = GameObject.Find(fieldValue);
-
-		if (InBlock == null)
-		{
-			Debug.Log("invalid block entered, aborting assignment");
-			editCanvas.SetActive(false);
-
-		}
-		else if (editedObject.tag == "Assembler")
-		{
-
-			Assembler editedBlock = editedObject.GetComponent<Assembler>();
-			editedBlock.inputSource1 = InBlock;
-			editCanvas.SetActive(false);
-
-
-		}
-		else if (editedObject.tag == "Multiprocessor")
-		{
-
-			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
-			editedBlock.inputSource1 = InBlock;
-			editCanvas.SetActive(false);
-
-		}
-		else
-		{
-
-			Debug.Log("Invalid object");
-			editCanvas.SetActive(false);
-		}
-
-	}
-
-	public void SetObjectInBlock2(GameObject editedObject)
-	{
-		Debug.Log(editedObject.name);
-		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text.ToLower();
-		GameObject InBlock = GameObject.Find(fieldValue);
-
-		if (InBlock == null)
-		{
-			Debug.Log("invalid block entered, aborting assignment");
-			editCanvas.SetActive(false);
-
-		}
-		else if (editedObject.tag == "Assembler")
-		{
-
-			Assembler editedBlock = editedObject.GetComponent<Assembler>();
-			editedBlock.inputSource2 = InBlock;
-			editCanvas.SetActive(false);
-
-
-		}
-		else if (editedObject.tag == "Multiprocessor")
-		{
-
-			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
-			editedBlock.inputSource2 = InBlock;
-			editCanvas.SetActive(false);
-
-		}
-		else
-		{
-
-			Debug.Log("Invalid object");
-			editCanvas.SetActive(false);
-		}
-
-	}
-
-	public void SetObjectOutBlock1(GameObject editedObject)
-	{
-		Debug.Log(editedObject.name);
-		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text.ToLower();
-		GameObject OutBlock1 = GameObject.Find(fieldValue);
-
-		if (OutBlock1 == null) {
-			Debug.Log("invalid block entered, aborting assignment");
-			editCanvas.SetActive(false);
-
-		} else if (editedObject.tag == "Disassembler") {
-
-			Disassembler editedBlock = editedObject.GetComponent<Disassembler>();
-			editedBlock.outputBlock1 = OutBlock1;
-			editCanvas.SetActive(false);
-
-		} else if (editedObject.tag == "Multiprocessor") {
-
-			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
-			editedBlock.outputBlock1 = OutBlock1;
-			editCanvas.SetActive(false);
-
-
-		} else{
-
-			Debug.Log("Invalid object");
-			editCanvas.SetActive(false);
-		}
-
-	}
-
-	public void SetObjectOutBlock2(GameObject editedObject)
-	{
-		Debug.Log(editedObject.name);
-		enterButton.onClick.RemoveAllListeners();
-		String fieldValue = editField.text.ToLower();
-		GameObject OutBlock2 = GameObject.Find(fieldValue);
-
-		if (OutBlock2 == null) {
-			Debug.Log("invalid block entered, aborting assignment");
-			editCanvas.SetActive(false);
-
-		} else if (editedObject.tag == "Disassembler") {
-
-			Disassembler editedBlock = editedObject.GetComponent<Disassembler>();
-			editedBlock.outputBlock2 = OutBlock2;
-			editCanvas.SetActive(false);
-
-		} else if (editedObject.tag == "Multiprocessor") {
-
-			Multiprocessor editedBlock = editedObject.GetComponent<Multiprocessor>();
-			editedBlock.outputBlock2 = OutBlock2;
-			editCanvas.SetActive(false);
-
-		} else{
-
-			Debug.Log("Invalid object");
-			editCanvas.SetActive(false);
-		}
-
-	}
-
-
-	public bool CheckInput(GameObject thisObject, GameObject inputSource, bool correct, String input_required)
-	{
-		if (inputSource == null)
+	// Main entry point for editing block properties through the UI
+    public void EditObjectText(GameObject editedObject, string aspect)
+    {
+        Debug.Log($"Edit Object: {editedObject} Aspect: {aspect}");
+        editCanvas.SetActive(true);
+        enterButton.onClick.RemoveAllListeners();
+        enterButton.onClick.AddListener(() => UpdateBlockField(editedObject, aspect));
+    }
+
+	// Routes the edit operation to the appropriate update method based on the aspect being edited
+    private void UpdateBlockField(GameObject editedObject, string aspect)
+    {
+        string fieldValue = editField.text;
+        bool success = true;
+
+        switch (aspect)
         {
-			correct = false;
+            case "title":
+                editedObject.name = fieldValue.ToLower();
+                break;
+
+            case "input":
+                success = UpdateInputField(editedObject, fieldValue);
+                break;
+
+            case "input1":
+                success = UpdateInput1Field(editedObject, fieldValue);
+                break;
+
+            case "input2":
+                success = UpdateInput2Field(editedObject, fieldValue);
+                break;
+
+            case "output":
+                success = UpdateOutputField(editedObject, fieldValue);
+                break;
+
+            case "output1":
+                success = UpdateOutput1Field(editedObject, fieldValue);
+                break;
+
+            case "output2":
+                success = UpdateOutput2Field(editedObject, fieldValue);
+                break;
+
+            case "inblock":
+                success = UpdateInBlockField(editedObject, fieldValue);
+                break;
+
+            case "inblock1":
+                success = UpdateInBlock1Field(editedObject, fieldValue);
+                break;
+
+            case "inblock2":
+                success = UpdateInBlock2Field(editedObject, fieldValue);
+                break;
+
+            case "outblock1":
+                success = UpdateOutBlock1Field(editedObject, fieldValue);
+                break;
+
+            case "outblock2":
+                success = UpdateOutBlock2Field(editedObject, fieldValue);
+                break;
+
+            default:
+                Debug.Log("Unknown edit operation");
+                success = false;
+                break;
         }
-		else if (inputSource.tag == "Disassembler")
-		{
-			Disassembler inputAttributes = inputSource.GetComponent<Disassembler>();
 
-			if ((inputAttributes.correct) && (inputAttributes.active))
-			{
-				if (inputAttributes.outputBlock1 == thisObject)
-				{
-					correct = string.Equals(inputAttributes.output1, input_required, StringComparison.OrdinalIgnoreCase);
-				}
-				else if (inputAttributes.outputBlock2 == thisObject)
-				{
-					correct = string.Equals(inputAttributes.output2, input_required, StringComparison.OrdinalIgnoreCase);
-				}
-				else
-				{
-					correct = false;
-					Debug.Log("InBlock `Output Block Error");
-				}
-			}
-			else
-			{
-				correct = false;
-				Debug.Log("InBlock Off or Incorrect");
-			}
+        if (!success)
+        {
+            Debug.Log($"Failed to update {aspect} for {editedObject.name}");
+        }
 
-		} 
-		else if (inputSource.tag == "Multiprocessor")
-		{
-			Multiprocessor inputAttributes = inputSource.GetComponent<Multiprocessor>();
-			//Debug.Log("this: " + thisObject.name + " inputObject: " + inputSource.name + " inputReq: " + input_required + " inputAttributes.output: " + inputAttributes.output1 + " correct: " + correct + " inputIsActive: " + inputAttributes.active);
-			if ((inputAttributes.correct) && (inputAttributes.active))
-			{
-				if (inputAttributes.outputBlock1 == thisObject)
-				{
-					correct = string.Equals(inputAttributes.output1, input_required, StringComparison.OrdinalIgnoreCase);
-				}
-				else if (inputAttributes.outputBlock2 == thisObject)
-				{
-					correct = string.Equals(inputAttributes.output2, input_required, StringComparison.OrdinalIgnoreCase);
-				}
-				else
-				{
-					correct = false;
-					Debug.Log("InBlock Output Block Error");
-				}
-			}
-			else
-			{
-				correct = false;
-				Debug.Log("InBlock Off or Incorrect");
-			}
+        editCanvas.SetActive(false);
+        enterButton.onClick.RemoveAllListeners();
+    }
 
-		}
-		else if (inputSource.tag == "Processor")
-		{
-			Processor inputAttributes = inputSource.GetComponent<Processor>();
-			correct = ((string.Equals(inputAttributes.output, input_required, StringComparison.OrdinalIgnoreCase)) && (inputAttributes.correct) && (inputAttributes.active));
+	// Updates the input field for blocks that accept a single input
+    private bool UpdateInputField(GameObject obj, string value)
+    {
+        switch (obj.tag)
+        {
+            case "Processor":
+                obj.GetComponent<Processor>().input_required = value;
+                return true;
+            case "Disassembler":
+                obj.GetComponent<Disassembler>().input_required = value;
+                return true;
+            case "Destination":
+                obj.GetComponent<Destination>().input_required = value;
+                return true;
+            default:
+                return false;
+        }
+    }
+	
+	// Updates the first input field for blocks that accept dual inputs
+    private bool UpdateInput1Field(GameObject obj, string value)
+    {
+        switch (obj.tag)
+        {
+            case "Assembler":
+                obj.GetComponent<Assembler>().input_required1 = value;
+                return true;
+            case "Multiprocessor":
+                obj.GetComponent<Multiprocessor>().input_required1 = value;
+                return true;
+            default:
+                return false;
+        }
+    }
 
-		}
-		else if (inputSource.tag == "Assembler")
-		{
-			Assembler inputAttributes = inputSource.GetComponent<Assembler>();
-			correct = ((string.Equals(inputAttributes.output, input_required, StringComparison.OrdinalIgnoreCase)) && (inputAttributes.correct) && (inputAttributes.active));
-		}
-		else if (inputSource.tag == "Source")
-		{
-			Source inputAttributes = inputSource.GetComponent<Source>();
-			correct = ((string.Equals(inputAttributes.output, input_required, StringComparison.OrdinalIgnoreCase)) && (inputAttributes.active));
-		}
-		else
-		{
-			Debug.Log("No Valid Tag Found");
-		}
-		
-		return correct;
-	}
+	// Updates the second input field for blocks that accept dual inputs
+    private bool UpdateInput2Field(GameObject obj, string value)
+    {
+        switch (obj.tag)
+        {
+            case "Assembler":
+                obj.GetComponent<Assembler>().input_required2 = value;
+                return true;
+            case "Multiprocessor":
+                obj.GetComponent<Multiprocessor>().input_required2 = value;
+                return true;
+            default:
+                return false;
+        }
+    }
 
-	public void ManageColour(GameObject thisObject, bool active, bool correct, Material grey, Material green, Material red)
-	{
-		if (active == false)
-		{
-			ChangeMaterial(thisObject, grey);
-		}
-		else if (correct == true)
-		{
-			ChangeMaterial(thisObject, green);
-		}
-		else
-		{
-			ChangeMaterial(thisObject, red);
-		}
-	}
+	// Updates the output field for blocks with single output
+    private bool UpdateOutputField(GameObject obj, string value)
+    {
+        switch (obj.tag)
+        {
+            case "Processor":
+                obj.GetComponent<Processor>().output = value;
+                return true;
+            case "Assembler":
+                obj.GetComponent<Assembler>().output = value;
+                return true;
+            case "Source":
+                obj.GetComponent<Source>().output = value;
+                return true;
+            default:
+                return false;
+        }
+    }
 
-	void ChangeMaterial(GameObject thisObject, Material colour)
-	{
-		var children = thisObject.GetComponentsInChildren<Transform>();
-		foreach (var child in children)
-			if ((child.name == "Shape") && (child.tag != "Table")){	
-				child.GetComponent<MeshRenderer>().material = colour;
-			}
-			else if ((child.name == "Shape") && (child.tag == "Table")){
-					GameObject table = child.transform.Find("lod1").gameObject;
-					table.GetComponent<MeshRenderer>().material = colour;
-			}
-	}
+	// Updates the first output field for blocks with dual outputs
+    private bool UpdateOutput1Field(GameObject obj, string value)
+    {
+        switch (obj.tag)
+        {
+            case "Disassembler":
+                obj.GetComponent<Disassembler>().output1 = value;
+                return true;
+            case "Multiprocessor":
+                obj.GetComponent<Multiprocessor>().output1 = value;
+                return true;
+            default:
+                return false;
+        }
+    }
+
+	// Updates the second output field for blocks with dual outputs
+	private bool UpdateOutput2Field(GameObject obj, string value)
+    {
+        switch (obj.tag)
+        {
+            case "Disassembler":
+                obj.GetComponent<Disassembler>().output2 = value;
+                return true;
+            case "Multiprocessor":
+                obj.GetComponent<Multiprocessor>().output2 = value;
+                return true;
+            default:
+                return false;
+        }
+    }
+
+	// Updates the input block reference for blocks with single input
+    private bool UpdateInBlockField(GameObject obj, string value)
+    {
+        GameObject inBlock = GameObject.Find(value.ToLower());
+        if (inBlock == null)
+        {
+            Debug.Log("Invalid block entered, aborting assignment");
+            return false;
+        }
+
+        switch (obj.tag)
+        {
+            case "Processor":
+                obj.GetComponent<Processor>().inputSource = inBlock;
+                return true;
+            case "Destination":
+                obj.GetComponent<Destination>().inputSource = inBlock;
+                return true;
+            case "Disassembler":
+                obj.GetComponent<Disassembler>().inputSource = inBlock;
+                return true;
+            default:
+                return false;
+        }
+    }
+
+	// Updates the first input block reference for blocks with dual inputs
+    private bool UpdateInBlock1Field(GameObject obj, string value)
+    {
+        GameObject inBlock = GameObject.Find(value.ToLower());
+        if (inBlock == null)
+        {
+            Debug.Log("Invalid block entered, aborting assignment");
+            return false;
+        }
+
+        switch (obj.tag)
+        {
+            case "Assembler":
+                obj.GetComponent<Assembler>().inputSource1 = inBlock;
+                return true;
+            case "Multiprocessor":
+                obj.GetComponent<Multiprocessor>().inputSource1 = inBlock;
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private bool UpdateInBlock2Field(GameObject obj, string value)
+    {
+        GameObject inBlock = GameObject.Find(value.ToLower());
+        if (inBlock == null)
+        {
+            Debug.Log("Invalid block entered, aborting assignment");
+            return false;
+        }
+
+        switch (obj.tag)
+        {
+            case "Assembler":
+                obj.GetComponent<Assembler>().inputSource2 = inBlock;
+                return true;
+            case "Multiprocessor":
+                obj.GetComponent<Multiprocessor>().inputSource2 = inBlock;
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private bool UpdateOutBlock1Field(GameObject obj, string value)
+    {
+        GameObject outBlock = GameObject.Find(value.ToLower());
+        if (outBlock == null)
+        {
+            Debug.Log("Invalid block entered, aborting assignment");
+            return false;
+        }
+
+        switch (obj.tag)
+        {
+            case "Disassembler":
+                obj.GetComponent<Disassembler>().outputBlock1 = outBlock;
+                return true;
+            case "Multiprocessor":
+                obj.GetComponent<Multiprocessor>().outputBlock1 = outBlock;
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private bool UpdateOutBlock2Field(GameObject obj, string value)
+    {
+        GameObject outBlock = GameObject.Find(value.ToLower());
+        if (outBlock == null)
+        {
+            Debug.Log("Invalid block entered, aborting assignment");
+            return false;
+        }
+
+        switch (obj.tag)
+        {
+            case "Disassembler":
+                obj.GetComponent<Disassembler>().outputBlock2 = outBlock;
+                return true;
+            case "Multiprocessor":
+                obj.GetComponent<Multiprocessor>().outputBlock2 = outBlock;
+                return true;
+            default:
+                return false;
+        }
+    }
+
+	// Validates input connections between blocks
+	// Returns true if the input matches requirements and the source block is active/correct
+
+    public bool CheckInput(GameObject thisObject, GameObject inputSource, bool correct, string input_required)
+    {
+        if (inputSource == null) return false;
+
+        switch (inputSource.tag)
+        {
+            case "Source":
+                var source = inputSource.GetComponent<Source>();
+                return source.active && 
+                       string.Equals(source.output, input_required, StringComparison.OrdinalIgnoreCase);
+
+            case "Processor":
+            case "Assembler":
+                var block = inputSource.GetComponent<BaseBlock>();
+                return block.active && block.correct && 
+                       string.Equals(GetBlockOutput(inputSource), input_required, StringComparison.OrdinalIgnoreCase);
+
+            case "Disassembler":
+            case "Multiprocessor":
+                return CheckDualOutputBlock(thisObject, inputSource, input_required);
+
+            default:
+                Debug.Log("No Valid Tag Found");
+                return false;
+        }
+    }
+
+	// Helper method to get the output value from a block
+    private string GetBlockOutput(GameObject block)
+    {
+        switch (block.tag)
+        {
+            case "Processor":
+                return block.GetComponent<Processor>().output;
+            case "Assembler":
+                return block.GetComponent<Assembler>().output;
+            case "Source":
+                return block.GetComponent<Source>().output;
+            default:
+                return string.Empty;
+        }
+    }
+
+	// Special check for blocks with dual outputs (Disassembler and Multiprocessor)
+	// Verifies which output is connected to the requesting block
+    private bool CheckDualOutputBlock(GameObject thisObject, GameObject inputSource, string input_required)
+    {
+        BaseBlock block = inputSource.GetComponent<BaseBlock>();
+        if (!block.active || !block.correct) return false;
+
+        if (inputSource.tag == "Disassembler")
+        {
+            var disassembler = inputSource.GetComponent<Disassembler>();
+            if (disassembler.outputBlock1 == thisObject)
+                return string.Equals(disassembler.output1, input_required, StringComparison.OrdinalIgnoreCase);
+            if (disassembler.outputBlock2 == thisObject)
+                return string.Equals(disassembler.output2, input_required, StringComparison.OrdinalIgnoreCase);
+        }
+        else if (inputSource.tag == "Multiprocessor")
+        {
+            var multiprocessor = inputSource.GetComponent<Multiprocessor>();
+            if (multiprocessor.outputBlock1 == thisObject)
+                return string.Equals(multiprocessor.output1, input_required, StringComparison.OrdinalIgnoreCase);
+            if (multiprocessor.outputBlock2 == thisObject)
+                return string.Equals(multiprocessor.output2, input_required, StringComparison.OrdinalIgnoreCase);
+        }
+
+        return false;
+    }
+
+	// Updates the block's material based on its active and correct states
+    public void ManageColour(GameObject thisObject, bool active, bool correct, Material grey, Material green, Material red)
+    {
+        var material = !active ? grey : (correct ? green : red);
+        ChangeMaterial(thisObject, material);
+    }
+
+	// Applies the specified material to a block's shape
+	// Handles both standard shapes and table (or expand to other unique meshes) shapes differently
+    public void ChangeMaterial(GameObject thisObject, Material colour)
+    {
+        var shape = thisObject.transform.Find("Shape");
+        if (shape == null) return;
+
+        if (shape.CompareTag("Table"))
+        {
+            var tableLod = shape.Find("lod1")?.GetComponent<MeshRenderer>();
+            if (tableLod != null) tableLod.material = colour;
+        }
+        else
+        {
+            var renderer = shape.GetComponent<MeshRenderer>();
+            if (renderer != null) renderer.material = colour;
+        }
+    }
 }

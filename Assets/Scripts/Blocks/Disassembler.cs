@@ -9,8 +9,7 @@ using TMPro;
 
 public class Disassembler : BaseBlock
 {
-
-	[Header("Settings")]
+    [Header("Settings")]
 	[SerializeField] public GameObject inputSource;
 	[SerializeField] public string input_required;
 	[SerializeField] public GameObject outputBlock1;
@@ -18,115 +17,68 @@ public class Disassembler : BaseBlock
 	[SerializeField] public GameObject outputBlock2;
 	[SerializeField] public string output2;
 
-	public TMP_Text inputLabel;
 	public TMP_Text inBlockLabel;
+	public TMP_Text inputLabel;
 	public TMP_Text output1Label;
 	public TMP_Text output2Label;
 	public TMP_Text outBlock1Label;
 	public TMP_Text outBlock2Label;
 
-	private LineRenderer lineRenderer;
+    private LineRenderer lineRenderer;
+    
 
-	void Awake()
-	{
-		SaveSystem.disassemblers.Add(this);
-	}
+    protected override void Awake()
+    {
+        SaveSystem.disassemblers.Add(this);
+    }
 
-	void OnDestroy()
-	{
-		Debug.Log(this.title + "deleted");
-		SaveSystem.disassemblers.Remove(this);
+    private void OnDestroy()
+    {
+        SaveSystem.disassemblers.Remove(this);
+    }
 
-	}
+    private void Start()
+    {
+        Setup();
+        lineRenderer = GetComponent<LineRenderer>();
+        InitializeLineRenderer(lineRenderer);
+    }
 
+    public override void Update()
+    {
+        SetName();
+        correct = sharedLogic.CheckInput(gameObject, inputSource, correct, input_required);
+        sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
+        UpdateLabels();
+        UpdateLineRenderer(lineRenderer, gameObject, inputSource);
+    }
 
-	// Start is called before the first frame update
-	void Start()
-	{
-		Setup();
-		// Get the LineRenderer component attached to this GameObject
-		lineRenderer = GetComponent<LineRenderer>();
-		// Set the number of positions to 2 (start and end points)
-		lineRenderer.positionCount = 2;
+    public override void UpdateLabels()
+    {
+        base.UpdateLabels();
+        inputLabel.text = "req: " + input_required;
+        output1Label.text = "prod1: " + output1;
+        output2Label.text = "prod2: " + output2;
+        inBlockLabel.text = "in: " + (inputSource != null ? sharedLogic.GetBlockTitle(inputSource) : "None");
+    }
 
-	}
+    public void SetInput()
+    {
+        sharedLogic.EditObjectText(gameObject, "input");
+    }
 
-	// Update is called once per frame
-	new void Update()
-	{
+    public void SetOutput1()
+    {
+        sharedLogic.EditObjectText(gameObject, "output1");
+    }
 
-		SetName();
-		correct = sharedLogic.CheckInput(gameObject, inputSource, correct, input_required);
-		sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
-		titleLabel.text = title;
-		inputLabel.text = "req: " + input_required;
-		output1Label.text = "prod1: " + output1;
-		output2Label.text = "prod2: " + output2;
-		if (inputSource != null)
-		{
-			inBlockLabel.text = "in: " + sharedLogic.GetBlockTitle(inputSource);
-			// Update the positions of the LineRenderer to connect the blocks
-			lineRenderer.SetPosition(0, transform.position);             // Start at this block's position
-			lineRenderer.SetPosition(1, inputSource.transform.position); // End at the InputSource block's position
-		}
-		else
-		{
-			inBlockLabel.text = "in: None";
-			// If InputSource is null, disable the line by setting both positions to the same point
-			lineRenderer.SetPosition(0, transform.position);
-			lineRenderer.SetPosition(1, transform.position);
-		}
+    public void SetOutput2()
+    {
+        sharedLogic.EditObjectText(gameObject, "output2");
+    }
 
-		if (outputBlock1 != null)
-		{
-			outBlock1Label.text = "out1: " + sharedLogic.GetBlockTitle(outputBlock1);
-		}
-		else
-		{
-			outBlock1Label.text = "out1: None";
-		}
-		if (outputBlock2 != null)
-		{
-			outBlock2Label.text = "out2: " + sharedLogic.GetBlockTitle(outputBlock2);
-		}
-		else
-		{
-			outBlock2Label.text = "out2: None";
-		}
-
-	}
-
-
-
-	public void SetInput()
-	{
-		sharedLogic.EditObjectText(gameObject, "input");
-	}
-
-	public void SetInputBlock()
-	{
-		sharedLogic.EditObjectText(gameObject, "inblock");
-	}
-
-	public void SetOutput1()
-	{
-		sharedLogic.EditObjectText(gameObject, "output1");
-	}
-
-	public void SetOutputBlock1()
-	{
-		sharedLogic.EditObjectText(gameObject, "outblock1");
-	}
-
-	public void SetOutput2()
-	{
-		sharedLogic.EditObjectText(gameObject, "output2");
-	}
-
-	public void SetOutputBlock2()
-	{
-		sharedLogic.EditObjectText(gameObject, "outblock2");
-	}
-
-
+    public void SetInputBlock()
+    {
+        sharedLogic.EditObjectText(gameObject, "inblock");
+    }
 }

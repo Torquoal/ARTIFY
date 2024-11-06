@@ -1,127 +1,115 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+// Handles the spawning of different block types and manages the spawn menu interface
 public class SpawnMenu : MonoBehaviour
 {
-    
-	public GameObject sourcePrefab;
-	public GameObject processorPrefab;
-	public GameObject multiprocessorPrefab;
-	public GameObject assemblerPrefab;
-	public GameObject disassemblerPrefab;
-	public GameObject destinationPrefab;
-	private GameObject camera;
+    [Header("Block Prefabs")]
+    public GameObject sourcePrefab;
+    public GameObject processorPrefab;
+    public GameObject multiprocessorPrefab;
+    public GameObject assemblerPrefab;
+    public GameObject disassemblerPrefab;
+    public GameObject destinationPrefab;
 
-	public SaveSystem saveSystem;
-	
+    // Reference to the save system for managing block persistence
+    public SaveSystem saveSystem;
 
-	private Quaternion rotation;
-
-	private Vector3 position;
-	private int DistanceToCamera = 2;
+    // Camera reference for spawn positioning
+    private GameObject camera;
+    private const int DistanceToCamera = 2;
 
 
-	void Start() {
-	camera = (GameObject) GameObject.FindWithTag("MainCamera");
-	}
-
-
-	public void SpawnSource()
-	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
-		SpawnBlock("Source",  position, rotation);
-	}
-
-	public void SpawnProcessor()
-	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
-		SpawnBlock("Processor", position, rotation);
-	}
-
-	public void SpawnMultiprocessor()
-	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
-		SpawnBlock("Multiprocessor", position, rotation);
-	}
-
-	public void SpawnAssembler()
-	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
-		SpawnBlock("Assembler", position, rotation);
-	}
-
-	public void SpawnDisassembler()
-	{
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
-		SpawnBlock("Disassembler", position, rotation);
-	}
-
-	public void SpawnDestination()
-	{	
-		position = camera.transform.forward * DistanceToCamera + camera.transform.position;
-		rotation = camera.transform.rotation * Quaternion.Euler(0, -90, 0);
-		SpawnBlock("Destination", position, rotation);
-	}
-
-	public void SpawnBlock(string blockType, Vector3 position, Quaternion rotation) 
-	{
-
-		switch(blockType) 
-		{
-			case "Source":
-				Instantiate(sourcePrefab, position, rotation);
-				break;
-			case "Processor":
-				Instantiate(processorPrefab, position, rotation);
-				break;
-			case "Multiprocessor":
-				Instantiate(multiprocessorPrefab, position, rotation);
-				break;
-			case "Assembler":
-				Instantiate(assemblerPrefab, position, rotation);
-				break;
-			case "Disassembler":
-				Instantiate(disassemblerPrefab, position, rotation);
-				break;
-			case "Destination":
-				Instantiate(destinationPrefab, position, rotation);
-				break;
-			default:
-				Debug.Log("Block Spawn Type Failed");
-				break;
-		}
-	}
-
-	public void SaveAll()
+    // Structure to hold block prefab information
+    // Could be used for future expansion of block types
+    private struct BlockPrefabInfo
     {
-		saveSystem.SaveAllBlocks();
+        public string Type;
+        public GameObject Prefab;
+
+        public BlockPrefabInfo(string type, GameObject prefab)
+        {
+            Type = type;
+            Prefab = prefab;
+        }
     }
 
-	public void ClearAll()
-	{
-		saveSystem.RemoveAllBlocks();
-	}
 
-	public void LoadAll()
-	{
-		saveSystem.LoadAllBlocks();
-	}
-
-	public void ToggleObjectActive()
-	{
-		gameObject.SetActive(!gameObject.activeInHierarchy);
-	}
-
-
-
-	void Update()
+    // Initialize camera reference on start
+    void Start()
     {
-        
+        camera = GameObject.FindWithTag("MainCamera");
     }
+
+
+    // Calculates spawn position in front of the camera
+    // return Vector3 position for new block spawn
+    private Vector3 GetSpawnPosition()
+    {
+        return camera.transform.forward * DistanceToCamera + camera.transform.position;
+    }
+
+    // Calculates rotation for spawned block based on camera orientation
+    //returns Quaternion rotation for new block spawn
+    private Quaternion GetSpawnRotation()
+    {
+        return camera.transform.rotation * Quaternion.Euler(0, -90, 0);
+    }
+
+    // Convenience methods for spawning each block type
+    // These are typically connected to UI buttons
+    public void SpawnSource() => SpawnBlock("Source", GetSpawnPosition(), GetSpawnRotation());
+    public void SpawnProcessor() => SpawnBlock("Processor", GetSpawnPosition(), GetSpawnRotation());
+    public void SpawnMultiprocessor() => SpawnBlock("Multiprocessor", GetSpawnPosition(), GetSpawnRotation());
+    public void SpawnAssembler() => SpawnBlock("Assembler", GetSpawnPosition(), GetSpawnRotation());
+    public void SpawnDisassembler() => SpawnBlock("Disassembler", GetSpawnPosition(), GetSpawnRotation());
+    public void SpawnDestination() => SpawnBlock("Destination", GetSpawnPosition(), GetSpawnRotation());
+
+    // Main block spawning method
+    // blockType Type of block to spawn
+    // position World position to spawn at
+    // rotation Initial rotation of spawned block
+    public void SpawnBlock(string blockType, Vector3 position, Quaternion rotation)
+    {
+        GameObject prefab = GetPrefabForType(blockType);
+        if (prefab != null)
+        {
+            Instantiate(prefab, position, rotation);
+        }
+        else
+        {
+            Debug.LogError($"Block Spawn Type Failed: {blockType}");
+        }
+    }
+
+
+    // Maps block type strings to their corresponding prefabs
+    // blockType -> String identifier for block type
+    // GameObject prefab for the specified block type, or null if not found
+    private GameObject GetPrefabForType(string blockType)
+    {
+        return blockType switch
+        {
+            "Source" => sourcePrefab,
+            "Processor" => processorPrefab,
+            "Multiprocessor" => multiprocessorPrefab,
+            "Assembler" => assemblerPrefab,
+            "Disassembler" => disassemblerPrefab,
+            "Destination" => destinationPrefab,
+            _ => null
+        };
+    }
+
+    // Save System Integration Methods
+
+    // Triggers save operation for all blocks in the scene
+    public void SaveAll() => saveSystem.SaveAllBlocks();
+
+    // Removes all blocks from the scene
+    public void ClearAll() => saveSystem.RemoveAllBlocks();
+
+	// Loads previously saved blocks into the scene
+    public void LoadAll() => saveSystem.LoadAllBlocks();
+
+    // Toggles the visibility of the spawn menu
+    public void ToggleObjectActive() => gameObject.SetActive(!gameObject.activeInHierarchy);
 }

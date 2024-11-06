@@ -6,45 +6,35 @@ using System.IO;
 
 public class SaveSystem : MonoBehaviour
 {
-
-    // Also this now needs expanded out to the other 6 block types, which will need different requirements.
-    // Then make an ingame GUI for Saving, Clearing and Loading, where Clearing is also part of the Loading process
-
+    [Header("Block Prefabs")]
     [SerializeField] Processor processorPrefab;
-    public static List<Processor> processors = new List<Processor>();
-    const string processor_sub = "/processor";
-    const string processorCount_sub = "/processor.count";
-
     [SerializeField] Source sourcePrefab;
-    public static List<Source> sources = new List<Source>();
-    const string source_sub = "/source";
-    const string sourceCount_sub = "/source.count";
-
     [SerializeField] Destination destinationPrefab;
-    public static List<Destination> destinations = new List<Destination>();
-    const string destination_sub = "/destination";
-    const string destinationCount_sub = "/destination.count";
-
     [SerializeField] Assembler assemblerPrefab;
-    public static List<Assembler> assemblers = new List<Assembler>();
-    const string assembler_sub = "/assembler";
-    const string assemblerCount_sub = "/assembler.count";
-
     [SerializeField] Disassembler disassemblerPrefab;
-    public static List<Disassembler> disassemblers = new List<Disassembler>();
-    const string disassembler_sub = "/disassembler";
-    const string disassemblerCount_sub = "/disassembler.count";
-
     [SerializeField] Multiprocessor multiprocessorPrefab;
+
+    // Static lists to track all blocks
+    public static List<Processor> processors = new List<Processor>();
+    public static List<Source> sources = new List<Source>();
+    public static List<Destination> destinations = new List<Destination>();
+    public static List<Assembler> assemblers = new List<Assembler>();
+    public static List<Disassembler> disassemblers = new List<Disassembler>();
     public static List<Multiprocessor> multiprocessors = new List<Multiprocessor>();
-    const string multiprocessor_sub = "/multiprocessor";
-    const string multiprocessorCount_sub = "/multiprocessor.count";
 
-    void Awake()
-    {
-
-    }
-
+    // File path constants
+    private const string PROCESSOR_SUB = "/processor";
+    private const string PROCESSOR_COUNT = "/processor.count";
+    private const string SOURCE_SUB = "/source";
+    private const string SOURCE_COUNT = "/source.count";
+    private const string DESTINATION_SUB = "/destination";
+    private const string DESTINATION_COUNT = "/destination.count";
+    private const string ASSEMBLER_SUB = "/assembler";
+    private const string ASSEMBLER_COUNT = "/assembler.count";
+    private const string DISASSEMBLER_SUB = "/disassembler";
+    private const string DISASSEMBLER_COUNT = "/disassembler.count";
+    private const string MULTIPROCESSOR_SUB = "/multiprocessor";
+    private const string MULTIPROCESSOR_COUNT = "/multiprocessor.count";
 
     [ContextMenu("SaveAllBlocks")]
     public void SaveAllBlocks()
@@ -55,520 +45,409 @@ public class SaveSystem : MonoBehaviour
         SaveAssemblers();
         SaveDisassemblers();
         SaveMultiprocessors();
-        Debug.Log("Save all");
+        Debug.Log("Save all completed");
     }
 
-    [ContextMenu("SaveProcessors")]
-    void SaveProcessors()
+    private void SaveBlocks<T>(List<T> blocks, string subPath, string countPath) where T : MonoBehaviour
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + processor_sub + SceneManager.GetActiveScene().buildIndex;
-        string countpath = Application.persistentDataPath + processorCount_sub + SceneManager.GetActiveScene().buildIndex;
-        FileStream countStream = new FileStream(countpath, FileMode.Create);
-        formatter.Serialize(countStream, processors.Count);
-        countStream.Close();
-        Debug.Log(path);
-        //Debug.Log(countpath);
+        string path = Application.persistentDataPath + subPath + SceneManager.GetActiveScene().buildIndex;
+        string countpath = Application.persistentDataPath + countPath + SceneManager.GetActiveScene().buildIndex;
 
-        for (int i = 0; i < processors.Count; i++)
+        using (FileStream countStream = new FileStream(countpath, FileMode.Create))
         {
-            FileStream stream = new FileStream(path + i, FileMode.Create);
-            ProcessorData data = new ProcessorData(processors[i]);
-            Debug.Log(data);
-            formatter.Serialize(stream, data);
-            stream.Close();
+            formatter.Serialize(countStream, blocks.Count);
         }
-    }
 
-    [ContextMenu("SaveSources")]
-    void SaveSources()
-    {
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + source_sub + SceneManager.GetActiveScene().buildIndex;
-        string countpath = Application.persistentDataPath + sourceCount_sub + SceneManager.GetActiveScene().buildIndex;
-        FileStream countStream = new FileStream(countpath, FileMode.Create);
-        formatter.Serialize(countStream, sources.Count);
-        countStream.Close();
-        Debug.Log(path);
-        //Debug.Log(countpath);
-
-        for (int i = 0; i < sources.Count; i++)
+        for (int i = 0; i < blocks.Count; i++)
         {
-            FileStream stream = new FileStream(path + i, FileMode.Create);
-            SourceData data = new SourceData(sources[i]);
-            Debug.Log(data);
-            formatter.Serialize(stream, data);
-            stream.Close();
-        }
-    }
-
-    [ContextMenu("SaveDestinations")]
-    void SaveDestinations()
-    {
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + destination_sub + SceneManager.GetActiveScene().buildIndex;
-        string countpath = Application.persistentDataPath + destinationCount_sub + SceneManager.GetActiveScene().buildIndex;
-        FileStream countStream = new FileStream(countpath, FileMode.Create);
-        formatter.Serialize(countStream, destinations.Count);
-        countStream.Close();
-        Debug.Log(path);
-        //Debug.Log(countpath);
-
-        for (int i = 0; i < destinations.Count; i++)
-        {
-            FileStream stream = new FileStream(path + i, FileMode.Create);
-            DestinationData data = new DestinationData(destinations[i]);
-            Debug.Log(data);
-            formatter.Serialize(stream, data);
-            stream.Close();
-        }
-    }
-
-    [ContextMenu("SaveAssemblers")]
-    void SaveAssemblers()
-    {
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + assembler_sub + SceneManager.GetActiveScene().buildIndex;
-        string countpath = Application.persistentDataPath + assemblerCount_sub + SceneManager.GetActiveScene().buildIndex;
-        FileStream countStream = new FileStream(countpath, FileMode.Create);
-        formatter.Serialize(countStream, assemblers.Count);
-        countStream.Close();
-        Debug.Log(path);
-        //Debug.Log(countpath);
-
-        for (int i = 0; i < assemblers.Count; i++)
-        {
-            FileStream stream = new FileStream(path + i, FileMode.Create);
-            AssemblerData data = new AssemblerData(assemblers[i]);
-            Debug.Log(data);
-            formatter.Serialize(stream, data);
-            stream.Close();
-        }
-    }
-
-    [ContextMenu("SaveDisassemblers")]
-    void SaveDisassemblers()
-    {
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + disassembler_sub + SceneManager.GetActiveScene().buildIndex;
-        string countpath = Application.persistentDataPath + disassemblerCount_sub + SceneManager.GetActiveScene().buildIndex;
-        FileStream countStream = new FileStream(countpath, FileMode.Create);
-        formatter.Serialize(countStream, disassemblers.Count);
-        countStream.Close();
-        Debug.Log(path);
-        //Debug.Log(countpath);
-
-        for (int i = 0; i < disassemblers.Count; i++)
-        {
-            FileStream stream = new FileStream(path + i, FileMode.Create);
-            DisassemblerData data = new DisassemblerData(disassemblers[i]);
-            Debug.Log(data);
-            formatter.Serialize(stream, data);
-            stream.Close();
-        }
-    }
-
-    [ContextMenu("SaveMultiprocessors")]
-    void SaveMultiprocessors()
-    {
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + multiprocessor_sub + SceneManager.GetActiveScene().buildIndex;
-        string countpath = Application.persistentDataPath + multiprocessorCount_sub + SceneManager.GetActiveScene().buildIndex;
-        FileStream countStream = new FileStream(countpath, FileMode.Create);
-        formatter.Serialize(countStream, disassemblers.Count);
-        countStream.Close();
-        Debug.Log(path);
-        //Debug.Log(countpath);
-
-        for (int i = 0; i < multiprocessors.Count; i++)
-        {
-            FileStream stream = new FileStream(path + i, FileMode.Create);
-            MultiprocessorData data = new MultiprocessorData(multiprocessors[i]);
-            Debug.Log(data);
-            formatter.Serialize(stream, data);
-            stream.Close();
-        }
-    }
-
-
-
-    [ContextMenu("ClearBlocks")]
-    public void RemoveAllBlocks()
-    {
-
-        string[] allTags = { "Processor", "Source", "Destination", "Assembler", "Disassembler", "Multiprocessor" };
-
-        foreach (string Tag in allTags)
-        {
-            foreach (GameObject obj in GameObject.FindGameObjectsWithTag(Tag))
+            using (FileStream stream = new FileStream(path + i, FileMode.Create))
             {
-                Destroy(obj);
+                var data = CreateBlockData(blocks[i]);
+                formatter.Serialize(stream, data);
             }
         }
     }
 
+    private object CreateBlockData(MonoBehaviour block)
+    {
+        return block switch
+        {
+            Processor p => new ProcessorData(p),
+            Source s => new SourceData(s),
+            Destination d => new DestinationData(d),
+            Assembler a => new AssemblerData(a),
+            Disassembler d => new DisassemblerData(d),
+            Multiprocessor m => new MultiprocessorData(m),
+            _ => throw new System.ArgumentException($"Unknown block type: {block.GetType()}")
+        };
+    }
+
+    private void SaveProcessors() => SaveBlocks(processors, PROCESSOR_SUB, PROCESSOR_COUNT);
+    private void SaveSources() => SaveBlocks(sources, SOURCE_SUB, SOURCE_COUNT);
+    private void SaveDestinations() => SaveBlocks(destinations, DESTINATION_SUB, DESTINATION_COUNT);
+    private void SaveAssemblers() => SaveBlocks(assemblers, ASSEMBLER_SUB, ASSEMBLER_COUNT);
+    private void SaveDisassemblers() => SaveBlocks(disassemblers, DISASSEMBLER_SUB, DISASSEMBLER_COUNT);
+    private void SaveMultiprocessors() => SaveBlocks(multiprocessors, MULTIPROCESSOR_SUB, MULTIPROCESSOR_COUNT);
+
     [ContextMenu("LoadAllBlocks")]
     public void LoadAllBlocks()
     {
-        LoadProcessors();
+        RemoveAllBlocks();
         LoadSources();
+        LoadProcessors();
         LoadDestinations();
+        LoadAssemblers();
         LoadDisassemblers();
         LoadMultiprocessors();
-        LoadAssemblers();
     }
 
-    [ContextMenu("LoadProcessors")]
+    private void ApplyBlockShape(BaseBlock block, BlockShape shape)
+{
+    if (block == null)
+    {
+        Debug.LogError("Cannot apply shape to null block");
+        return;
+    }
+
+    Debug.Log($"Applying shape {shape} to block {block.name} where shape={block.shape != null}");
+    
+    // Ensure we create the shape first
+    switch (shape)
+    {
+        case BlockShape.Sphere:
+            block.ToSphere();
+            break;
+        case BlockShape.Cylinder:
+            Debug.Log($"Cylinder where shape={block.shape != null}");
+            block.ToCylinder();
+            break;
+        case BlockShape.Table:
+            block.ToTable();
+            break;
+        case BlockShape.Cube:
+        default:
+            block.ToCube();
+            break;
+    }
+}
+
     void LoadProcessors()
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + processor_sub + SceneManager.GetActiveScene().buildIndex;
-        string countpath = Application.persistentDataPath + processorCount_sub + SceneManager.GetActiveScene().buildIndex;
-        int processorCount = 0;
-
-        if (File.Exists(countpath))
-        {
-            FileStream countStream = new FileStream(countpath, FileMode.Open);
-            processorCount = (int)formatter.Deserialize(countStream);
-            Debug.Log("load count: " + processorCount);
-            countStream.Close();
-        }
-        else
-        {
-            Debug.LogError("Processor countPath not found " + countpath);
-        }
-
+        string path = Application.persistentDataPath + PROCESSOR_SUB + SceneManager.GetActiveScene().buildIndex;
+        string countpath = Application.persistentDataPath + PROCESSOR_COUNT + SceneManager.GetActiveScene().buildIndex;
+        int processorCount = LoadCount(countpath);
 
         for (int i = 0; i < processorCount; i++)
         {
             if (File.Exists(path + i))
             {
-                Debug.Log("Loading processor " + i + 1);
-                FileStream stream = new FileStream(path + i, FileMode.Open);
-                ProcessorData data = formatter.Deserialize(stream) as ProcessorData;
-                stream.Close();
-
-                Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
-                Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
-                string objectname = data.name;
-
-                Processor processor = Instantiate(processorPrefab, position, Quaternion.identity);
-                processor.transform.localScale = blockScale;
-
-                processor.name = objectname;
-                processor.title = data.title;
-                processor.output = data.output;
-                processor.input_required = data.input_required;
-                if (data.inputSourceName != null)
+                using (FileStream stream = new FileStream(path + i, FileMode.Open))
                 {
-                    GameObject InBlock = GameObject.Find(data.inputSourceName);
-                    processor.inputSource = InBlock;
+                    ProcessorData data = formatter.Deserialize(stream) as ProcessorData;
+                    InstantiateProcessor(data);
                 }
-            }
-            else
-            {
-                Debug.LogError("Processor Path not found in " + path + i);
             }
         }
     }
 
-    [ContextMenu("LoadSources")]
     void LoadSources()
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + source_sub + SceneManager.GetActiveScene().buildIndex;
-        string countpath = Application.persistentDataPath + sourceCount_sub + SceneManager.GetActiveScene().buildIndex;
-        int sourceCount = 0;
-
-        if (File.Exists(countpath))
-        {
-            FileStream countStream = new FileStream(countpath, FileMode.Open);
-            sourceCount = (int)formatter.Deserialize(countStream);
-            Debug.Log("load count: " + sourceCount);
-            countStream.Close();
-        }
-        else
-        {
-            Debug.LogError("Source countPath not found " + countpath);
-        }
-
+        string path = Application.persistentDataPath + SOURCE_SUB + SceneManager.GetActiveScene().buildIndex;
+        string countpath = Application.persistentDataPath + SOURCE_COUNT + SceneManager.GetActiveScene().buildIndex;
+        int sourceCount = LoadCount(countpath);
 
         for (int i = 0; i < sourceCount; i++)
         {
             if (File.Exists(path + i))
             {
-                Debug.Log("Loading source " + i + 1);
-                FileStream stream = new FileStream(path + i, FileMode.Open);
-                SourceData data = formatter.Deserialize(stream) as SourceData;
-                stream.Close();
-
-                Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
-                Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
-                string objectname = data.name;
-
-                Source source = Instantiate(sourcePrefab, position, Quaternion.identity);
-                source.transform.localScale = blockScale;
-
-                source.name = objectname;
-                source.title = data.title;
-                source.output = data.output;
-            }
-            else
-            {
-                Debug.LogError("Source Path not found in " + path + i);
+                using (FileStream stream = new FileStream(path + i, FileMode.Open))
+                {
+                    SourceData data = formatter.Deserialize(stream) as SourceData;
+                    InstantiateSource(data);
+                }
             }
         }
     }
 
-    [ContextMenu("LoadDestinations")]
     void LoadDestinations()
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + destination_sub + SceneManager.GetActiveScene().buildIndex;
-        string countpath = Application.persistentDataPath + destinationCount_sub + SceneManager.GetActiveScene().buildIndex;
-        int destinationCount = 0;
+        string path = Application.persistentDataPath + DESTINATION_SUB + SceneManager.GetActiveScene().buildIndex;
+        string countpath = Application.persistentDataPath + DESTINATION_COUNT + SceneManager.GetActiveScene().buildIndex;
+        int count = LoadCount(countpath);
 
-        if (File.Exists(countpath))
-        {
-            FileStream countStream = new FileStream(countpath, FileMode.Open);
-            destinationCount = (int)formatter.Deserialize(countStream);
-            Debug.Log("load count: " + destinationCount);
-            countStream.Close();
-        }
-        else
-        {
-            Debug.LogError("Destination countPath not found " + countpath);
-        }
-
-
-        for (int i = 0; i < destinationCount; i++)
+        for (int i = 0; i < count; i++)
         {
             if (File.Exists(path + i))
             {
-                Debug.Log("Loading destination " + i + 1);
-                FileStream stream = new FileStream(path + i, FileMode.Open);
-                DestinationData data = formatter.Deserialize(stream) as DestinationData;
-                stream.Close();
-
-                Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
-                Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
-                string objectname = data.name;
-
-                Destination destination = Instantiate(destinationPrefab, position, Quaternion.identity);
-                destination.transform.localScale = blockScale;
-
-                destination.name = objectname;
-                destination.title = data.title;
-                destination.input_required = data.input_required;
-                if (data.inputSourceName != null)
+                using (FileStream stream = new FileStream(path + i, FileMode.Open))
                 {
-                    GameObject InBlock = GameObject.Find(data.inputSourceName);
-                    destination.inputSource = InBlock;
+                    DestinationData data = formatter.Deserialize(stream) as DestinationData;
+                    InstantiateDestination(data);
                 }
-            }
-            else
-            {
-                Debug.LogError("Destination Path not found in " + path + i);
             }
         }
     }
 
-    [ContextMenu("LoadAssemblers")]
     void LoadAssemblers()
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + assembler_sub + SceneManager.GetActiveScene().buildIndex;
-        string countpath = Application.persistentDataPath + assemblerCount_sub + SceneManager.GetActiveScene().buildIndex;
-        int assemblerCount = 0;
+        string path = Application.persistentDataPath + ASSEMBLER_SUB + SceneManager.GetActiveScene().buildIndex;
+        string countpath = Application.persistentDataPath + ASSEMBLER_COUNT + SceneManager.GetActiveScene().buildIndex;
+        int count = LoadCount(countpath);
 
-        if (File.Exists(countpath))
-        {
-            FileStream countStream = new FileStream(countpath, FileMode.Open);
-            assemblerCount = (int)formatter.Deserialize(countStream);
-            Debug.Log("load count: " + assemblerCount);
-            countStream.Close();
-        }
-        else
-        {
-            Debug.LogError("Assembler countPath not found " + countpath);
-        }
-
-
-        for (int i = 0; i < assemblerCount; i++)
+        for (int i = 0; i < count; i++)
         {
             if (File.Exists(path + i))
             {
-                Debug.Log("Loading assembler " + i + 1);
-                FileStream stream = new FileStream(path + i, FileMode.Open);
-                AssemblerData data = formatter.Deserialize(stream) as AssemblerData;
-                stream.Close();
-
-                Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
-                Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
-                string objectname = data.name;
-
-                Assembler assembler = Instantiate(assemblerPrefab, position, Quaternion.identity);
-                assembler.transform.localScale = blockScale;
-
-                assembler.name = objectname;
-                assembler.title = data.title;
-                assembler.output = data.output;
-                assembler.input_required1 = data.input_required1;
-                assembler.input_required2 = data.input_required2;
-                if (data.inputSourceName1 != null)
+                using (FileStream stream = new FileStream(path + i, FileMode.Open))
                 {
-                    GameObject InBlock = GameObject.Find(data.inputSourceName1);
-                    assembler.inputSource1 = InBlock;
+                    AssemblerData data = formatter.Deserialize(stream) as AssemblerData;
+                    InstantiateAssembler(data);
                 }
-                if (data.inputSourceName2 != null)
-                {
-                    GameObject InBlock = GameObject.Find(data.inputSourceName2);
-                    assembler.inputSource2 = InBlock;
-                }
-            }
-            else
-            {
-                Debug.LogError("Assembler Path not found in " + path + i);
             }
         }
     }
 
-    [ContextMenu("LoadDisassemblers")]
     void LoadDisassemblers()
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + disassembler_sub + SceneManager.GetActiveScene().buildIndex;
-        string countpath = Application.persistentDataPath + disassemblerCount_sub + SceneManager.GetActiveScene().buildIndex;
-        int disassemblerCount = 0;
+        string path = Application.persistentDataPath + DISASSEMBLER_SUB + SceneManager.GetActiveScene().buildIndex;
+        string countpath = Application.persistentDataPath + DISASSEMBLER_COUNT + SceneManager.GetActiveScene().buildIndex;
+        int count = LoadCount(countpath);
 
-        if (File.Exists(countpath))
-        {
-            FileStream countStream = new FileStream(countpath, FileMode.Open);
-            disassemblerCount = (int)formatter.Deserialize(countStream);
-            Debug.Log("load count: " + disassemblerCount);
-            countStream.Close();
-        }
-        else
-        {
-            Debug.LogError("Disassembler countPath not found " + countpath);
-        }
-
-
-        for (int i = 0; i < disassemblerCount; i++)
+        for (int i = 0; i < count; i++)
         {
             if (File.Exists(path + i))
             {
-                Debug.Log("Loading disassembler " + i + 1);
-                FileStream stream = new FileStream(path + i, FileMode.Open);
-                DisassemblerData data = formatter.Deserialize(stream) as DisassemblerData;
-                stream.Close();
-
-                Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
-                Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
-                string objectname = data.name;
-
-                Disassembler disassembler = Instantiate(disassemblerPrefab, position, Quaternion.identity);
-                disassembler.transform.localScale = blockScale;
-
-                disassembler.name = objectname;
-                disassembler.title = data.title;
-                disassembler.output1 = data.output1;
-                disassembler.output2 = data.output2;
-                disassembler.input_required = data.input_required;
-                if (data.inputSourceName != null)
+                using (FileStream stream = new FileStream(path + i, FileMode.Open))
                 {
-                    GameObject InBlock = GameObject.Find(data.inputSourceName);
-                    disassembler.inputSource = InBlock;
+                    DisassemblerData data = formatter.Deserialize(stream) as DisassemblerData;
+                    InstantiateDisassembler(data);
                 }
-                if (data.outputBlockName1 != null)
-                {
-                    GameObject OutBlock = GameObject.Find(data.outputBlockName1);
-                    disassembler.outputBlock1 = OutBlock;
-                }
-                if (data.outputBlockName2 != null)
-                {
-                    GameObject OutBlock = GameObject.Find(data.outputBlockName2);
-                    disassembler.outputBlock2 = OutBlock;
-                }
-
-            }
-            else
-            {
-                Debug.LogError("Disassembler Path not found in " + path + i);
             }
         }
     }
 
-    [ContextMenu("LoadMultiprocessors")]
     void LoadMultiprocessors()
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + multiprocessor_sub + SceneManager.GetActiveScene().buildIndex;
-        string countpath = Application.persistentDataPath + multiprocessorCount_sub + SceneManager.GetActiveScene().buildIndex;
-        int multiprocessorCount = 0;
+        string path = Application.persistentDataPath + MULTIPROCESSOR_SUB + SceneManager.GetActiveScene().buildIndex;
+        string countpath = Application.persistentDataPath + MULTIPROCESSOR_COUNT + SceneManager.GetActiveScene().buildIndex;
+        int count = LoadCount(countpath);
 
-        if (File.Exists(countpath))
-        {
-            FileStream countStream = new FileStream(countpath, FileMode.Open);
-            multiprocessorCount = (int)formatter.Deserialize(countStream);
-            Debug.Log("load count: " + multiprocessorCount);
-            countStream.Close();
-        }
-        else
-        {
-            Debug.LogError("Multiprocessor countPath not found " + countpath);
-        }
-
-
-        for (int i = 0; i < multiprocessorCount; i++)
+        for (int i = 0; i < count; i++)
         {
             if (File.Exists(path + i))
             {
-                Debug.Log("Loading disassembler " + i + 1);
-                FileStream stream = new FileStream(path + i, FileMode.Open);
-                MultiprocessorData data = formatter.Deserialize(stream) as MultiprocessorData;
-                stream.Close();
-
-                Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
-                Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
-                string objectname = data.name;
-
-                Multiprocessor multiprocessor = Instantiate(multiprocessorPrefab, position, Quaternion.identity);
-                multiprocessor.transform.localScale = blockScale;
-
-                multiprocessor.name = objectname;
-                multiprocessor.title = data.title;
-                multiprocessor.output1 = data.output1;
-                multiprocessor.output2 = data.output2;
-                multiprocessor.input_required1 = data.input_required1;
-                multiprocessor.input_required2 = data.input_required2;
-                if (data.inputSourceName1 != null)
+                using (FileStream stream = new FileStream(path + i, FileMode.Open))
                 {
-                    GameObject InBlock = GameObject.Find(data.inputSourceName1);
-                    multiprocessor.inputSource1 = InBlock;
+                    MultiprocessorData data = formatter.Deserialize(stream) as MultiprocessorData;
+                    InstantiateMultiprocessor(data);
                 }
-                if (data.inputSourceName2 != null)
-                {
-                    GameObject InBlock = GameObject.Find(data.inputSourceName2);
-                    multiprocessor.inputSource2 = InBlock;
-                }
-                if (data.outputBlockName1 != null)
-                {
-                    GameObject OutBlock = GameObject.Find(data.outputBlockName1);
-                    multiprocessor.outputBlock1 = OutBlock;
-                }
-                if (data.outputBlockName2 != null)
-                {
-                    GameObject OutBlock = GameObject.Find(data.outputBlockName2);
-                    multiprocessor.outputBlock2 = OutBlock;
-                }
-
-            }
-            else
-            {
-                Debug.LogError("Multiprocessor Path not found in " + path + i);
             }
         }
     }
 
+    private void InstantiateProcessor(ProcessorData data)
+    {
+        Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+        Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
+
+        Processor processor = Instantiate(processorPrefab, position, Quaternion.identity);
+        processor.transform.localScale = blockScale;
+        processor.Setup();
+
+        processor.name = data.name;
+        processor.title = data.title;
+        processor.input_required = data.input_required;
+        processor.output = data.output;
+
+        ApplyBlockShape(processor, data.shape);
+
+        if (data.inputSourceName != null)
+        {
+            GameObject InBlock = GameObject.Find(data.inputSourceName);
+            processor.inputSource = InBlock;
+        }
+    }
+
+    private void InstantiateSource(SourceData data)
+    {
+        Debug.Log($"Loading source with saved scale: {new Vector3(data.scale[0], data.scale[1], data.scale[2])}");
+        
+        Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+        Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
+
+        Source source = Instantiate(sourcePrefab, position, Quaternion.identity);
+        source.name = data.name;
+        source.title = data.title;
+        source.output = data.output;
+
+        // First apply the shape
+        ApplyBlockShape(source, data.shape);
+        
+        // Then scale the block
+        source.transform.localScale = blockScale;
+        
+        Debug.Log($"[{source.name}] Loaded with block scale: {source.transform.localScale}, shape scale: {source.shape.transform.localScale}");
+    }
+
+    private void InstantiateDestination(DestinationData data)
+    {
+        Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+        Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
+
+        Destination destination = Instantiate(destinationPrefab, position, Quaternion.identity);
+        destination.transform.localScale = blockScale;
+        destination.Setup();
+
+        destination.name = data.name;
+        destination.title = data.title;
+        destination.input_required = data.input_required;
+
+        ApplyBlockShape(destination, data.shape);
+
+        if (data.inputSourceName != null)
+        {
+            GameObject InBlock = GameObject.Find(data.inputSourceName);
+            destination.inputSource = InBlock;
+        }
+    }
+
+    private void InstantiateAssembler(AssemblerData data)
+    {
+        Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+        Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
+
+        Assembler assembler = Instantiate(assemblerPrefab, position, Quaternion.identity);
+        assembler.transform.localScale = blockScale;
+        assembler.Setup();
+
+        assembler.name = data.name;
+        assembler.title = data.title;
+        assembler.input_required1 = data.input_required1;
+        assembler.input_required2 = data.input_required2;
+        assembler.output = data.output;
+
+        ApplyBlockShape(assembler, data.shape);
+
+        if (data.inputSourceName1 != null)
+        {
+            GameObject InBlock1 = GameObject.Find(data.inputSourceName1);
+            assembler.inputSource1 = InBlock1;
+        }
+        if (data.inputSourceName2 != null)
+        {
+            GameObject InBlock2 = GameObject.Find(data.inputSourceName2);
+            assembler.inputSource2 = InBlock2;
+        }
+    }
+
+    private void InstantiateDisassembler(DisassemblerData data)
+    {
+        Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+        Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
+
+        Disassembler disassembler = Instantiate(disassemblerPrefab, position, Quaternion.identity);
+        disassembler.transform.localScale = blockScale;
+        disassembler.Setup();
+        disassembler.name = data.name;
+        disassembler.title = data.title;
+        disassembler.input_required = data.input_required;
+        disassembler.output1 = data.output1;
+        disassembler.output2 = data.output2;
+
+        ApplyBlockShape(disassembler, data.shape);
+
+        if (data.inputSourceName != null)
+        {
+            GameObject InBlock = GameObject.Find(data.inputSourceName);
+            disassembler.inputSource = InBlock;
+        }
+        if (data.outputBlockName1 != null)
+        {
+            GameObject OutBlock1 = GameObject.Find(data.outputBlockName1);
+            disassembler.outputBlock1 = OutBlock1;
+        }
+        if (data.outputBlockName2 != null)
+        {
+            GameObject OutBlock2 = GameObject.Find(data.outputBlockName2);
+            disassembler.outputBlock2 = OutBlock2;
+        }
+    }
+
+    private void InstantiateMultiprocessor(MultiprocessorData data)
+    {
+        Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+        Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
+
+        Multiprocessor multiprocessor = Instantiate(multiprocessorPrefab, position, Quaternion.identity);
+        multiprocessor.transform.localScale = blockScale;
+        multiprocessor.Setup();
+        multiprocessor.name = data.name;
+        multiprocessor.title = data.title;
+        multiprocessor.input_required1 = data.input_required1;
+        multiprocessor.input_required2 = data.input_required2;
+        multiprocessor.output1 = data.output1;
+        multiprocessor.output2 = data.output2;
+
+        ApplyBlockShape(multiprocessor, data.shape);
+
+        if (data.inputSourceName1 != null)
+        {
+            GameObject InBlock1 = GameObject.Find(data.inputSourceName1);
+            multiprocessor.inputSource1 = InBlock1;
+        }
+        if (data.inputSourceName2 != null)
+        {
+            GameObject InBlock2 = GameObject.Find(data.inputSourceName2);
+            multiprocessor.inputSource2 = InBlock2;
+        }
+        if (data.outputBlockName1 != null)
+        {
+            GameObject OutBlock1 = GameObject.Find(data.outputBlockName1);
+            multiprocessor.outputBlock1 = OutBlock1;
+        }
+        if (data.outputBlockName2 != null)
+        {
+            GameObject OutBlock2 = GameObject.Find(data.outputBlockName2);
+            multiprocessor.outputBlock2 = OutBlock2;
+        }
+    }
+
+    private int LoadCount(string countpath)
+    {
+        if (!File.Exists(countpath))
+        {
+            Debug.LogError($"Count file not found at {countpath}");
+            return 0;
+        }
+
+        using (FileStream countStream = new FileStream(countpath, FileMode.Open))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            return (int)formatter.Deserialize(countStream);
+        }
+    }
+
+    [ContextMenu("ClearBlocks")]
+    public void RemoveAllBlocks()
+    {
+        foreach (var processor in GameObject.FindGameObjectsWithTag("Processor"))
+            Destroy(processor);
+        foreach (var source in GameObject.FindGameObjectsWithTag("Source"))
+            Destroy(source);
+        foreach (var destination in GameObject.FindGameObjectsWithTag("Destination"))
+            Destroy(destination);
+        foreach (var assembler in GameObject.FindGameObjectsWithTag("Assembler"))
+            Destroy(assembler);
+        foreach (var disassembler in GameObject.FindGameObjectsWithTag("Disassembler"))
+            Destroy(disassembler);
+        foreach (var multiprocessor in GameObject.FindGameObjectsWithTag("Multiprocessor"))
+            Destroy(multiprocessor);
+    }
 }

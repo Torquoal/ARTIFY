@@ -8,80 +8,64 @@ using TMPro;
 
 public class Processor : BaseBlock
 {
-	[Header("Settings")]
-	[SerializeField] public GameObject inputSource;
-	[SerializeField] public string input_required;
-	[SerializeField] public string output;
+    [Header("Settings")]
+    [SerializeField] public GameObject inputSource;
+    [SerializeField] public string input_required;
+    [SerializeField] public string output;
+
+    // UI Elements
+    public TMP_Text inputLabel;
+    public TMP_Text outputLabel;
+    public TMP_Text inBlockLabel;
+
+    private LineRenderer lineRenderer;
 
 
-	// edit menu items
-	public TMP_Text inputLabel;
-	public TMP_Text outputLabel;
-	public TMP_Text inBlockLabel;
-
-
-	private LineRenderer lineRenderer;
-
-
-	void Awake()
-    {
+	protected override void Awake()
+	{
 		SaveSystem.processors.Add(this);
+	}
+    private void OnDestroy()
+    {
+        SaveSystem.processors.Remove(this);
     }
 
-	void OnDestroy()
-	{
-		Debug.Log(this.title + "deleted");
-		SaveSystem.processors.Remove(this);
-
-	}
-
-	// Start is called before the first frame update
-	void Start()
+    private void Start()
     {
-		Setup();
-		// Get the LineRenderer component attached to this GameObject
+        Setup();
         lineRenderer = GetComponent<LineRenderer>();
-        // Set the number of positions to 2 (start and end points)
-        lineRenderer.positionCount = 2;
-	}
+        InitializeLineRenderer(lineRenderer);
+    }
 
-	// Update is called once per frame
-	new void Update()
+    public override void Update()
     {
-		SetName();
-		correct = sharedLogic.CheckInput(gameObject, inputSource, correct, input_required);
-		sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
-		titleLabel.text = title;
-		inputLabel.text = "req: " + input_required;
-		outputLabel.text = "prod: " + output;
-		if (inputSource != null){ 
-			inBlockLabel.text = "in: " + sharedLogic.GetBlockTitle(inputSource);
-			// Update the positions of the LineRenderer to connect the blocks
-				lineRenderer.SetPosition(0, transform.position);             // Start at this block's position
-				lineRenderer.SetPosition(1, inputSource.transform.position); // End at the InputSource block's position
-		} else {
-			inBlockLabel.text = "in: None";
-			// If InputSource is null, disable the line by setting both positions to the same point
-			lineRenderer.SetPosition(0, transform.position);
-			lineRenderer.SetPosition(1, transform.position);
-		}
+        SetName();
+        correct = sharedLogic.CheckInput(gameObject, inputSource, correct, input_required);
+        sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
+        UpdateLabels();
+        UpdateLineRenderer(lineRenderer, gameObject, inputSource);
+    }
 
-	}
-
-
-	public void SetInput()
+    public override void UpdateLabels()
     {
-		sharedLogic.EditObjectText(gameObject, "input");
-	}
+        base.UpdateLabels();
+        inputLabel.text = "req: " + input_required;
+        outputLabel.text = "prod: " + output;
+        inBlockLabel.text = "in: " + (inputSource != null ? sharedLogic.GetBlockTitle(inputSource) : "None");
+    }
 
-		public void SetOutput()
+    public void SetInput()
     {
-		sharedLogic.EditObjectText(gameObject, "output");
-	}
+        sharedLogic.EditObjectText(gameObject, "input");
+    }
 
-	public void SetInputBlock()
+    public void SetOutput()
     {
-		sharedLogic.EditObjectText(gameObject, "inblock");
-	}
+        sharedLogic.EditObjectText(gameObject, "output");
+    }
 
+    public void SetInputBlock()
+    {
+        sharedLogic.EditObjectText(gameObject, "inblock");
+    }
 }

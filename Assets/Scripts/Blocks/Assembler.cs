@@ -9,81 +9,80 @@ using TMPro;
 
 public class Assembler : BaseBlock
 {
-	[Header("Settings")]
-	[SerializeField] public GameObject inputSource1;
-	[SerializeField] public string input_required1;
-	[SerializeField] public GameObject inputSource2;
-	[SerializeField] public string input_required2;
-	[SerializeField] public string output;
+    [Header("Settings")]
+    [SerializeField] public GameObject inputSource1;
+    [SerializeField] public string input_required1;
+    [SerializeField] public GameObject inputSource2;
+    [SerializeField] public string input_required2;
+    [SerializeField] public string output;
 
-	public TMP_Text inBlock1Label;
-	public TMP_Text inBlock2Label;
-	public TMP_Text input1Label;
-	public TMP_Text input2Label;
-	public TMP_Text outputLabel;
+    // UI Elements
+    public TMP_Text inBlock1Label;
+    public TMP_Text inBlock2Label;
+    public TMP_Text input1Label;
+    public TMP_Text input2Label;
+    public TMP_Text outputLabel;
 
-	private LineRenderer lineRenderer1; 
-    private LineRenderer lineRenderer2; 
+    private LineRenderer lineRenderer1;
+    private LineRenderer lineRenderer2;
 
-	new void Awake()
-	{
-		SaveSystem.assemblers.Add(this);
-	}
 
-	void OnDestroy()
-	{
-		Debug.Log(this.title + "deleted");
-		SaveSystem.assemblers.Remove(this);
-
-	}
-
-	// Start is called before the first frame update
-	void Start()
+    protected override void Awake()
     {
-		Setup();
-		// Create and setup the first LineRenderer
-        GameObject lineObj1 = new GameObject("LineRenderer1");
-        lineObj1.transform.parent = this.transform;  // Make it a child of the current block
+        SaveSystem.assemblers.Add(this);
+    }
+
+    private void OnDestroy()
+    {
+        SaveSystem.assemblers.Remove(this);
+    }
+
+    private void Start()
+    {
+        Setup();
+        InitializeLineRenderers();
+    }
+
+    private void InitializeLineRenderers()
+    {
+        // Create first line renderer
+        var lineObj1 = new GameObject("LineRenderer1");
+        lineObj1.transform.parent = transform;
         lineRenderer1 = lineObj1.AddComponent<LineRenderer>();
-        sharedLogic.SetupLineRenderer(lineRenderer1, lineWidth, lineMaterial);
+        InitializeLineRenderer(lineRenderer1);
 
-        // Create and setup the second LineRenderer
-        GameObject lineObj2 = new GameObject("LineRenderer2");
-        lineObj2.transform.parent = this.transform;  // Make it a child of the current block
+        // Create second line renderer
+        var lineObj2 = new GameObject("LineRenderer2");
+        lineObj2.transform.parent = transform;
         lineRenderer2 = lineObj2.AddComponent<LineRenderer>();
-        sharedLogic.SetupLineRenderer(lineRenderer2, lineWidth, lineMaterial);
-	}
+        InitializeLineRenderer(lineRenderer2);
+    }
 
-	// Update is called once per frame
-	new void Update()
+    public override void Update()
     {
+        base.Update();
 		SetName();
-		CheckMultiInput();
-		sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
-		titleLabel.text = title;
-		input1Label.text = "req1: " + input_required1;
-		input2Label.text = "req2: " + input_required2;
-		outputLabel.text = "prod: " + output;
-		if (inputSource1 != null){ 
-			inBlock1Label.text = "in1: " + sharedLogic.GetBlockTitle(inputSource1);
-			lineRenderer1.SetPosition(0, transform.position);             // Start at this block's position
-			lineRenderer1.SetPosition(1, inputSource1.transform.position); // End at the InputSource block's position
-		} else {
-			inBlock1Label.text = "in1: None";
-			// If InputSource is null, disable the line by setting both positions to the same point
-			lineRenderer1.SetPosition(0, transform.position);
-			lineRenderer1.SetPosition(1, transform.position);
-		}
-		if (inputSource2 != null){
-			inBlock2Label.text = "in2: " + sharedLogic.GetBlockTitle(inputSource2);
-			lineRenderer2.SetPosition(0, transform.position);            
-			lineRenderer2.SetPosition(1, inputSource2.transform.position); 
-		} else {
-			inBlock2Label.text = "in2: None";
-			lineRenderer2.SetPosition(0, transform.position);
-			lineRenderer2.SetPosition(1, transform.position);
-		}
-	}
+        CheckMultiInput();
+        sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
+        UpdateLabels();
+        UpdateLineRenderers();
+    }
+
+    public override void UpdateLabels()
+    {
+        base.UpdateLabels();
+        input1Label.text = "req1: " + input_required1;
+        input2Label.text = "req2: " + input_required2;
+        outputLabel.text = "prod: " + output;
+        inBlock1Label.text = "in1: " + (inputSource1 != null ? sharedLogic.GetBlockTitle(inputSource1) : "None");
+        inBlock2Label.text = "in2: " + (inputSource2 != null ? sharedLogic.GetBlockTitle(inputSource2) : "None");
+    }
+
+    private void UpdateLineRenderers()
+    {
+        UpdateLineRenderer(lineRenderer1, gameObject, inputSource1);
+        UpdateLineRenderer(lineRenderer2, gameObject, inputSource2);
+    }
 
 	void CheckMultiInput()
 	{
@@ -122,7 +121,7 @@ public class Assembler : BaseBlock
 
 				if (correct == false)
                 {
-					Debug.Log("Assembler input incorrect");
+					//Debug.Log("Assembler input incorrect");
                 } else if (currentInputObject == inputSource1)
 				{
 					currentInputObject = inputSource2;
