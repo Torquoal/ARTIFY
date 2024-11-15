@@ -41,7 +41,7 @@ public class Processor : BaseBlock
     {
         SetName();
         correct = sharedLogic.CheckInput(gameObject, inputSource, correct, input_required);
-        sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
+        UpdatePanelColor();
         UpdateLabels();
         UpdateLineRenderer(lineRenderer, gameObject, inputSource);
     }

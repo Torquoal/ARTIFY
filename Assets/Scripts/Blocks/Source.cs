@@ -12,7 +12,6 @@ public class Source : BaseBlock
     [Header("Settings")]
     [SerializeField] public string output;
     
-    public Material blue;
     public TMP_Text outputLabel;
 
 
@@ -38,7 +37,9 @@ public class Source : BaseBlock
     public override void Update()
     {
         SetName();
+        correct = active;
         UpdateLabels();
+        UpdatePanelColor();
 	}
 
     public override void UpdateLabels()
@@ -56,19 +57,6 @@ public class Source : BaseBlock
 	public override void Actuate()
 	{
     	active = !active;
-    	var material = active ? blue : grey;
-    	
-    	if (shape != null)
-    	{
-        	if (shape.CompareTag("Table"))
-        	{
-            	GameObject table = shape.transform.Find("lod1").gameObject;
-            	table.GetComponent<MeshRenderer>().material = material;
-        	}
-        	else
-        	{
-            	shape.GetComponent<MeshRenderer>().material = material;
-        	}
-    	}
+    	sharedLogic.ChangeMaterial(gameObject, active ? green : grey);
     }
 }

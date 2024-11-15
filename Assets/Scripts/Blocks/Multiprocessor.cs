@@ -66,42 +66,22 @@ public class Multiprocessor : BaseBlock
     {
 		SetName();
 		CheckMultiInput();
-		sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
-		titleLabel.text = title;
+		UpdatePanelColor();
+		UpdateLabels();
+		UpdateLineRenderers();
+	}
+
+	public override void UpdateLabels()
+	{
+		base.UpdateLabels();
 		input1Label.text = "req1: " + input_required1;
 		input2Label.text = "req2: " + input_required2;
-		if (inputSource1 != null){ 
-			inBlock1Label.text = "in1: " + sharedLogic.GetBlockTitle(inputSource1);
-			lineRenderer1.SetPosition(0, transform.position);             // Start at this block's position
-			lineRenderer1.SetPosition(1, inputSource1.transform.position); // End at the InputSource block's position
-		} else {
-			inBlock1Label.text = "in1: None";
-			// If InputSource is null, disable the line by setting both positions to the same point
-			lineRenderer1.SetPosition(0, transform.position);
-			lineRenderer1.SetPosition(1, transform.position);
-		}
-		if (inputSource2 != null){
-			inBlock2Label.text = "in2: " + sharedLogic.GetBlockTitle(inputSource2);
-			lineRenderer2.SetPosition(0, transform.position);            
-			lineRenderer2.SetPosition(1, inputSource2.transform.position); 
-		} else {
-			inBlock2Label.text = "in2: None";
-			lineRenderer2.SetPosition(0, transform.position);
-			lineRenderer2.SetPosition(1, transform.position);
-		}
 		output1Label.text = "prod1: " + output1;
 		output2Label.text = "prod2: " + output2;
-		if (outputBlock1 != null){
-			outBlock1Label.text = "out1: " + sharedLogic.GetBlockTitle(outputBlock1);
-		} else {
-			outBlock1Label.text = "out1: None";
-		}
-		if (outputBlock2 != null){ 
-			outBlock2Label.text = "out2: " + sharedLogic.GetBlockTitle(outputBlock2);
-		} else {
-			outBlock2Label.text = "out2: None";
-		}
-
+		inBlock1Label.text = "in1: " + (inputSource1 != null ? sharedLogic.GetBlockTitle(inputSource1) : "None");
+		inBlock2Label.text = "in2: " + (inputSource2 != null ? sharedLogic.GetBlockTitle(inputSource2) : "None");
+		outBlock1Label.text = "out1: " + (outputBlock1 != null ? sharedLogic.GetBlockTitle(outputBlock1) : "None");
+		outBlock2Label.text = "out2: " + (outputBlock2 != null ? sharedLogic.GetBlockTitle(outputBlock2) : "None");
 	}
 
 	void CheckMultiInput()
@@ -193,6 +173,12 @@ public class Multiprocessor : BaseBlock
 	public void SetOutputBlock2()
 	{
 		sharedLogic.EditObjectText(gameObject, "outblock2");
+	}
+
+	private void UpdateLineRenderers()
+	{
+		UpdateLineRenderer(lineRenderer1, gameObject, inputSource1);
+		UpdateLineRenderer(lineRenderer2, gameObject, inputSource2);
 	}
 
 }

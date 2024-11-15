@@ -61,9 +61,9 @@ public class Assembler : BaseBlock
     public override void Update()
     {
         base.Update();
-		SetName();
+        SetName();
         CheckMultiInput();
-        sharedLogic.ManageColour(gameObject, active, correct, grey, green, red);
+        UpdatePanelColor();
         UpdateLabels();
         UpdateLineRenderers();
     }

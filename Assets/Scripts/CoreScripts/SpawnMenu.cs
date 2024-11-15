@@ -16,7 +16,9 @@ public class SpawnMenu : MonoBehaviour
 
     // Camera reference for spawn positioning
     private GameObject camera;
-    private const int DistanceToCamera = 2;
+    private const float BlockDistanceToCamera = 2f;
+	private const float MenuDistanceToCamera = 0.6f;
+	private const float tiltAngle = 20f; // Adjust this value to change the amount of tilt
 
 
     // Structure to hold block prefab information
@@ -45,7 +47,7 @@ public class SpawnMenu : MonoBehaviour
     // return Vector3 position for new block spawn
     private Vector3 GetSpawnPosition()
     {
-        return camera.transform.forward * DistanceToCamera + camera.transform.position;
+        return camera.transform.forward * BlockDistanceToCamera + camera.transform.position;
     }
 
     // Calculates rotation for spawned block based on camera orientation
@@ -111,5 +113,32 @@ public class SpawnMenu : MonoBehaviour
     public void LoadAll() => saveSystem.LoadAllBlocks();
 
     // Toggles the visibility of the spawn menu
-    public void ToggleObjectActive() => gameObject.SetActive(!gameObject.activeInHierarchy);
+
+	[ContextMenu("ShowSpawnMenu")]
+    public void ShowSpawnMenu()
+    {
+		
+		gameObject.SetActive(!gameObject.activeInHierarchy);
+		
+		if (camera != null && gameObject.activeInHierarchy)
+		{
+			// Position in front of user
+			Vector3 position = camera.transform.forward * MenuDistanceToCamera + camera.transform.position;
+			gameObject.transform.position = position;
+			
+			// Get the rotation facing the user
+			Quaternion lookAtRotation = camera.transform.rotation;
+			
+			// Add a tilt by rotating around the X axis
+			Vector3 rotationEuler = lookAtRotation.eulerAngles;
+			rotationEuler.x += tiltAngle; // Positive tilts back, negative tilts forward
+			
+			gameObject.transform.rotation = Quaternion.Euler(rotationEuler);
+		}
+	}
+
+
+
+
+
 }

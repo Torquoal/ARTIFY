@@ -9,7 +9,7 @@ public class SharedLogic : MonoBehaviour
 {
 	// UI and camera references
     private GameObject camera;
-    private GameObject editCanvas;
+    [SerializeField] private GameObject editCanvas;
     private TMP_InputField editField;
     private Button enterButton;
 
@@ -20,19 +20,15 @@ public class SharedLogic : MonoBehaviour
     [SerializeField] private GameObject tablePrefab;
 
     [Header("Materials")]
-    [SerializeField] private Material greyMaterial;
-    [SerializeField] private Material greenMaterial;
-    [SerializeField] private Material redMaterial;
+    [SerializeField] public Material greyMaterial;
+    [SerializeField] public Material greenMaterial;
+    [SerializeField] public Material redMaterial;
 
-
+    private const float CanvasDistance = 1.5f; // Closer than block spawn distance
 
 	private void Awake()
     {
-        // Debug check before initialization
-        Debug.Log($"SharedLogic prefab check: Cube={cubePrefab != null}, Sphere={spherePrefab != null}, " +
-                 $"Cylinder={cylinderPrefab != null}, Table={tablePrefab != null}");
-
-        Debug.Log("Initializing shape prefabs and materials in SharedLogic.");
+        Debug.Log($"SharedLogic Awake - Materials before init: Grey={greyMaterial != null}, Green={greenMaterial != null}, Red={redMaterial != null}");
         
         BaseBlock.InitializeShapePrefabs(
             cubePrefab, 
@@ -43,14 +39,20 @@ public class SharedLogic : MonoBehaviour
             greenMaterial,
             redMaterial
         );
+        
+        Debug.Log("SharedLogic Awake - Materials initialized");
     }
     void Start()
     {
     
 		camera = GameObject.FindWithTag("MainCamera");
-        editCanvas = camera.transform.Find("TextEntryCanvas").gameObject;
-        editField = editCanvas.transform.Find("EditField").GetComponent<TMP_InputField>();
-        enterButton = editCanvas.transform.Find("EnterButton").GetComponent<Button>();
+        //editCanvas = GameObject.Find("TextEntryCanvas");
+        if (editCanvas != null){
+			editField = editCanvas.transform.Find("EditField").GetComponent<TMP_InputField>();
+			enterButton = editCanvas.transform.Find("EnterButton").GetComponent<Button>();
+		} else {
+			Debug.LogError("Edit Canvas not found");
+		}
     }
 
 	
@@ -78,7 +80,7 @@ public class SharedLogic : MonoBehaviour
     public void EditObjectText(GameObject editedObject, string aspect)
     {
         Debug.Log($"Edit Object: {editedObject} Aspect: {aspect}");
-        editCanvas.SetActive(true);
+        ShowEditCanvas();
         enterButton.onClick.RemoveAllListeners();
         enterButton.onClick.AddListener(() => UpdateBlockField(editedObject, aspect));
     }
@@ -444,13 +446,6 @@ public class SharedLogic : MonoBehaviour
         return false;
     }
 
-	// Updates the block's material based on its active and correct states
-    public void ManageColour(GameObject thisObject, bool active, bool correct, Material grey, Material green, Material red)
-    {
-        var material = !active ? grey : (correct ? green : red);
-        ChangeMaterial(thisObject, material);
-    }
-
 	// Applies the specified material to a block's shape
 	// Handles both standard shapes and table (or expand to other unique meshes) shapes differently
     public void ChangeMaterial(GameObject thisObject, Material colour)
@@ -469,4 +464,26 @@ public class SharedLogic : MonoBehaviour
             if (renderer != null) renderer.material = colour;
         }
     }
+
+	[ContextMenu("ShowEditCanvas")]
+    private void ShowEditCanvas()
+    {
+		if (camera != null)
+		{
+			// Position in front of user
+			Vector3 position = camera.transform.forward * CanvasDistance + camera.transform.position;
+			editCanvas.transform.position = position;
+			
+			// Get the rotation facing the user
+			Quaternion lookAtRotation = camera.transform.rotation;
+			
+			// Add a tilt by rotating around the X axis
+			float tiltAngle = 20f; // Adjust this value to change the amount of tilt
+			Vector3 rotationEuler = lookAtRotation.eulerAngles;
+			rotationEuler.x += tiltAngle; // Positive tilts back, negative tilts forward
+			
+			editCanvas.transform.rotation = Quaternion.Euler(rotationEuler);
+			editCanvas.SetActive(true);
+		}
+	}
 }

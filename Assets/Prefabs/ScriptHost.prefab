@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8813750456058165470}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.017994, y: -4.591738, z: 1.8866473}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6082705682137727116
 MonoBehaviour:
@@ -44,18 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4829f5a245109a8499bbded993bda067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sourcePrefab: {fileID: 6497549535535082282, guid: df82b58bf52c5124d8c061bca7c8abfc,
+  editCanvas: {fileID: 8906699200268776203, guid: 8ad1cf8b49d0f5b45a38d57696eca945,
     type: 3}
-  processorPrefab: {fileID: 740145747038687851, guid: 42d5b76a11123b246a72760844ea23a5,
+  cubePrefab: {fileID: 7026703576422682882, guid: 2a981f7f8ba543d4f9923b4cf2ac8ff7,
     type: 3}
-  multiprocessorPrefab: {fileID: 4172517670692485320, guid: 62985392977373c4ab8a159dad4df8ed,
+  spherePrefab: {fileID: 8586443346047600876, guid: ad34b5a9c3b7c8d4bba3c810e60913cf,
     type: 3}
-  assemblerPrefab: {fileID: 3845132964508886077, guid: 7aa2b8fa56dfaff438c1b4ddfcde33c0,
+  cylinderPrefab: {fileID: 3388636419170026812, guid: 0808f29cdbd040541ba363e230e6fd08,
     type: 3}
-  disassemblerPrefab: {fileID: 6683159332350001695, guid: c3376879ba8ad4b49a8f1a4eeb9e0ee2,
+  tablePrefab: {fileID: 4708055276221306536, guid: 1caa74bb06fe02041a74853f03edba6b,
     type: 3}
-  destinationPrefab: {fileID: 3962834378549180271, guid: d8be8140ed54cd84cae2bf43b6f1ffce,
-    type: 3}
-  editCanvas: {fileID: 0}
-  editField: {fileID: 0}
-  enterButton: {fileID: 0}
+  greyMaterial: {fileID: 2100000, guid: 549db56e248502a4396cce08b8df8f62, type: 2}
+  greenMaterial: {fileID: 2100000, guid: 749aec74c4d41434da8549f1740563bd, type: 2}
+  redMaterial: {fileID: 2100000, guid: ae1574a2b9fb8074196ee8829a78e8f8, type: 2}
