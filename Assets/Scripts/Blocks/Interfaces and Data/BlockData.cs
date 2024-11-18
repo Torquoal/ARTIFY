@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using Blocks;
 
 // Enum to track different block shapes
 public enum BlockShape
@@ -7,7 +8,11 @@ public enum BlockShape
     Cube,
     Sphere,
     Cylinder,
-    Table
+    Table,
+    Container,
+    Pipes,
+    Pallet,
+    PalletJack
 }
 
 // Base class for all block data
@@ -42,23 +47,14 @@ public class BlockData
     {
         if (block.shape == null) return BlockShape.Cube;
 
-        // First check if it's a table since it has a special tag
-        if (block.shape.CompareTag("Table")){
-            Debug.Log("table identified");
-            return BlockShape.Table;
-        }
-        if (block.shape.CompareTag("Cube")){
-            Debug.Log("cube identified");
-            return BlockShape.Cube;
-        }
-        if (block.shape.CompareTag("Sphere")){
-            Debug.Log("sphere identified");
-            return BlockShape.Sphere;
-        }
-        if (block.shape.CompareTag("Cylinder")){
-            Debug.Log("cylinder identified");
-            return BlockShape.Cylinder;
-        }
+        if (block.shape.CompareTag("Table")) return BlockShape.Table;
+        if (block.shape.CompareTag("Cube")) return BlockShape.Cube;
+        if (block.shape.CompareTag("Sphere")) return BlockShape.Sphere;
+        if (block.shape.CompareTag("Cylinder")) return BlockShape.Cylinder;
+        if (block.shape.CompareTag("Container")) return BlockShape.Container;
+        if (block.shape.CompareTag("Pipes")) return BlockShape.Pipes;
+        if (block.shape.CompareTag("Pallet")) return BlockShape.Pallet;
+        if (block.shape.CompareTag("PalletJack")) return BlockShape.PalletJack;
         
         return BlockShape.Cube; // Default fallback
     }
@@ -165,5 +161,14 @@ public class MultiprocessorData : BlockData
         inputSourceName2 = multiprocessor.inputSource2?.name;
         outputBlockName1 = multiprocessor.outputBlock1?.name;
         outputBlockName2 = multiprocessor.outputBlock2?.name;
+    }
+}
+
+[Serializable]
+public class PropData : BlockData
+{
+    public PropData(Prop prop) : base(prop)
+    {
+        // No additional data needed for props
     }
 }

@@ -45,6 +45,10 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     public static GameObject spherePrefab;
     public static GameObject cylinderPrefab;
     public static GameObject tablePrefab;
+    public static GameObject containerPrefab;
+    public static GameObject pipesPrefab;
+    public static GameObject palletPrefab;
+    public static GameObject palletJackPrefab;
 
     // Method to initialize the static shape prefabs and materials
     public static void InitializeShapePrefabs(
@@ -52,6 +56,10 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
         GameObject sphereShape, 
         GameObject cylinderShape, 
         GameObject tableShape,
+        GameObject containerShape,
+        GameObject pipesShape,
+        GameObject palletShape,
+        GameObject palletJackShape,
         Material greyMaterial,
         Material greenMaterial,
         Material redMaterial)
@@ -60,6 +68,10 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
         spherePrefab = sphereShape;
         cylinderPrefab = cylinderShape;
         tablePrefab = tableShape;
+        containerPrefab = containerShape;
+        pipesPrefab = pipesShape;
+        palletPrefab = palletShape;
+        palletJackPrefab = palletJackShape;
         staticGrey = greyMaterial;
         staticGreen = greenMaterial;
         staticRed = redMaterial;
@@ -317,6 +329,30 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     public void ToTable()
     {
         ReplaceShape(tablePrefab);
+    }
+
+    [ContextMenu("To Container")]
+    public void ToContainer()
+    {
+        ReplaceShape(containerPrefab);
+    }
+
+    [ContextMenu("To Pipes")]
+    public void ToPipes()
+    {
+        ReplaceShape(pipesPrefab);
+    }
+
+    [ContextMenu("To Pallet")]
+    public void ToPallet()
+    {
+        ReplaceShape(palletPrefab);
+    }
+
+    [ContextMenu("To PalletJack")]
+    public void ToPalletJack()
+    {
+        ReplaceShape(palletJackPrefab);
     }
 
     private Material GetBlockMaterial()

@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.SceneManagement;
 using System.IO;
+using System.Linq;
+using Blocks;
 
 public class SaveSystem : MonoBehaviour
 {
@@ -13,6 +16,7 @@ public class SaveSystem : MonoBehaviour
     [SerializeField] Assembler assemblerPrefab;
     [SerializeField] Disassembler disassemblerPrefab;
     [SerializeField] Multiprocessor multiprocessorPrefab;
+    [SerializeField] Prop propPrefab;
 
     // Static lists to track all blocks
     public static List<Processor> processors = new List<Processor>();
@@ -21,6 +25,7 @@ public class SaveSystem : MonoBehaviour
     public static List<Assembler> assemblers = new List<Assembler>();
     public static List<Disassembler> disassemblers = new List<Disassembler>();
     public static List<Multiprocessor> multiprocessors = new List<Multiprocessor>();
+    public static List<Prop> props = new List<Prop>();
 
     // File path constants
     private const string PROCESSOR_SUB = "/processor";
@@ -35,6 +40,8 @@ public class SaveSystem : MonoBehaviour
     private const string DISASSEMBLER_COUNT = "/disassembler.count";
     private const string MULTIPROCESSOR_SUB = "/multiprocessor";
     private const string MULTIPROCESSOR_COUNT = "/multiprocessor.count";
+    private const string PROP_SUB = "/prop";
+    private const string PROP_COUNT = "/propcount";
 
     [ContextMenu("SaveAllBlocks")]
     public void SaveAllBlocks()
@@ -45,6 +52,7 @@ public class SaveSystem : MonoBehaviour
         SaveAssemblers();
         SaveDisassemblers();
         SaveMultiprocessors();
+        SaveProps();
         Debug.Log("Save all completed");
     }
 
@@ -79,6 +87,7 @@ public class SaveSystem : MonoBehaviour
             Assembler a => new AssemblerData(a),
             Disassembler d => new DisassemblerData(d),
             Multiprocessor m => new MultiprocessorData(m),
+            Prop p => new PropData(p),
             _ => throw new System.ArgumentException($"Unknown block type: {block.GetType()}")
         };
     }
@@ -89,11 +98,13 @@ public class SaveSystem : MonoBehaviour
     private void SaveAssemblers() => SaveBlocks(assemblers, ASSEMBLER_SUB, ASSEMBLER_COUNT);
     private void SaveDisassemblers() => SaveBlocks(disassemblers, DISASSEMBLER_SUB, DISASSEMBLER_COUNT);
     private void SaveMultiprocessors() => SaveBlocks(multiprocessors, MULTIPROCESSOR_SUB, MULTIPROCESSOR_COUNT);
+    private void SaveProps() => SaveBlocks(props, PROP_SUB, PROP_COUNT);
 
     [ContextMenu("LoadAllBlocks")]
     public void LoadAllBlocks()
     {
         RemoveAllBlocks();
+        LoadProps();
         LoadSources();
         LoadProcessors();
         LoadDestinations();
@@ -103,34 +114,38 @@ public class SaveSystem : MonoBehaviour
     }
 
     private void ApplyBlockShape(BaseBlock block, BlockShape shape)
-{
-    if (block == null)
     {
-        Debug.LogError("Cannot apply shape to null block");
-        return;
+        if (block == null) return;
+        
+        switch (shape)
+        {
+            case BlockShape.Sphere:
+                block.ToSphere();
+                break;
+            case BlockShape.Cylinder:
+                block.ToCylinder();
+                break;
+            case BlockShape.Table:
+                block.ToTable();
+                break;
+            case BlockShape.Container:
+                block.ToContainer();
+                break;
+            case BlockShape.Pipes:
+                block.ToPipes();
+                break;
+            case BlockShape.Pallet:
+                block.ToPallet();
+                break;
+            case BlockShape.PalletJack:
+                block.ToPalletJack();
+                break;
+            case BlockShape.Cube:
+            default:
+                block.ToCube();
+                break;
+        }
     }
-
-    Debug.Log($"Applying shape {shape} to block {block.name} where shape={block.shape != null}");
-    
-    // Ensure we create the shape first
-    switch (shape)
-    {
-        case BlockShape.Sphere:
-            block.ToSphere();
-            break;
-        case BlockShape.Cylinder:
-            Debug.Log($"Cylinder where shape={block.shape != null}");
-            block.ToCylinder();
-            break;
-        case BlockShape.Table:
-            block.ToTable();
-            break;
-        case BlockShape.Cube:
-        default:
-            block.ToCube();
-            break;
-    }
-}
 
     void LoadProcessors()
     {
@@ -277,23 +292,22 @@ public class SaveSystem : MonoBehaviour
 
     private void InstantiateSource(SourceData data)
     {
-        Debug.Log($"Loading source with saved scale: {new Vector3(data.scale[0], data.scale[1], data.scale[2])}");
-        
         Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
         Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
 
         Source source = Instantiate(sourcePrefab, position, Quaternion.identity);
+        source.transform.localScale = blockScale;
+        
         source.name = data.name;
         source.title = data.title;
         source.output = data.output;
 
-        // First apply the shape
+        // First ensure the initial shape is found
+        source.Setup();
+        
+        // Then apply the new shape with the correct scale
         ApplyBlockShape(source, data.shape);
         
-        // Then scale the block
-        source.transform.localScale = blockScale;
-        
-        Debug.Log($"[{source.name}] Loaded with block scale: {source.transform.localScale}, shape scale: {source.shape.transform.localScale}");
     }
 
     private void InstantiateDestination(DestinationData data)
@@ -419,6 +433,21 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
+    private void InstantiateProp(PropData data)
+    {
+        Vector3 position = new Vector3(data.position[0], data.position[1], data.position[2]);
+        Vector3 blockScale = new Vector3(data.scale[0], data.scale[1], data.scale[2]);
+
+        Prop prop = Instantiate(propPrefab, position, Quaternion.identity);
+        prop.transform.localScale = blockScale;
+        prop.Setup();
+        
+        prop.name = data.name;
+        prop.title = data.title;
+        
+        ApplyBlockShape(prop, data.shape);
+    }
+
     private int LoadCount(string countpath)
     {
         if (!File.Exists(countpath))
@@ -437,6 +466,9 @@ public class SaveSystem : MonoBehaviour
     [ContextMenu("ClearBlocks")]
     public void RemoveAllBlocks()
     {
+        foreach (var prop in props.ToList())
+            DestroyImmediate(prop.gameObject);
+        props.Clear();
         foreach (var processor in GameObject.FindGameObjectsWithTag("Processor"))
             Destroy(processor);
         foreach (var source in GameObject.FindGameObjectsWithTag("Source"))
@@ -449,5 +481,34 @@ public class SaveSystem : MonoBehaviour
             Destroy(disassembler);
         foreach (var multiprocessor in GameObject.FindGameObjectsWithTag("Multiprocessor"))
             Destroy(multiprocessor);
+    }
+
+    private void LoadProps()
+    {
+        LoadBlocks<PropData>(
+            PROP_SUB,
+            PROP_COUNT,
+            (data) => InstantiateProp(data)
+        );
+    }
+
+    private void LoadBlocks<T>(string subPath, string countPath, Action<T> instantiateAction) where T : BlockData
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + subPath + SceneManager.GetActiveScene().buildIndex;
+        string countpath = Application.persistentDataPath + countPath + SceneManager.GetActiveScene().buildIndex;
+        int blockCount = LoadCount(countpath);
+
+        for (int i = 0; i < blockCount; i++)
+        {
+            if (File.Exists(path + i))
+            {
+                using (FileStream stream = new FileStream(path + i, FileMode.Open))
+                {
+                    T data = formatter.Deserialize(stream) as T;
+                    instantiateAction(data);
+                }
+            }
+        }
     }
 }

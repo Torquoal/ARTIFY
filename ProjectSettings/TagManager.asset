@@ -24,6 +24,11 @@ TagManager:
   - Cylinder
   - Sphere
   - Table
+  - Container
+  - Pallet
+  - PalletJack
+  - Pipes
+  - Prop
   layers:
   - Default
   - TransparentFX

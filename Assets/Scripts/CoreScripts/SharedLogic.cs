@@ -18,6 +18,10 @@ public class SharedLogic : MonoBehaviour
     [SerializeField] private GameObject spherePrefab;
     [SerializeField] private GameObject cylinderPrefab;
     [SerializeField] private GameObject tablePrefab;
+    [SerializeField] private GameObject containerPrefab;
+    [SerializeField] private GameObject pipesPrefab;
+    [SerializeField] private GameObject palletPrefab;
+    [SerializeField] private GameObject palletJackPrefab;
 
     [Header("Materials")]
     [SerializeField] public Material greyMaterial;
@@ -35,6 +39,10 @@ public class SharedLogic : MonoBehaviour
             spherePrefab,
             cylinderPrefab,
             tablePrefab,
+            containerPrefab,
+            pipesPrefab,
+            palletPrefab,
+            palletJackPrefab,
             greyMaterial,
             greenMaterial,
             redMaterial

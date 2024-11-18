@@ -19,4 +19,8 @@ public interface IBlock
     void ToCube();
     void ToCylinder();
     void ToTable();
+    void ToContainer();
+    void ToPipes();
+    void ToPallet();
+    void ToPalletJack();
 }

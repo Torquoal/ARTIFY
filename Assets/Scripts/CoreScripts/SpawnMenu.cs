@@ -10,6 +10,7 @@ public class SpawnMenu : MonoBehaviour
     public GameObject assemblerPrefab;
     public GameObject disassemblerPrefab;
     public GameObject destinationPrefab;
+    public GameObject propPrefab;
 
     // Reference to the save system for managing block persistence
     public SaveSystem saveSystem;
@@ -65,6 +66,7 @@ public class SpawnMenu : MonoBehaviour
     public void SpawnAssembler() => SpawnBlock("Assembler", GetSpawnPosition(), GetSpawnRotation());
     public void SpawnDisassembler() => SpawnBlock("Disassembler", GetSpawnPosition(), GetSpawnRotation());
     public void SpawnDestination() => SpawnBlock("Destination", GetSpawnPosition(), GetSpawnRotation());
+    public void SpawnProp() => SpawnBlock("Prop", GetSpawnPosition(), GetSpawnRotation());
 
     // Main block spawning method
     // blockType Type of block to spawn
@@ -97,6 +99,7 @@ public class SpawnMenu : MonoBehaviour
             "Assembler" => assemblerPrefab,
             "Disassembler" => disassemblerPrefab,
             "Destination" => destinationPrefab,
+            "Prop" => propPrefab,
             _ => null
         };
     }

@@ -57,6 +57,7 @@ public class Source : BaseBlock
 	public override void Actuate()
 	{
     	active = !active;
-    	sharedLogic.ChangeMaterial(gameObject, active ? green : grey);
+    	correct = active;
+    	UpdatePanelColor();
     }
 }
