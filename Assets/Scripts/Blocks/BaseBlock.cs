@@ -37,7 +37,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     private Vector3 rotationChangeLeft = new Vector3(0f, 1f, 0f);
     private Vector3 rotationChangeRight = new Vector3(0f, -1f, 0f);
     private float moveSpeed = 0.02f;
-    public Vector3 cameraPos;
+    public GameObject player;
 
     // Shapes
     public GameObject shape;
@@ -76,26 +76,23 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
         staticGreen = greenMaterial;
         staticRed = redMaterial;
 
-        Debug.Log("Shape prefabs and materials initialized in BaseBlock.");
-
-        // Verify assignments worked
-        Debug.Log($"Prefabs after init: Cube={cubePrefab != null}, Sphere={spherePrefab != null}, " +
-                 $"Cylinder={cylinderPrefab != null}, Table={tablePrefab != null}");
-    
-        Debug.Log($"Materials after init: Grey={staticGrey != null}, Green={staticGreen != null}, " +
-                 $"Red={staticRed != null}");
     }
 
     protected virtual void Awake()
     {
-        Debug.Log($"[{gameObject.name}] BaseBlock Awake - Initializing materials");
+
         // Initialize instance materials from static references
         grey = staticGrey;
         green = staticGreen;
         red = staticRed;
         
-        Debug.Log($"[{gameObject.name}] Materials after init: Grey={grey != null}, Green={green != null}, Red={red != null}");
-        Debug.Log($"[{gameObject.name}] Static materials: Grey={staticGrey != null}, Green={staticGreen != null}, Red={staticRed != null}");
+    }
+
+    // Initialize camera reference on start
+    void Start()
+    {
+        player = GameObject.FindWithTag("MainCamera");
+        Debug.Log("HEREEEEEEEEEEEEEEEEEE" + player);
     }
 
     public virtual void Update()
@@ -204,12 +201,10 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     {
         if (editMenu.activeInHierarchy)
         {
-            // Calculate direction to the player
+            // Assuming sharedLogic is properly assigned and has a reference to the camera
+            Vector3 cameraPos = player.transform.position; // Fetch the actual camera position
             Vector3 directionToPlayer = (cameraPos - transform.position).normalized;
-
-            // Move the block closer to the player
-            transform.position += directionToPlayer * moveSpeed;
-
+            transform.position += directionToPlayer * moveSpeed; // Move towards the player
             Debug.Log("Moving block closer to the player.");
         }
     }
@@ -219,12 +214,10 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     {
         if (editMenu.activeInHierarchy)
         {
-            // Calculate direction to the player
+            // Assuming sharedLogic is properly assigned and has a reference to the camera
+            Vector3 cameraPos = player.transform.position; // Fetch the actual camera position
             Vector3 directionToPlayer = (cameraPos - transform.position).normalized;
-
-            // Move the block farther away from the player (opposite direction)
-            transform.position -= directionToPlayer * moveSpeed;
-
+            transform.position -= directionToPlayer * moveSpeed; // Move away from the player
             Debug.Log("Moving block farther from the player.");
         }
     }

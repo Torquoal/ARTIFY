@@ -19,7 +19,7 @@ public class SpawnMenu : MonoBehaviour
     private GameObject camera;
     private const float BlockDistanceToCamera = 2f;
 	private const float MenuDistanceToCamera = 0.6f;
-	private const float tiltAngle = 20f; // Adjust this value to change the amount of tilt
+	private const float tiltAngle = 10f; // Adjust this value to change the amount of tilt
 
 
     // Structure to hold block prefab information

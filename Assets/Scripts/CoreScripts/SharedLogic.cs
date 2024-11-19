@@ -87,6 +87,18 @@ public class SharedLogic : MonoBehaviour
 	// Main entry point for editing block properties through the UI
     public void EditObjectText(GameObject editedObject, string aspect)
     {
+        if (editedObject == null)
+        {
+            Debug.LogError("Edited object is null!");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(aspect))
+        {
+            Debug.LogError("Aspect is null or empty!");
+            return;
+        }
+
         Debug.Log($"Edit Object: {editedObject} Aspect: {aspect}");
         ShowEditCanvas();
         enterButton.onClick.RemoveAllListeners();
@@ -454,25 +466,6 @@ public class SharedLogic : MonoBehaviour
         return false;
     }
 
-	// Applies the specified material to a block's shape
-	// Handles both standard shapes and table (or expand to other unique meshes) shapes differently
-    public void ChangeMaterial(GameObject thisObject, Material colour)
-    {
-        var shape = thisObject.transform.Find("Shape");
-        if (shape == null) return;
-
-        if (shape.CompareTag("Table"))
-        {
-            var tableLod = shape.Find("lod1")?.GetComponent<MeshRenderer>();
-            if (tableLod != null) tableLod.material = colour;
-        }
-        else
-        {
-            var renderer = shape.GetComponent<MeshRenderer>();
-            if (renderer != null) renderer.material = colour;
-        }
-    }
-
 	[ContextMenu("ShowEditCanvas")]
     private void ShowEditCanvas()
     {
@@ -488,7 +481,8 @@ public class SharedLogic : MonoBehaviour
 			// Add a tilt by rotating around the X axis
 			float tiltAngle = 20f; // Adjust this value to change the amount of tilt
 			Vector3 rotationEuler = lookAtRotation.eulerAngles;
-			rotationEuler.x += tiltAngle; // Positive tilts back, negative tilts forward
+			rotationEuler.x += tiltAngle;
+            rotationEuler.z =  0f; // Positive tilts back, negative tilts forward
 			
 			editCanvas.transform.rotation = Quaternion.Euler(rotationEuler);
 			editCanvas.SetActive(true);

@@ -41,6 +41,8 @@ public class Assembler : BaseBlock
     {
         Setup();
         InitializeLineRenderers();
+        player = GameObject.FindWithTag("MainCamera");
+        Debug.Log("HEREEEEEEEEEEEEEEEEEE" + player);
     }
 
     private void InitializeLineRenderers()

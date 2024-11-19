@@ -1472,7 +1472,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4800964093988318293}
         m_TargetAssemblyTypeName: SpawnMenu, Assembly-CSharp
-        m_MethodName: SpawnDestination
+        m_MethodName: SpawnProp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2064,7 +2064,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1, y: -1}
+  m_AnchoredPosition: {x: 1.2459717, y: -1.5740051}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3691417476325203766

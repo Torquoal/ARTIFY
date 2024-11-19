@@ -28,6 +28,9 @@ public class Source : BaseBlock
     private void Start()
     {
         Setup();
+
+        player = GameObject.FindWithTag("MainCamera");
+        Debug.Log("HEREEEEEEEEEEEEEEEEEE" + player);
     }
 
 	public void FindShape(){

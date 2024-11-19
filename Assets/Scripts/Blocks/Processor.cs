@@ -35,6 +35,9 @@ public class Processor : BaseBlock
         Setup();
         lineRenderer = GetComponent<LineRenderer>();
         InitializeLineRenderer(lineRenderer);
+
+        player = GameObject.FindWithTag("MainCamera");
+        Debug.Log("HEREEEEEEEEEEEEEEEEEE" + player);
     }
 
     public override void Update()
