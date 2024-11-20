@@ -15137,6 +15137,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: pipes
       objectReference: {fileID: 0}
+    - target: {fileID: 8289160841717158110, guid: 4982250e819270243925f9c877ad97f9,
+        type: 3}
+      propertyPath: sharedLogic
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -42715,6 +42720,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TutorialCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 9125358371775125775, guid: 7b0d5640a75abbb408fd69828aac7ead,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8426097562593085048, guid: 7b0d5640a75abbb408fd69828aac7ead, type: 3}

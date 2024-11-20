@@ -17,15 +17,11 @@ namespace Blocks
         private void Start()
         {
             Setup();
-
-            player = GameObject.FindWithTag("MainCamera");
-            Debug.Log("HEREEEEEEEEEEEEEEEEEE" + player);
         }
 
         public override void Update()
         {
             SetName();
-            UpdatePanelColor();
         }
 
         public override void Actuate()

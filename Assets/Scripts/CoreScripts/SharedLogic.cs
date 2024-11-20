@@ -9,9 +9,9 @@ public class SharedLogic : MonoBehaviour
 {
 	// UI and camera references
     private GameObject camera;
-    [SerializeField] private GameObject editCanvas;
-    private TMP_InputField editField;
-    private Button enterButton;
+    [SerializeField]private GameObject editCanvas;
+    [SerializeField]private TMP_InputField editField;
+    [SerializeField]private Button enterButton;
 
 	[Header("Shape Prefabs")]
     [SerializeField] private GameObject cubePrefab;
@@ -54,13 +54,25 @@ public class SharedLogic : MonoBehaviour
     {
     
 		camera = GameObject.FindWithTag("MainCamera");
-        //editCanvas = GameObject.Find("TextEntryCanvas");
-        if (editCanvas != null){
-			editField = editCanvas.transform.Find("EditField").GetComponent<TMP_InputField>();
-			enterButton = editCanvas.transform.Find("EnterButton").GetComponent<Button>();
-		} else {
-			Debug.LogError("Edit Canvas not found");
-		}
+        
+        if (editCanvas != null)
+        {
+            editField = editCanvas.transform.Find("EditField").GetComponent<TMP_InputField>();
+            enterButton = editCanvas.transform.Find("EnterButton").GetComponent<Button>();
+
+            if (editField == null)
+            {
+                Debug.LogError("EditField not found in EditCanvas!");
+            }
+            if (enterButton == null)
+            {
+                Debug.LogError("EnterButton not found in EditCanvas!");
+            }
+        }
+        else
+        {
+            Debug.LogError("Edit Canvas not found");
+        }
     }
 
 	
@@ -99,8 +111,30 @@ public class SharedLogic : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Edit Object: {editedObject} Aspect: {aspect}");
+        Debug.Log($"Editing object: {editedObject.name}, Aspect: {aspect}");
+
+
+        // Find and assign editField
+        if (editCanvas == null)
+        {
+            Debug.LogError("Text Edit Canvas is not found in the editCanvas!");
+        }
+
+        if (editField == null)
+        {
+            Debug.LogError("Edit Field is null!");
+            return;
+        }
+
         ShowEditCanvas();
+
+        if (enterButton == null)
+        {
+            Debug.LogError("Enter Button is null!");
+            return;
+        }
+
+
         enterButton.onClick.RemoveAllListeners();
         enterButton.onClick.AddListener(() => UpdateBlockField(editedObject, aspect));
     }

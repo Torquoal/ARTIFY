@@ -1813,7 +1813,7 @@ MonoBehaviour:
     type: 3}
   lineWidth: 0.02
   lineMaterial: {fileID: 0}
-  cameraPos: {x: 0, y: 0, z: 0}
+  player: {fileID: 0}
   shape: {fileID: 9194665067747526007}
 --- !u!54 &7784873648297062934
 Rigidbody:

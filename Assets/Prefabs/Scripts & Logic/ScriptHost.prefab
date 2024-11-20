@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4829f5a245109a8499bbded993bda067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editCanvas: {fileID: 8906699200268776203, guid: 8ad1cf8b49d0f5b45a38d57696eca945,
-    type: 3}
+  editCanvas: {fileID: 0}
+  editField: {fileID: 0}
+  enterButton: {fileID: 0}
   cubePrefab: {fileID: 7026703576422682882, guid: 2a981f7f8ba543d4f9923b4cf2ac8ff7,
     type: 3}
   spherePrefab: {fileID: 8586443346047600876, guid: ad34b5a9c3b7c8d4bba3c810e60913cf,

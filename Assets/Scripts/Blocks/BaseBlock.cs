@@ -92,7 +92,6 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     void Start()
     {
         player = GameObject.FindWithTag("MainCamera");
-        Debug.Log("HEREEEEEEEEEEEEEEEEEE" + player);
     }
 
     public virtual void Update()
@@ -113,6 +112,11 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     [ContextMenu("Set Title")]
     public virtual void SetTitle()
     {
+        if (sharedLogic == null)
+        {
+            Debug.LogError("sharedLogic is null!");
+            return;
+        }
         sharedLogic.EditObjectText(gameObject, "title");
     }
 
@@ -157,6 +161,12 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
                 Debug.LogError("Could not find SharedLogic in scene!");
                 return;
             }
+        }
+
+        player = GameObject.FindWithTag("MainCamera");
+        if (player == null)
+        {
+            Debug.LogError("Player is not found in the Scene!");
         }
 
         // Initialize materials

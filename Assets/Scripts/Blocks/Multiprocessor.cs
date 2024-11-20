@@ -49,8 +49,6 @@ public class Multiprocessor : BaseBlock
     {
 		Setup();
 
-		player = GameObject.FindWithTag("MainCamera");
-        Debug.Log("HEREEEEEEEEEEEEEEEEEE" + player);
 		// Create and setup the first LineRenderer
         GameObject lineObj1 = new GameObject("LineRenderer1");
         lineObj1.transform.parent = this.transform;  // Make it a child of the current block
