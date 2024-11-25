@@ -2042,8 +2042,7 @@ MonoBehaviour:
   editMenu: {fileID: 3320367287033971416}
   titleLabel: {fileID: 5108034955489610408}
   titlePanel: {fileID: 1142159163985902226}
-  sharedLogic: {fileID: 6082705682137727116, guid: 421ab855434c03849bc8b407ce74372c,
-    type: 3}
+  sharedLogic: {fileID: 0}
   lineWidth: 0.02
   lineMaterial: {fileID: 0}
   player: {fileID: 0}

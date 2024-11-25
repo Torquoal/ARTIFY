@@ -1758,7 +1758,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4800964093988318293}
         m_TargetAssemblyTypeName: SpawnMenu, Assembly-CSharp
-        m_MethodName: ToggleObjectActive
+        m_MethodName: ShowSpawnMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

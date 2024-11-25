@@ -408,7 +408,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &313250680110367304
 RectTransform:
   m_ObjectHideFlags: 0
@@ -678,7 +678,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2060961075053743110}
   m_LocalRotation: {x: -0.000000011175871, y: 0.7071068, z: 0.000000011175871, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.133}
+  m_LocalPosition: {x: 0, y: 0, z: 0.13}
   m_LocalScale: {x: 0.0049972446, y: 0.0049972446, z: 0.0049972436}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -689,7 +689,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.104, y: 0.167}
+  m_AnchoredPosition: {x: -0.01, y: 0.17}
   m_SizeDelta: {x: 218.4776, y: 85.9157}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3262411336799095809
@@ -2404,8 +2404,7 @@ MonoBehaviour:
   editMenu: {fileID: 1064023239945537636}
   titleLabel: {fileID: 7375861858171471964}
   titlePanel: {fileID: 7554710043878549771}
-  sharedLogic: {fileID: 6082705682137727116, guid: 421ab855434c03849bc8b407ce74372c,
-    type: 3}
+  sharedLogic: {fileID: 0}
   lineWidth: 0.02
   lineMaterial: {fileID: 0}
   player: {fileID: 0}
@@ -3797,7 +3796,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9128133991074989006}
   m_LocalRotation: {x: -0.000000011175871, y: 0.7071068, z: 0.000000011175871, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.191}
+  m_LocalPosition: {x: 0, y: 0, z: 0.19}
   m_LocalScale: {x: 0.0049296827, y: 0.004929682, z: 0.004929682}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -3807,7 +3806,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.689, y: -0.008}
+  m_AnchoredPosition: {x: -0.04, y: -0.28}
   m_SizeDelta: {x: 198.3928, y: 38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1700053156218799001
