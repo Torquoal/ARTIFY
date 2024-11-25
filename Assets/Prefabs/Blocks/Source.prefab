@@ -2408,7 +2408,7 @@ MonoBehaviour:
     type: 3}
   lineWidth: 0.02
   lineMaterial: {fileID: 0}
-  cameraPos: {x: 0, y: 0, z: 0}
+  player: {fileID: 0}
   shape: {fileID: 908355536187033468}
   output: exampleoutput
   outputLabel: {fileID: 3970498605631801591}
@@ -4206,6 +4206,26 @@ PrefabInstance:
         type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 8139246742364814151, guid: 416f375f0c5a5224db9aeb8b22d6a41a,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.3529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 8139246742364814151, guid: 416f375f0c5a5224db9aeb8b22d6a41a,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.5058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 8139246742364814151, guid: 416f375f0c5a5224db9aeb8b22d6a41a,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.5058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 8139246742364814151, guid: 416f375f0c5a5224db9aeb8b22d6a41a,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.5058824
       objectReference: {fileID: 0}
     - target: {fileID: 8855532371832487992, guid: 416f375f0c5a5224db9aeb8b22d6a41a,
         type: 3}
