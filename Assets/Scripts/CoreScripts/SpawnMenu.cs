@@ -1,4 +1,10 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.Events; // Ensure this is included for UnityAction
+using System.Collections; // Add this line for IEnumerator
+using TMPro; // Ensure you have this for TMP_Text
+using System.Collections; // Ensure this is included for IEnum
 
 // Handles the spawning of different block types and manages the spawn menu interface
 public class SpawnMenu : MonoBehaviour
@@ -11,6 +17,10 @@ public class SpawnMenu : MonoBehaviour
     public GameObject disassemblerPrefab;
     public GameObject destinationPrefab;
     public GameObject propPrefab;
+
+    public GameObject savedNotif;
+    public GameObject loadedNotif;
+    public GameObject clearNotif;
 
     // Reference to the save system for managing block persistence
     public SaveSystem saveSystem;
@@ -139,6 +149,58 @@ public class SpawnMenu : MonoBehaviour
 			gameObject.transform.rotation = Quaternion.Euler(rotationEuler);
 		}
 	}
+
+    // Function to show saved notification
+    public void ShowSavedNotification()
+    {
+        StartCoroutine(ShowNotification(savedNotif));
+    }
+
+    // Function to show loaded notification
+    public void ShowLoadedNotification()
+    {
+        StartCoroutine(ShowNotification(loadedNotif));
+    }
+
+    // Function to show clear notification
+    public void ShowClearNotification()
+    {
+        StartCoroutine(ShowNotification(clearNotif));
+    }
+
+    // Coroutine to handle the notification display
+    private IEnumerator ShowNotification(GameObject notification)
+    {
+        // Activate the notification
+        notification.SetActive(true);
+
+        Debug.Log("here");
+        
+        // Get the TextMeshPro component to adjust transparency
+        TMP_Text tmpText = notification.GetComponent<TMP_Text>();
+        Color originalColor = tmpText.color;
+
+        // Fade out over 2 seconds
+        float duration = 2f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / duration);
+            tmpText.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the text is fully transparent
+        tmpText.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
+
+        // Deactivate the notification
+        notification.SetActive(false);
+
+        // Reset transparency to 100%
+        tmpText.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
+    }
 
 
 

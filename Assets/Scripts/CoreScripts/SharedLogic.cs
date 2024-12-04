@@ -28,7 +28,7 @@ public class SharedLogic : MonoBehaviour
     [SerializeField] public Material greenMaterial;
     [SerializeField] public Material redMaterial;
 
-    private const float CanvasDistance = 1.5f; // Closer than block spawn distance
+    private const float CanvasDistance = 1f; // Closer than block spawn distance
 
 	private void Awake()
     {

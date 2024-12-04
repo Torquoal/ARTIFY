@@ -33,6 +33,7 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     public SharedLogic sharedLogic;
     public float lineWidth = 0.02f;
     public Material lineMaterial;
+    private Vector3 minScale = new Vector3(0.1f,0.1f,0.1f);
     private Vector3 scaleChange = new Vector3(0.01f,0.01f,0.01f);
     private Vector3 rotationChangeLeft = new Vector3(0f, 1f, 0f);
     private Vector3 rotationChangeRight = new Vector3(0f, -1f, 0f);
@@ -201,8 +202,16 @@ public abstract class BaseBlock : MonoBehaviour, IBlock
     [ContextMenu("Downscale")]
     public void Downscale()
     {
-        if (editMenu.activeInHierarchy){
-            transform.localScale -= scaleChange;
+    if (editMenu.activeInHierarchy)
+        {
+            Vector3 newScale = transform.localScale - scaleChange;
+
+            // Ensure the new scale does not go below the minimum scale
+            newScale.x = Mathf.Max(newScale.x, minScale.x);
+            newScale.y = Mathf.Max(newScale.y, minScale.y);
+            newScale.z = Mathf.Max(newScale.z, minScale.z);
+
+            transform.localScale = newScale;
         }
     }
 
