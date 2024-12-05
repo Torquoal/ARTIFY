@@ -28,7 +28,7 @@ public class SpawnMenu : MonoBehaviour
     // Camera reference for spawn positioning
     private GameObject camera;
     private const float BlockDistanceToCamera = 2f;
-	private const float MenuDistanceToCamera = 0.6f;
+	private const float MenuDistanceToCamera = 0.8f;
 	private const float tiltAngle = 10f; // Adjust this value to change the amount of tilt
 
 
@@ -58,7 +58,9 @@ public class SpawnMenu : MonoBehaviour
     // return Vector3 position for new block spawn
     private Vector3 GetSpawnPosition()
     {
-        return camera.transform.forward * BlockDistanceToCamera + camera.transform.position;
+        Vector3 spawnPosition = camera.transform.forward * BlockDistanceToCamera + camera.transform.position;
+        spawnPosition.y += 0.3f; // Add 1.5f to the y-axis
+        return spawnPosition;
     }
 
     // Calculates rotation for spawned block based on camera orientation
