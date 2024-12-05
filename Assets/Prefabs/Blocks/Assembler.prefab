@@ -2906,13 +2906,13 @@ Transform:
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 8762674151486855585}
   - {fileID: 451221996725898615}
   - {fileID: 7047483357793034550}
   - {fileID: 4893767241512339040}
   - {fileID: 5876793034798496367}
   - {fileID: 5398329730724917520}
   - {fileID: 892130938918010177}
-  - {fileID: 8762674151486855585}
   - {fileID: 5872987625400987101}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2997,7 +2997,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

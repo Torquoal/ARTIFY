@@ -42444,12 +42444,12 @@ PrefabInstance:
     - target: {fileID: 3962834378549180265, guid: d8be8140ed54cd84cae2bf43b6f1ffce,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.35
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 3962834378549180265, guid: d8be8140ed54cd84cae2bf43b6f1ffce,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.61
+      value: 1.52
       objectReference: {fileID: 0}
     - target: {fileID: 3962834378549180265, guid: d8be8140ed54cd84cae2bf43b6f1ffce,
         type: 3}
@@ -43061,6 +43061,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: soup factory
+      objectReference: {fileID: 0}
+    - target: {fileID: 6291331324522289491, guid: 7aa2b8fa56dfaff438c1b4ddfcde33c0,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8669967277721336437, guid: 7aa2b8fa56dfaff438c1b4ddfcde33c0,
         type: 3}
