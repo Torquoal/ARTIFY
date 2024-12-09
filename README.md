@@ -1,4 +1,6 @@
 # ARTIFY Spatial Prototyping Framework
+[ARTIFY 1 Page.pdf](https://github.com/user-attachments/files/18067207/ARTIFY.1.Page.pdf)
+
 
 **ARTIFY Spatial Prototyping Framework Workflow & Guide**
 *Contents*
@@ -8,6 +10,10 @@ How To Create and Use ARTIFY Prototype Diagrams in AR/VR
 How To Prepare ARTIFY Prototype Diagrams in Unity	
 How to Add New Shape Assets to an ARTIFY Diagram	
 How to Add New User Selectable Shapes to ARTIFY	
+
+![model2](https://github.com/user-attachments/assets/9f98beb3-34cc-4b02-b8ee-9585ecfc3002)
+![example layout](https://github.com/user-attachments/assets/1db5dc3b-13ed-463f-b069-4cdf4df3c688)
+
 
 **What is ARTIFY?**
 Augmented Reality for Trans-Disciplinary Design of ReconFigurable Manufacturing Systems (ARTIFY) is a spatial augmented reality prototyping framework that is designed to fill the gap between 1.) flexible, low fidelity paper prototypes and diagrams and 2.) high fidelity inflexible physical or virtual system models (see Fig. 1). 
