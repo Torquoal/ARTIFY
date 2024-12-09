@@ -1,6 +1,6 @@
 # ARTIFY Spatial Prototyping Framework
-[ARTIFY 1 Page.pdf](https://github.com/user-attachments/files/18067207/ARTIFY.1.Page.pdf)
 
+![ARTIFY 1 Page-1](https://github.com/user-attachments/assets/28f41aeb-914c-4853-b759-1be4427750f1)
 
 **ARTIFY Spatial Prototyping Framework Workflow & Guide**
 *Contents*
@@ -18,15 +18,14 @@ How to Add New User Selectable Shapes to ARTIFY
 **What is ARTIFY?**
 Augmented Reality for Trans-Disciplinary Design of ReconFigurable Manufacturing Systems (ARTIFY) is a spatial augmented reality prototyping framework that is designed to fill the gap between 1.) flexible, low fidelity paper prototypes and diagrams and 2.) high fidelity inflexible physical or virtual system models (see Fig. 1). 
 
-  ![interactionOverviewDiagram](https://github.com/user-attachments/assets/e6d9362e-76a4-45ac-992b-838d0c46e95e)![Capture](https://github.com/user-attachments/assets/e9767aaa-68db-42b7-a52a-c9f48b7dc6cf)
+  ![interactionOverviewDiagram](https://github.com/user-attachments/assets/e6d9362e-76a4-45ac-992b-838d0c46e95e)
   
-_Fig. 1) Examples of low fidelity paper prototypes and high-fidelity VR system models._
+_Fig. 1) Examples of low fidelity paper prototypes system models._
 
 By filling this gap, ARTIFY aims to allow the creation of system models that are as easy to understand and edit by trans-disciplinary teams as paper prototypes but allow those teams to experience and interact with those prototypes as spatial models in real or virtual spaces. This makes the ARTIFY framework ideal in facilitating the creation of complex physical installations, such as manufacturing pipelines.
 In simple terms, ARTIFY is a framework of six blocks that can be assembled into flowcharts. All blocks have a name, some have required input(s) and some produce output(s). By connecting and customising these blocks, systems can be modelled, from simple manufacturing pipelines (e.g., building a table, see Fig. 2.) to high complex procedures (e.g., semiconductor manufacturing, see Fig. 3.). Unlike traditional system diagrams drawn up on paper on screen-based software, however, ARTIFY displays these blocks as objects that can be displayed, actuated and edited in real spaces using augmented reality (see Fig. 4.).
  
   ![ARTIFYConcept](https://github.com/user-attachments/assets/61f750d5-d56f-445b-84a8-818df9968aa7)
-  ![ARTIFY Block(1)](https://github.com/user-attachments/assets/072c3486-f8dc-47b1-9e62-3f6f19b1d105)
   
 _Fig. 2.) Six ARTIFY block types and their assembly into a simple manufacturing pipeline._
  
@@ -62,7 +61,7 @@ b.	Edit block title, input, output, or connection by clicking an pencil button n
 5.	Change Shape: Press the 'Change Shape' button, select a new shape, and close the menu with the X button.
 6.	Get Help: Press the ? button for instructions. A controls banner is shown in the scene.
  
-![saveload](https://github.com/user-attachments/assets/f8a41694-a033-4c01-a8be-ad9e18c959d6)
+<img width="734" alt="menus" src="https://github.com/user-attachments/assets/c85b17e1-86b1-4f05-af71-2f77a5f65957">
 
 _Fig. 6.) A processor block’s edit menu, help menu and shape change menu displayed._
 
@@ -131,6 +130,9 @@ _Back to the Prefab_
 
 
 
+
+
+** Old ReadMe**
 
 ## Overview
 The ARTIFY Spatial Prototyping Framework is an AR-based tool for spatially prototyping and visualizing system workflows in real-world spaces. It enables users to create, manipulate, and connect interactive blocks that represent system components, making it particularly valuable for:
