@@ -102,21 +102,27 @@ _Editing the Prefab_
 1.	Open the Prefab.
 2.	Navigate to Shape Change Menu/Panel/ChangePanel
 3.	Make a duplicate copy of one of the existing buttons, e.g., ToSphereButton.
-4.	Adjust the Transform position to move into an empty space in the menu.
+4.	Adjust the Transform position of the button to to move it into an empty space in the menu.
 5.	Rename the button to ‘To<NewShape>Button’.
 6.	Navigate to the Text (TMP) component of the button and change the text to the new shape.
 
 _Editing BaseBlock.cs_
-8.	Open the BaseBlock.cs script inside Scripts/Blocks/ folder.
-9.	Add a new GameObject reference under the // Shapes heading in the following way:
+1. Open the BaseBlock.cs script inside Scripts/Blocks/ folder.
+2. Add a new GameObject reference under the // Shapes heading in the following way:
     public static GameObject <newShape>Prefab;
-12.	Add a new lines to InitializeShapePrefabs as follows:
+3. Add a new lines to InitializeShapePrefabs as follows:
+```
+  GameObject <newShape>Shape
+  <newShape>Prefab = <newShape>Shape;
+```
+5.	Add a new function to the script in the following format:
+6.	 ```
+    public void ToNewShape()
+    {
+        ReplaceShape(newShapePrefab);
+    }
+```
 
-GameObject <newShape>Shape
-<newShape>Prefab = <newShape>Shape;
-
-10.	Add a new function to the script in the following format:
- 
 _Back to the Prefab_
-11.	Navigate to the ISDK_RayInteractable component of the block Prefab. Scroll down to WhenSelect(PointerEvent) and Change the function the button triggers from <Block>.ToSphere to <Block>.To<NewShape>.
-12.	Repeat these steps for all 7 block prefabs.
+1.	Navigate to the ISDK_RayInteractable component of the block Prefab. Scroll down to WhenSelect(PointerEvent) and Change the function the button triggers from <Block>.ToSphere to <Block>.To<NewShape>.
+2.	Repeat these steps for all 7 block prefabs.
