@@ -3,13 +3,6 @@
 ![ARTIFY 1 Page-1](https://github.com/user-attachments/assets/28f41aeb-914c-4853-b759-1be4427750f1)
 
 **ARTIFY Spatial Prototyping Framework Workflow & Guide**
-*Contents*
-ARTIFY Spatial Prototyping Framework Workflow & Guide	
-What is ARTIFY?	
-How To Create and Use ARTIFY Prototype Diagrams in AR/VR	
-How To Prepare ARTIFY Prototype Diagrams in Unity	
-How to Add New Shape Assets to an ARTIFY Diagram	
-How to Add New User Selectable Shapes to ARTIFY	
 
 ![model2](https://github.com/user-attachments/assets/9f98beb3-34cc-4b02-b8ee-9585ecfc3002)
 ![example layout](https://github.com/user-attachments/assets/1db5dc3b-13ed-463f-b069-4cdf4df3c688)
