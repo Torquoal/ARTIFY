@@ -93,9 +93,9 @@ To add a new Unity asset to ARTIFY to serve as a block shape, take the follow st
 4.	Drag the desired Unity asset into new Prefab. 
 5.	Ensure that the asset does not exceed 1, 1, 1 in scale and set Y position to 0.5.
 6.	If the asset does not already have a Material, drag a Material onto it. 
-7.	Ensure that the shader for this Material is EnvironmentalDepth/OcclusionLit.
-This shape can now be added to blocks from within Unity using the steps described above. 
-How to Add New User Selectable Shapes to ARTIFY
+7.	Ensure that the shader for this Material is EnvironmentalDepth/OcclusionLit. This shape can now be added to blocks from within Unity using the steps described above. 
+
+**How to Add New User Selectable Shapes to ARTIFY**
 To allow users within ARTIFY to select this object, further steps must be taken to edit the Change Shape Menu for each block Prefab:
 
 _Editing the Prefab_
