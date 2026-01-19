@@ -116,13 +116,12 @@ _Editing BaseBlock.cs_
   <newShape>Prefab = <newShape>Shape;
 ```
 5.	Add a new function to the script in the following format:
-6.	 ```
+```
     public void ToNewShape()
     {
         ReplaceShape(newShapePrefab);
     }
 ```
-
 _Back to the Prefab_
 1.	Navigate to the ISDK_RayInteractable component of the block Prefab. Scroll down to WhenSelect(PointerEvent) and Change the function the button triggers from <Block>.ToSphere to <Block>.To<NewShape>.
 2.	Repeat these steps for all 7 block prefabs.
